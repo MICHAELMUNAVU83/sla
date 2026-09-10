@@ -1,0 +1,3247 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lexica - Your Trusted Law Firm</title>
+    <meta
+      name="description"
+      content="Expert legal services in estate planning, family law, real estate, corporate law, and litigation. 98% client success rate. Get a free consultation today."
+    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Lexica - Your Trusted Law Firm" />
+    <meta
+      property="og:description"
+      content="Expert legal services in estate planning, family law, real estate, corporate law, and litigation. 98% client success rate. Get a free consultation today."
+    />
+    <meta
+      property="og:image"
+      content="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1200&q=80"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Lexica - Your Trusted Law Firm" />
+    <meta
+      name="twitter:description"
+      content="Expert legal services in estate planning, family law, real estate, corporate law, and litigation. 98% client success rate."
+    />
+    <meta
+      name="twitter:image"
+      content="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1200&q=80"
+    />
+
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23110e0e'/><path d='M11 8v15h10' fill='none' stroke='%23d6b980' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/></svg>"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              dark: "#110e0e",
+              offwhite: "#fcf8f2",
+              accent: "#d6b980",
+              primary: "#705200",
+              secondary: "#1e3a8a",
+              muted: "#4a4a4a",
+            },
+            fontFamily: {
+              heading: ['"Plus Jakarta Sans"', "Arial", "sans-serif"],
+              body: ["Manrope", "sans-serif"],
+            },
+            maxWidth: { container: "1360px" },
+            keyframes: {
+              marquee: {
+                "0%": { transform: "translateX(0)" },
+                "100%": { transform: "translateX(-50%)" },
+              },
+            },
+            animation: {
+              marquee: "marquee 40s linear infinite",
+              "marquee-slow": "marquee 60s linear infinite",
+            },
+          },
+        },
+      };
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Lexica - Your Trusted Law Firm",
+        "description": "Expert legal services in estate planning, family law, real estate, corporate law, and litigation. 98% client success rate.",
+        "url": "/",
+        "inLanguage": "en",
+        "about": {
+          "@type": "LegalService",
+          "name": "Lexica",
+          "telephone": "+12 (00) 456 8900",
+          "email": "support@lexica.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "40 Anytown",
+            "addressLocality": "Chicago",
+            "addressRegion": "IL",
+            "addressCountry": "US"
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "bestRating": "5",
+            "reviewCount": "600"
+          },
+          "areaServed": { "@type": "Place", "name": "Chicago, IL" }
+        }
+      }
+    </script>
+  </head>
+
+  <body
+    id="Main"
+    class="bg-offwhite font-body text-[18px] font-normal leading-[150%] text-dark antialiased"
+  >
+    <!-- ===================== NAVBAR ===================== -->
+    <header class="fixed inset-x-0 top-0 z-50 bg-dark/40 backdrop-blur-md">
+      <div class="relative mx-auto max-w-container px-4">
+        <div class="flex items-center justify-between gap-6 py-4">
+          <a
+            href="#Main"
+            class="flex shrink-0 items-center gap-2.5"
+            aria-label="Lexica home"
+          >
+            <svg
+              class="h-9 w-9"
+              viewBox="0 0 32 32"
+              fill="none"
+              aria-hidden="true"
+            >
+              <rect width="32" height="32" rx="8" fill="#d6b980" />
+              <path
+                d="M11 8v15h10"
+                stroke="#110e0e"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span
+              class="font-heading text-2xl font-bold tracking-tight text-white"
+              >Lexica</span
+            >
+          </a>
+
+          <!-- CSS-only mobile nav toggle: the checkbox drives the `peer-checked` state on the nav below -->
+          <input type="checkbox" id="nav-toggle" class="peer hidden" />
+
+          <nav
+            class="absolute inset-x-4 top-full hidden rounded-2xl border border-white/10 bg-dark p-5 shadow-2xl peer-checked:block lg:static lg:block lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none"
+            aria-label="Primary"
+          >
+            <div
+              class="flex flex-col gap-5 lg:flex-row lg:items-center lg:gap-8"
+            >
+              <a
+                href="#Main"
+                class="font-body text-base font-medium text-white transition hover:text-accent"
+                >Home</a
+              >
+
+              <!-- Dropdown: opens on hover (pointer) and on focus-within (keyboard / touch) -->
+              <div class="group relative">
+                <button
+                  type="button"
+                  class="flex items-center gap-1.5 font-body text-base font-medium text-white transition hover:text-accent"
+                >
+                  About
+                  <svg
+                    class="h-3.5 w-3.5 text-accent"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </button>
+                <div
+                  class="mt-3 lg:absolute lg:left-0 lg:top-full lg:mt-0 lg:hidden lg:w-56 lg:pt-5 lg:group-focus-within:block lg:group-hover:block"
+                >
+                  <div
+                    class="flex flex-col gap-3 rounded-2xl bg-white p-5 lg:shadow-2xl"
+                  >
+                    <a
+                      href="#Main"
+                      class="text-base text-muted transition hover:text-primary"
+                      >Home</a
+                    >
+                    <a
+                      href="#about"
+                      class="text-base text-muted transition hover:text-primary"
+                      >About</a
+                    >
+                    <a
+                      href="#testimonials"
+                      class="text-base text-muted transition hover:text-primary"
+                      >Team Members</a
+                    >
+                    <a
+                      href="#services"
+                      class="text-base text-muted transition hover:text-primary"
+                      >Products</a
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <a
+                href="#services"
+                class="font-body text-base font-medium text-white transition hover:text-accent"
+                >Services</a
+              >
+              <a
+                href="#results"
+                class="font-body text-base font-medium text-white transition hover:text-accent"
+                >Case Studies</a
+              >
+
+              <!-- Mega dropdown -->
+              <div class="group relative">
+                <button
+                  type="button"
+                  class="flex items-center gap-1.5 font-body text-base font-medium text-white transition hover:text-accent"
+                >
+                  Pages
+                  <svg
+                    class="h-3.5 w-3.5 text-accent"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </button>
+                <div
+                  class="mt-3 lg:absolute lg:left-0 lg:top-full lg:mt-0 lg:hidden lg:w-[640px] lg:pt-5 lg:group-focus-within:block lg:group-hover:block"
+                >
+                  <div
+                    class="grid grid-cols-1 gap-6 rounded-2xl bg-white p-6 sm:grid-cols-3 lg:shadow-2xl"
+                  >
+                    <div class="flex flex-col gap-3">
+                      <a
+                        href="#Main"
+                        class="text-base text-muted transition hover:text-primary"
+                        >Home</a
+                      >
+                      <a
+                        href="#about"
+                        class="text-base text-muted transition hover:text-primary"
+                        >About</a
+                      >
+                      <a
+                        href="#testimonials"
+                        class="text-base text-muted transition hover:text-primary"
+                        >Team</a
+                      >
+                      <a
+                        href="#results"
+                        class="text-base text-muted transition hover:text-primary"
+                        >Case</a
+                      >
+                      <a
+                        href="#blog"
+                        class="text-base text-muted transition hover:text-primary"
+                        >Blogs</a
+                      >
+                      <a
+                        href="#services"
+                        class="text-base text-muted transition hover:text-primary"
+                        >Price</a
+                      >
+                      <a
+                        href="#cta"
+                        class="text-base text-muted transition hover:text-primary"
+                        >Contact</a
+                      >
+                    </div>
+                    <div class="flex flex-col gap-3">
+                      <a
+                        href="#services"
+                        class="text-base text-muted transition hover:text-primary"
+                        >Services Single</a
+                      >
+                      <a
+                        href="#blog"
+                        class="text-base text-muted transition hover:text-primary"
+                        >Blogs Single</a
+                      >
+                      <a
+                        href="#testimonials"
+                        class="text-base text-muted transition hover:text-primary"
+                        >Team Single</a
+                      >
+                      <a
+                        href="#services"
+                        class="text-base text-muted transition hover:text-primary"
+                        >Price Single</a
+                      >
+                      <a
+                        href="#cta"
+                        class="text-base text-muted transition hover:text-primary"
+                        >Sign In</a
+                      >
+                      <a
+                        href="#cta"
+                        class="text-base text-muted transition hover:text-primary"
+                        >Sign Up</a
+                      >
+                    </div>
+                    <div class="flex flex-col gap-3">
+                      <a
+                        href="#faq"
+                        class="text-base text-muted transition hover:text-primary"
+                        >FAQs</a
+                      >
+                      <a
+                        href="#partners"
+                        class="text-base text-muted transition hover:text-primary"
+                        >Partners</a
+                      >
+                      <a
+                        href="#about"
+                        class="text-base text-muted transition hover:text-primary"
+                        >Our Story</a
+                      >
+                      <a
+                        href="#footer"
+                        class="text-base text-muted transition hover:text-primary"
+                        >Licenses</a
+                      >
+                      <a
+                        href="#footer"
+                        class="text-base text-muted transition hover:text-primary"
+                        >Changelog</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </nav>
+
+          <div class="flex shrink-0 items-center gap-3">
+            <a
+              href="#cta"
+              class="hidden items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-white sm:flex"
+            >
+              <span
+                class="flex h-9 w-9 items-center justify-center rounded-full bg-dark"
+              >
+                <svg
+                  class="h-4 w-4 text-accent"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <line x1="7" y1="17" x2="17" y2="7" />
+                  <polyline points="7 7 17 7 17 17" />
+                </svg>
+              </span>
+              Book a Call
+            </a>
+
+            <label
+              for="nav-toggle"
+              class="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-white/20 text-white lg:hidden"
+              aria-label="Toggle navigation menu"
+            >
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <line x1="3" y1="7" x2="21" y2="7" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="17" x2="21" y2="17" />
+              </svg>
+            </label>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===================== HERO ===================== -->
+    <!-- CSS-only slider: horizontal scroll-snap container, anchor dots for navigation. -->
+    <section
+      id="Hero"
+      class="relative overflow-clip rounded-b-[32px] lg:rounded-b-[48px]"
+    >
+      <div
+        class="flex snap-x snap-mandatory overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        <!-- Slide 1 -->
+        <div id="slide-1" class="relative w-full shrink-0 snap-start">
+          <img
+            src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1600&q=80"
+            alt="Scales of justice on a desk in a law office."
+            class="h-[760px] w-full object-cover object-top md:h-[860px]"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/70 to-dark/30"
+          ></div>
+          <div class="absolute inset-0 flex items-end pb-20 pt-40">
+            <div class="mx-auto w-full max-w-container px-4">
+              <div class="max-w-2xl">
+                <h1
+                  class="font-heading text-[40px] font-medium leading-[110%] tracking-[-0.03em] text-white md:text-[52px] lg:text-[61px]"
+                >
+                  Your Trusted Law Firm, For your Legal Solutions
+                </h1>
+                <p class="mt-6 max-w-xl text-white/80">
+                  At Lexica, we provide strategic legal solutions backed by
+                  experience, integrity, and dedication.
+                </p>
+                <div class="mt-8 flex flex-wrap items-center gap-6">
+                  <a
+                    href="#cta"
+                    class="flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-white"
+                  >
+                    <span
+                      class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+                    >
+                      <svg
+                        class="h-4 w-4 text-accent"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <line x1="7" y1="17" x2="17" y2="7" />
+                        <polyline points="7 7 17 7 17 17" />
+                      </svg>
+                    </span>
+                    Get a Free Consultation
+                  </a>
+                  <div class="flex items-center gap-3">
+                    <span class="text-sm text-white/80">4.9/5 Rated From</span>
+                    <div class="flex -space-x-3">
+                      <img
+                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&q=80"
+                        loading="lazy"
+                        alt="Client portrait"
+                        class="h-10 w-10 rounded-full border-2 border-dark object-cover"
+                      />
+                      <img
+                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=96&q=80"
+                        loading="lazy"
+                        alt="Client portrait"
+                        class="h-10 w-10 rounded-full border-2 border-dark object-cover"
+                      />
+                      <img
+                        src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=96&q=80"
+                        loading="lazy"
+                        alt="Client portrait"
+                        class="h-10 w-10 rounded-full border-2 border-dark object-cover"
+                      />
+                    </div>
+                    <span class="text-sm text-white/80">600 reviews</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div id="slide-2" class="relative w-full shrink-0 snap-start">
+          <img
+            src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1600&q=80"
+            loading="lazy"
+            alt="Two professionals shaking hands across a desk."
+            class="h-[760px] w-full object-cover object-top md:h-[860px]"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/70 to-dark/30"
+          ></div>
+          <div class="absolute inset-0 flex items-end pb-20 pt-40">
+            <div class="mx-auto w-full max-w-container px-4">
+              <div class="max-w-2xl">
+                <h1
+                  class="font-heading text-[40px] font-medium leading-[110%] tracking-[-0.03em] text-white md:text-[52px] lg:text-[61px]"
+                >
+                  Your Questions and Answered. Clear Advice
+                </h1>
+                <p class="mt-6 max-w-xl text-white/80">
+                  Get straight answers and strong support from our experienced
+                  legal team right now.
+                </p>
+                <div class="mt-8">
+                  <a
+                    href="#services"
+                    class="inline-flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-white"
+                  >
+                    <span
+                      class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+                    >
+                      <svg
+                        class="h-4 w-4 text-accent"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <line x1="7" y1="17" x2="17" y2="7" />
+                        <polyline points="7 7 17 7 17 17" />
+                      </svg>
+                    </span>
+                    See Our Services
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div id="slide-3" class="relative w-full shrink-0 snap-start">
+          <img
+            src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1600&q=80"
+            loading="lazy"
+            alt="Attorney writing notes on a legal pad at a desk."
+            class="h-[760px] w-full object-cover object-top md:h-[860px]"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/70 to-dark/30"
+          ></div>
+          <div class="absolute inset-0 flex items-end pb-20 pt-40">
+            <div class="mx-auto w-full max-w-container px-4">
+              <div class="max-w-2xl">
+                <h1
+                  class="font-heading text-[40px] font-medium leading-[110%] tracking-[-0.03em] text-white md:text-[52px] lg:text-[61px]"
+                >
+                  Powerful Legal Team. Protecting Your Rights
+                </h1>
+                <p class="mt-6 max-w-xl text-white/80">
+                  Stop struggling with complex problems. Get clarity and a
+                  roadmap for success today.
+                </p>
+                <div class="mt-8">
+                  <a
+                    href="#cta"
+                    class="inline-flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-white"
+                  >
+                    <span
+                      class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+                    >
+                      <svg
+                        class="h-4 w-4 text-accent"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <line x1="7" y1="17" x2="17" y2="7" />
+                        <polyline points="7 7 17 7 17 17" />
+                      </svg>
+                    </span>
+                    Talk to An Attorney
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide dots -->
+      <div class="pointer-events-none absolute inset-x-0 bottom-8 z-10">
+        <div class="mx-auto flex max-w-container justify-end gap-3 px-4">
+          <a
+            href="#slide-1"
+            class="pointer-events-auto flex h-9 w-9 items-center justify-center rounded-full border border-white/40 font-heading text-sm text-white transition hover:border-accent hover:text-accent"
+            >01</a
+          >
+          <a
+            href="#slide-2"
+            class="pointer-events-auto flex h-9 w-9 items-center justify-center rounded-full border border-white/40 font-heading text-sm text-white transition hover:border-accent hover:text-accent"
+            >02</a
+          >
+          <a
+            href="#slide-3"
+            class="pointer-events-auto flex h-9 w-9 items-center justify-center rounded-full border border-white/40 font-heading text-sm text-white transition hover:border-accent hover:text-accent"
+            >03</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ABOUT ===================== -->
+    <section
+      id="about"
+      class="relative bg-offwhite py-16 md:py-24 lg:py-[130px]"
+    >
+      <div class="mx-auto max-w-container px-4">
+        <div
+          class="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between"
+        >
+          <div class="lg:max-w-3xl">
+            <div class="mb-6 flex items-center gap-2.5">
+              <span class="h-1 w-1 rounded-full bg-secondary"></span>
+              <span class="text-base font-bold text-secondary">About Us</span>
+            </div>
+            <h2
+              class="font-heading text-[25px] font-medium leading-[130%] tracking-[-0.02em] md:text-[31px] lg:text-[39px]"
+            >
+              We understand that legal challenges can be complex and often
+              stressful. That's why we adopt a personalized storytelling
+              experience.
+            </h2>
+          </div>
+          <div class="lg:max-w-sm">
+            <p class="text-muted">
+              Our firm was built on the core values of integrity, clear
+              communication, and tireless advocacy. We don't just handle cases.
+            </p>
+            <a
+              href="#services"
+              class="mt-8 inline-flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-dark hover:text-accent"
+            >
+              <span
+                class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+              >
+                <svg
+                  class="h-4 w-4 text-accent"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <line x1="7" y1="17" x2="17" y2="7" />
+                  <polyline points="7 7 17 7 17 17" />
+                </svg>
+              </span>
+              More About Us
+            </a>
+          </div>
+        </div>
+
+        <div class="mt-16 h-px w-full bg-accent/30"></div>
+
+        <div
+          class="mt-12 flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between"
+        >
+          <div class="grid gap-10 sm:grid-cols-2 lg:max-w-xl">
+            <div>
+              <span
+                class="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/20"
+              >
+                <svg
+                  class="h-7 w-7 text-primary"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="8" r="6" />
+                  <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+                </svg>
+              </span>
+              <h3
+                class="mt-6 font-body text-[39px] font-medium leading-none lg:text-[80px]"
+              >
+                16+
+              </h3>
+              <p class="mt-3 text-sm font-semibold">
+                Years of dedicated<br />
+                <span class="font-normal text-muted"
+                  >Your victories are our priority.</span
+                >
+              </p>
+            </div>
+            <div>
+              <span
+                class="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/20"
+              >
+                <svg
+                  class="h-7 w-7 text-primary"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                  <polyline points="17 6 23 6 23 12" />
+                </svg>
+              </span>
+              <h3
+                class="mt-6 font-body text-[39px] font-medium leading-none lg:text-[80px]"
+              >
+                98%
+              </h3>
+              <p class="mt-3 text-sm font-semibold">
+                Client success rate.<br />
+                <span class="font-normal text-muted"
+                  >Your victories are our priority.</span
+                >
+              </p>
+            </div>
+          </div>
+
+          <!-- Native autoplaying background video: no JS needed, poster covers the no-video case -->
+          <div class="w-full overflow-hidden rounded-2xl lg:max-w-[660px]">
+            <video
+              class="h-[220px] w-full object-cover md:h-[400px]"
+              autoplay
+              loop
+              muted
+              playsinline
+              poster="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1080&q=80"
+            >
+              <source
+                src="media/693c6f94b0683e1d1cea3555%252F694312e04bfc178d461300b0_0_Woman_Man_1280x720_mp4.mp4"
+                type="video/mp4"
+              />
+              <source
+                src="media/693c6f94b0683e1d1cea3555%252F694312e04bfc178d461300b0_0_Woman_Man_1280x720_webm.webm"
+                type="video/webm"
+              />
+            </video>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PARTNERS ===================== -->
+    <section
+      id="partners"
+      class="overflow-clip bg-offwhite pb-16 md:pb-24 lg:pb-[130px]"
+    >
+      <div class="mx-auto max-w-container px-4">
+        <div class="flex flex-wrap items-center gap-6">
+          <h2 class="font-heading text-xl font-medium">
+            Explore Our 300+ Corporate Partners
+          </h2>
+          <div class="hidden h-px flex-1 bg-accent/40 sm:block"></div>
+          <div class="text-base text-muted">2009 - 2025</div>
+        </div>
+      </div>
+
+      <!-- CSS-only marquee: two identical tracks, the wrapper slides -50% -->
+      <div class="mt-10 flex w-max animate-marquee">
+        <div class="flex shrink-0">
+          <div
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+          >
+            <svg
+              class="h-8 w-8 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <polygon points="12 2 2 7 12 12 22 7 12 2" />
+              <polyline points="2 17 12 22 22 17" />
+              <polyline points="2 12 12 17 22 12" />
+            </svg>
+            <span class="font-heading text-sm font-bold tracking-wide text-dark"
+              >STRATUM</span
+            >
+          </div>
+          <div
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+          >
+            <svg
+              class="h-8 w-8 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="2" y1="12" x2="22" y2="12" />
+              <path
+                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+              />
+            </svg>
+            <span class="font-heading text-sm font-bold tracking-wide text-dark"
+              >MERIDIAN</span
+            >
+          </div>
+          <div
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+          >
+            <svg
+              class="h-8 w-8 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="4" />
+              <path d="M8 16V8l4 5 4-5v8" />
+            </svg>
+            <span class="font-heading text-sm font-bold tracking-wide text-dark"
+              >NORTHVALE</span
+            >
+          </div>
+          <div
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+          >
+            <svg
+              class="h-8 w-8 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M12 2 2 22h20L12 2z" />
+            </svg>
+            <span class="font-heading text-sm font-bold tracking-wide text-dark"
+              >APEXIA</span
+            >
+          </div>
+          <div
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+          >
+            <svg
+              class="h-8 w-8 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+            <span class="font-heading text-sm font-bold tracking-wide text-dark"
+              >ORBITAL</span
+            >
+          </div>
+          <div
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+          >
+            <svg
+              class="h-8 w-8 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M3 21V8l9-5 9 5v13" />
+              <path d="M9 21v-8h6v8" />
+            </svg>
+            <span class="font-heading text-sm font-bold tracking-wide text-dark"
+              >HOLLOWAY</span
+            >
+          </div>
+          <div
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+          >
+            <svg
+              class="h-8 w-8 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M20 12a8 8 0 1 1-8-8" />
+              <polyline points="20 4 20 12 12 12" />
+            </svg>
+            <span class="font-heading text-sm font-bold tracking-wide text-dark"
+              >CIRCA</span
+            >
+          </div>
+          <div
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+          >
+            <svg
+              class="h-8 w-8 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="3" y="8" width="18" height="12" rx="2" />
+              <path d="M8 8V6a4 4 0 0 1 8 0v2" />
+            </svg>
+            <span class="font-heading text-sm font-bold tracking-wide text-dark"
+              >VAULTLINE</span
+            >
+          </div>
+          <div
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+          >
+            <svg
+              class="h-8 w-8 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M12 2 3 7v6c0 5 3.8 8.4 9 9 5.2-.6 9-4 9-9V7l-9-5z" />
+            </svg>
+            <span class="font-heading text-sm font-bold tracking-wide text-dark"
+              >AEGIS</span
+            >
+          </div>
+          <div
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+          >
+            <svg
+              class="h-8 w-8 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="12" y1="3" x2="12" y2="21" />
+              <polyline points="6 9 12 3 18 9" />
+            </svg>
+            <span class="font-heading text-sm font-bold tracking-wide text-dark"
+              >ASCENT</span
+            >
+          </div>
+        </div>
+        <!-- duplicate track -->
+        <div class="flex shrink-0" aria-hidden="true">
+          <div
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+          >
+            <svg
+              class="h-8 w-8 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polygon points="12 2 2 7 12 12 22 7 12 2" />
+              <polyline points="2 17 12 22 22 17" />
+              <polyline points="2 12 12 17 22 12" />
+            </svg>
+            <span class="font-heading text-sm font-bold tracking-wide text-dark"
+              >STRATUM</span
+            >
+          </div>
+          <div
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+          >
+            <svg
+              class="h-8 w-8 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="2" y1="12" x2="22" y2="12" />
+              <path
+                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+              />
+            </svg>
+            <span class="font-heading text-sm font-bold tracking-wide text-dark"
+              >MERIDIAN</span
+            >
+          </div>
+          <div
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+          >
+            <svg
+              class="h-8 w-8 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="4" />
+              <path d="M8 16V8l4 5 4-5v8" />
+            </svg>
+            <span class="font-heading text-sm font-bold tracking-wide text-dark"
+              >NORTHVALE</span
+            >
+          </div>
+          <div
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+          >
+            <svg
+              class="h-8 w-8 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 2 2 22h20L12 2z" />
+            </svg>
+            <span class="font-heading text-sm font-bold tracking-wide text-dark"
+              >APEXIA</span
+            >
+          </div>
+          <div
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+          >
+            <svg
+              class="h-8 w-8 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+            <span class="font-heading text-sm font-bold tracking-wide text-dark"
+              >ORBITAL</span
+            >
+          </div>
+          <div
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+          >
+            <svg
+              class="h-8 w-8 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 21V8l9-5 9 5v13" />
+              <path d="M9 21v-8h6v8" />
+            </svg>
+            <span class="font-heading text-sm font-bold tracking-wide text-dark"
+              >HOLLOWAY</span
+            >
+          </div>
+          <div
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+          >
+            <svg
+              class="h-8 w-8 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M20 12a8 8 0 1 1-8-8" />
+              <polyline points="20 4 20 12 12 12" />
+            </svg>
+            <span class="font-heading text-sm font-bold tracking-wide text-dark"
+              >CIRCA</span
+            >
+          </div>
+          <div
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+          >
+            <svg
+              class="h-8 w-8 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="3" y="8" width="18" height="12" rx="2" />
+              <path d="M8 8V6a4 4 0 0 1 8 0v2" />
+            </svg>
+            <span class="font-heading text-sm font-bold tracking-wide text-dark"
+              >VAULTLINE</span
+            >
+          </div>
+          <div
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+          >
+            <svg
+              class="h-8 w-8 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 2 3 7v6c0 5 3.8 8.4 9 9 5.2-.6 9-4 9-9V7l-9-5z" />
+            </svg>
+            <span class="font-heading text-sm font-bold tracking-wide text-dark"
+              >AEGIS</span
+            >
+          </div>
+          <div
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+          >
+            <svg
+              class="h-8 w-8 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="12" y1="3" x2="12" y2="21" />
+              <polyline points="6 9 12 3 18 9" />
+            </svg>
+            <span class="font-heading text-sm font-bold tracking-wide text-dark"
+              >ASCENT</span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SERVICES ===================== -->
+    <section id="services" class="bg-offwhite pb-16 md:pb-24 lg:pb-[130px]">
+      <div class="mx-auto max-w-container px-4">
+        <div
+          class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between"
+        >
+          <div>
+            <div class="mb-5 flex items-center gap-2.5">
+              <span class="h-1 w-1 rounded-full bg-secondary"></span>
+              <span class="text-base font-bold text-secondary"
+                >Our Services</span
+              >
+            </div>
+            <h2
+              class="font-heading text-[31px] font-medium leading-[130%] tracking-[-0.02em] md:text-[39px] lg:text-[48px]"
+            >
+              How We Can Help You Legally
+            </h2>
+          </div>
+          <a
+            href="#cta"
+            class="inline-flex shrink-0 items-center gap-3 self-start rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-dark hover:text-accent"
+          >
+            <span
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+            >
+              <svg
+                class="h-4 w-4 text-accent"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <line x1="7" y1="17" x2="17" y2="7" />
+                <polyline points="7 7 17 7 17 17" />
+              </svg>
+            </span>
+            View All Services
+          </a>
+        </div>
+
+        <div class="mt-12 flex flex-col gap-6">
+          <article
+            class="flex flex-col gap-6 rounded-[32px] bg-white p-5 md:flex-row md:items-stretch md:p-8 lg:p-12"
+          >
+            <div class="flex flex-1 flex-col">
+              <svg
+                class="h-10 w-10 text-primary lg:h-16 lg:w-16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="9" y1="13" x2="15" y2="13" />
+                <line x1="9" y1="17" x2="15" y2="17" />
+              </svg>
+              <h3
+                class="mt-4 font-heading text-[25px] font-medium leading-[130%] lg:mt-6 lg:text-[31px]"
+              >
+                Estate Planning &amp; Probate
+              </h3>
+              <p class="mt-4 text-muted">
+                Secure your legacy with wills, trusts, and probate
+                administration. Protect your assets now.
+              </p>
+              <a
+                href="#cta"
+                class="mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-dark hover:text-accent lg:mt-auto"
+              >
+                <span
+                  class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+                >
+                  <svg
+                    class="h-4 w-4 text-accent"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="7" y1="17" x2="17" y2="7" />
+                    <polyline points="7 7 17 7 17 17" />
+                  </svg>
+                </span>
+                View Details
+              </a>
+            </div>
+            <img
+              src="https://images.unsplash.com/photo-1436450412740-6b988f486c6b?w=1080&q=80"
+              loading="lazy"
+              alt="Rows of leather-bound law books on a library shelf."
+              class="h-56 w-full rounded-2xl object-cover md:h-auto md:w-[45%]"
+            />
+          </article>
+
+          <article
+            class="flex flex-col gap-6 rounded-[32px] bg-white p-5 md:flex-row md:items-stretch md:p-8 lg:p-12"
+          >
+            <div class="flex flex-1 flex-col">
+              <svg
+                class="h-10 w-10 text-primary lg:h-16 lg:w-16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M3 9.5 12 3l9 6.5V21a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              <h3
+                class="mt-4 font-heading text-[25px] font-medium leading-[130%] lg:mt-6 lg:text-[31px]"
+              >
+                Real Estate Law
+              </h3>
+              <p class="mt-4 text-muted">
+                Secure and compliant property transactions, leases, and disputes
+                for residential and commercial clients.
+              </p>
+              <a
+                href="#cta"
+                class="mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-dark hover:text-accent lg:mt-auto"
+              >
+                <span
+                  class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+                >
+                  <svg
+                    class="h-4 w-4 text-accent"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="7" y1="17" x2="17" y2="7" />
+                    <polyline points="7 7 17 7 17 17" />
+                  </svg>
+                </span>
+                View Details
+              </a>
+            </div>
+            <img
+              src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1080&q=80"
+              loading="lazy"
+              alt="Real estate agent handing over keys in front of a property."
+              class="h-56 w-full rounded-2xl object-cover md:h-auto md:w-[45%]"
+            />
+          </article>
+
+          <article
+            class="flex flex-col gap-6 rounded-[32px] bg-white p-5 md:flex-row md:items-stretch md:p-8 lg:p-12"
+          >
+            <div class="flex flex-1 flex-col">
+              <svg
+                class="h-10 w-10 text-primary lg:h-16 lg:w-16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+              <h3
+                class="mt-4 font-heading text-[25px] font-medium leading-[130%] lg:mt-6 lg:text-[31px]"
+              >
+                Family Law
+              </h3>
+              <p class="mt-4 text-muted">
+                Compassionate legal support for divorce, custody, and
+                agreements. Protecting your family's future.
+              </p>
+              <a
+                href="#cta"
+                class="mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-dark hover:text-accent lg:mt-auto"
+              >
+                <span
+                  class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+                >
+                  <svg
+                    class="h-4 w-4 text-accent"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="7" y1="17" x2="17" y2="7" />
+                    <polyline points="7 7 17 7 17 17" />
+                  </svg>
+                </span>
+                View Details
+              </a>
+            </div>
+            <img
+              src="https://images.unsplash.com/photo-1511895426328-dc8714191300?w=1080&q=80"
+              loading="lazy"
+              alt="A family sitting together on a sofa."
+              class="h-56 w-full rounded-2xl object-cover md:h-auto md:w-[45%]"
+            />
+          </article>
+
+          <article
+            class="flex flex-col gap-6 rounded-[32px] bg-white p-5 md:flex-row md:items-stretch md:p-8 lg:p-12"
+          >
+            <div class="flex flex-1 flex-col">
+              <svg
+                class="h-10 w-10 text-primary lg:h-16 lg:w-16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <line x1="12" y1="3" x2="12" y2="21" />
+                <line x1="7" y1="21" x2="17" y2="21" />
+                <path d="M3 8h8l-4 6a4 4 0 0 1-4-6z" />
+                <path d="M13 8h8l-4 6a4 4 0 0 1-4-6z" />
+              </svg>
+              <h3
+                class="mt-4 font-heading text-[25px] font-medium leading-[130%] lg:mt-6 lg:text-[31px]"
+              >
+                Litigation &amp; Dispute Resolution
+              </h3>
+              <p class="mt-4 text-muted">
+                Vigorously defending your interests in court and through skilled
+                negotiation for optimal results.
+              </p>
+              <a
+                href="#cta"
+                class="mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-dark hover:text-accent lg:mt-auto"
+              >
+                <span
+                  class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+                >
+                  <svg
+                    class="h-4 w-4 text-accent"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="7" y1="17" x2="17" y2="7" />
+                    <polyline points="7 7 17 7 17 17" />
+                  </svg>
+                </span>
+                View Details
+              </a>
+            </div>
+            <img
+              src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?w=1080&q=80"
+              loading="lazy"
+              alt="Neoclassical courthouse columns."
+              class="h-56 w-full rounded-2xl object-cover md:h-auto md:w-[45%]"
+            />
+          </article>
+
+          <article
+            class="flex flex-col gap-6 rounded-[32px] bg-white p-5 md:flex-row md:items-stretch md:p-8 lg:p-12"
+          >
+            <div class="flex flex-1 flex-col">
+              <svg
+                class="h-10 w-10 text-primary lg:h-16 lg:w-16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="2" y="7" width="20" height="14" rx="2" />
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+              </svg>
+              <h3
+                class="mt-4 font-heading text-[25px] font-medium leading-[130%] lg:mt-6 lg:text-[31px]"
+              >
+                Corporate Legal Services
+              </h3>
+              <p class="mt-4 text-muted">
+                Legal formation contracts, compliance for business growth, and
+                strategic intellectual property protection agreements.
+              </p>
+              <a
+                href="#cta"
+                class="mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-dark hover:text-accent lg:mt-auto"
+              >
+                <span
+                  class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+                >
+                  <svg
+                    class="h-4 w-4 text-accent"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="7" y1="17" x2="17" y2="7" />
+                    <polyline points="7 7 17 7 17 17" />
+                  </svg>
+                </span>
+                View Details
+              </a>
+            </div>
+            <img
+              src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1080&q=80"
+              loading="lazy"
+              alt="Modern corporate office interior."
+              class="h-56 w-full rounded-2xl object-cover md:h-auto md:w-[45%]"
+            />
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CASE RESULTS ===================== -->
+    <section
+      id="results"
+      class="overflow-clip bg-offwhite pb-16 md:pb-24 lg:pb-[130px]"
+    >
+      <div class="mx-auto max-w-container px-4">
+        <div
+          class="mb-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between"
+        >
+          <div>
+            <div class="mb-5 flex items-center gap-2.5">
+              <span class="h-1 w-1 rounded-full bg-secondary"></span>
+              <span class="text-base font-bold text-secondary"
+                >Real Results</span
+              >
+            </div>
+            <h2
+              class="font-heading text-[31px] font-medium leading-[130%] tracking-[-0.02em] md:text-[39px] lg:text-[48px]"
+            >
+              See Our Results. Successful Case Results
+            </h2>
+          </div>
+          <a
+            href="#cta"
+            class="inline-flex shrink-0 items-center gap-3 self-start rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-dark hover:text-accent"
+          >
+            <span
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+            >
+              <svg
+                class="h-4 w-4 text-accent"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <line x1="7" y1="17" x2="17" y2="7" />
+                <polyline points="7 7 17 7 17 17" />
+              </svg>
+            </span>
+            View All Results
+          </a>
+        </div>
+
+        <div class="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+          <article class="flex flex-col gap-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+                <span class="font-heading text-base font-medium"
+                  >Corporate</span
+                >
+              </div>
+              <span class="font-heading text-base font-medium text-muted"
+                >Jan 2016</span
+              >
+            </div>
+            <img
+              src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1080&q=80"
+              loading="lazy"
+              alt="Team reviewing documents around a meeting table."
+              class="h-64 w-full rounded-2xl object-cover"
+            />
+            <h3 class="font-heading text-xl font-medium leading-[130%]">
+              Big Accident Win: We Secured Large Damages
+            </h3>
+            <p class="text-muted">
+              Successfully litigated against a major manufacturer, proving gross
+              negligence.
+            </p>
+          </article>
+
+          <article class="flex flex-col gap-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+                <span class="font-heading text-base font-medium"
+                  >Family Law</span
+                >
+              </div>
+              <span class="font-heading text-base font-medium text-muted"
+                >Mar 2023</span
+              >
+            </div>
+            <img
+              src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1080&q=80"
+              loading="lazy"
+              alt="Two people shaking hands to close a deal."
+              class="h-64 w-full rounded-2xl object-cover"
+            />
+            <h3 class="font-heading text-xl font-medium leading-[130%]">
+              Startup Purchased Successfully: Fast, Clean Legal Closure
+            </h3>
+            <p class="text-muted">
+              Provided comprehensive legal counsel for a rapidly expanding SaaS
+              client.
+            </p>
+          </article>
+
+          <article class="flex flex-col gap-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+                <span class="font-heading text-base font-medium">Business</span>
+              </div>
+              <span class="font-heading text-base font-medium text-muted"
+                >Apr 2025</span
+              >
+            </div>
+            <img
+              src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1080&q=80"
+              loading="lazy"
+              alt="Property keys being handed over."
+              class="h-64 w-full rounded-2xl object-cover"
+            />
+            <h3 class="font-heading text-xl font-medium leading-[130%]">
+              Property Line Fight Won: Full Ownership Restored
+            </h3>
+            <p class="text-muted">
+              Defended a large corporation against a high-profile wrongful
+              termination.
+            </p>
+          </article>
+
+          <article class="flex flex-col gap-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+                <span class="font-heading text-base font-medium"
+                  >Real Estate</span
+                >
+              </div>
+              <span class="font-heading text-base font-medium text-muted"
+                >June 2020</span
+              >
+            </div>
+            <img
+              src="https://images.unsplash.com/photo-1423592707957-3b212afa6733?w=1080&q=80"
+              loading="lazy"
+              alt="Open law books on a table."
+              class="h-64 w-full rounded-2xl object-cover"
+            />
+            <h3 class="font-heading text-xl font-medium leading-[130%]">
+              Family Trust Protected: Managed Complex Inheritance Dispute
+            </h3>
+            <p class="text-muted">
+              Represented beneficiaries in a contentious probate dispute, using
+              forensic accounting.
+            </p>
+          </article>
+
+          <article class="flex flex-col gap-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+                <span class="font-heading text-base font-medium"
+                  >Immigration</span
+                >
+              </div>
+              <span class="font-heading text-base font-medium text-muted"
+                >Oct 2024</span
+              >
+            </div>
+            <img
+              src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1080&q=80"
+              loading="lazy"
+              alt="Attorney taking notes on a legal pad."
+              class="h-64 w-full rounded-2xl object-cover"
+            />
+            <h3 class="font-heading text-xl font-medium leading-[130%]">
+              Resolved an intricate quiet title action involving disputed
+              easements
+            </h3>
+            <p class="text-muted">
+              Achieved a multi-million dollar award exceeding client
+              expectations significantly.
+            </p>
+          </article>
+
+          <article class="flex flex-col gap-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+                <span class="font-heading text-base font-medium"
+                  >Family Law</span
+                >
+              </div>
+              <span class="font-heading text-base font-medium text-muted"
+                >Sep 2025</span
+              >
+            </div>
+            <img
+              src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?w=1080&q=80"
+              loading="lazy"
+              alt="Courthouse exterior with tall columns."
+              class="h-64 w-full rounded-2xl object-cover"
+            />
+            <h3 class="font-heading text-xl font-medium leading-[130%]">
+              Brand Protected: We Defended Against IP Theft
+            </h3>
+            <p class="text-muted">
+              Defended a startup against a major competitor's aggressive
+              trademark infringement suit.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TESTIMONIALS ===================== -->
+    <section id="testimonials" class="bg-offwhite pb-16 md:pb-24 lg:pb-[130px]">
+      <div class="mx-auto max-w-container px-4">
+        <div
+          class="mb-12 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between"
+        >
+          <div>
+            <div class="mb-5 flex items-center gap-2.5">
+              <span class="h-1 w-1 rounded-full bg-secondary"></span>
+              <span class="text-base font-bold text-secondary"
+                >Testimonial</span
+              >
+            </div>
+            <h2
+              class="font-heading text-[31px] font-medium leading-[130%] tracking-[-0.02em] md:text-[39px] lg:text-[48px]"
+            >
+              Real Client Stories. See How We Helped
+            </h2>
+          </div>
+          <div class="flex items-center gap-5">
+            <span
+              class="font-heading text-[48px] font-medium leading-none lg:text-[61px]"
+              >98%</span
+            >
+            <h3 class="max-w-[220px] font-heading text-xl font-semibold">
+              Client Success in
+              <span class="text-primary">Complex&nbsp;Legal&nbsp;Matters</span>
+            </h3>
+          </div>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <figure class="flex flex-col rounded-[20px] bg-white p-6">
+            <div class="flex gap-1 text-accent" aria-label="Rated 5 out of 5">
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+            </div>
+            <blockquote class="mt-5 flex-1 text-base text-muted">
+              Their expertise in navigating complex international tax law was
+              absolutely critical to our expansion strategy. The team delivered
+              precise, commercially-focused advice and a level of sophistication
+              that is truly hard to find.
+            </blockquote>
+            <figcaption class="mt-6 flex items-center gap-4">
+              <img
+                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=128&q=80"
+                loading="lazy"
+                alt="Portrait of Ben Carter"
+                class="h-14 w-14 rounded-full object-cover"
+              />
+              <div>
+                <p class="font-heading text-lg font-medium">Ben Carter</p>
+                <p class="text-sm text-muted">Real Estate Developer</p>
+              </div>
+            </figcaption>
+          </figure>
+
+          <figure class="flex flex-col rounded-[20px] bg-white p-6">
+            <div class="flex gap-1 text-accent" aria-label="Rated 5 out of 5">
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+            </div>
+            <blockquote class="mt-5 flex-1 text-base text-muted">
+              Facing a complex labor dispute, the lawyers provided swift,
+              decisive action. Their ability to offer protective strategies was
+              exemplary. Highly recommended for any employment law challenge.
+            </blockquote>
+            <figcaption class="mt-6 flex items-center gap-4">
+              <img
+                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=128&q=80"
+                loading="lazy"
+                alt="Portrait of Jessica Miller"
+                class="h-14 w-14 rounded-full object-cover"
+              />
+              <div>
+                <p class="font-heading text-lg font-medium">Jessica Miller</p>
+                <p class="text-sm text-muted">Director of Human Resources</p>
+              </div>
+            </figcaption>
+          </figure>
+
+          <figure class="flex flex-col rounded-[20px] bg-white p-6">
+            <div class="flex gap-1 text-accent" aria-label="Rated 5 out of 5">
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+            </div>
+            <blockquote class="mt-5 flex-1 text-base text-muted">
+              The firm handled our matter with a rare combination of rigour and
+              warmth. Every question was answered before we thought to ask it,
+              and the outcome spoke for itself.
+            </blockquote>
+            <figcaption class="mt-6 flex items-center gap-4">
+              <img
+                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=128&q=80"
+                loading="lazy"
+                alt="Portrait of Eleanor Vance"
+                class="h-14 w-14 rounded-full object-cover"
+              />
+              <div>
+                <p class="font-heading text-lg font-medium">Eleanor Vance</p>
+                <p class="text-sm text-muted">Real Estate Developer</p>
+              </div>
+            </figcaption>
+          </figure>
+
+          <figure class="flex flex-col rounded-[20px] bg-white p-6">
+            <div class="flex gap-1 text-accent" aria-label="Rated 5 out of 5">
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+            </div>
+            <blockquote class="mt-5 flex-1 text-base text-muted">
+              My attorney was empathetic, tireless, and secured a personal
+              injury settlement that truly reflected the incident's impact. I
+              felt completely supported and confident throughout the process.
+            </blockquote>
+            <figcaption class="mt-6 flex items-center gap-4">
+              <img
+                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=128&q=80"
+                loading="lazy"
+                alt="Portrait of Dr. Lena Alami"
+                class="h-14 w-14 rounded-full object-cover"
+              />
+              <div>
+                <p class="font-heading text-lg font-medium">Dr. Lena Alami</p>
+                <p class="text-sm text-muted">Physician</p>
+              </div>
+            </figcaption>
+          </figure>
+
+          <figure class="flex flex-col rounded-[20px] bg-white p-6">
+            <div class="flex gap-1 text-accent" aria-label="Rated 5 out of 5">
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+            </div>
+            <blockquote class="mt-5 flex-1 text-base text-muted">
+              Their forward-thinking legal advice restructured our licensing
+              agreements, dramatically improving profitability. They don't just
+              solve problems; they help us grow. Invaluable service for any
+              business.
+            </blockquote>
+            <figcaption class="mt-6 flex items-center gap-4">
+              <img
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=128&q=80"
+                loading="lazy"
+                alt="Portrait of Ravi Singh"
+                class="h-14 w-14 rounded-full object-cover"
+              />
+              <div>
+                <p class="font-heading text-lg font-medium">Ravi Singh</p>
+                <p class="text-sm text-muted">Small Business Owner</p>
+              </div>
+            </figcaption>
+          </figure>
+
+          <figure class="flex flex-col rounded-[20px] bg-white p-6">
+            <div class="flex gap-1 text-accent" aria-label="Rated 5 out of 5">
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                />
+              </svg>
+            </div>
+            <blockquote class="mt-5 flex-1 text-base text-muted">
+              Handling my parents' trust affairs required patience and clear
+              explanation. The firm provided a calm, knowledgeable environment,
+              managing all documentation with the utmost professionalism.
+            </blockquote>
+            <figcaption class="mt-6 flex items-center gap-4">
+              <img
+                src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=128&q=80"
+                loading="lazy"
+                alt="Portrait of Marcus Hale"
+                class="h-14 w-14 rounded-full object-cover"
+              />
+              <div>
+                <p class="font-heading text-lg font-medium">Marcus Hale</p>
+                <p class="text-sm text-muted">Retired School Principal</p>
+              </div>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== FAQ ===================== -->
+    <section id="faq" class="bg-white py-16 md:py-24 lg:py-[130px]">
+      <div class="mx-auto max-w-container px-4">
+        <div
+          class="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-16"
+        >
+          <div class="lg:w-[45%]">
+            <div class="mb-5 flex items-center gap-2.5">
+              <span class="h-1 w-1 rounded-full bg-secondary"></span>
+              <span class="text-base font-bold text-secondary">FAQs</span>
+            </div>
+            <h2
+              class="font-heading text-[31px] font-medium leading-[130%] tracking-[-0.02em] md:text-[39px] lg:text-[48px]"
+            >
+              Let's find the answers together.
+            </h2>
+            <p class="mt-6 text-muted">
+              We are here to help, and we view your inquiry as an opportunity
+              for us to succeed together.
+            </p>
+
+            <div class="mt-10">
+              <h3 class="font-heading text-[25px] font-medium">
+                Still Got Questions?
+              </h3>
+              <div class="my-4 h-px w-full max-w-xs bg-accent/40"></div>
+              <a
+                href="tel:+12004568900"
+                class="flex items-center gap-3 font-heading text-[25px] font-medium"
+              >
+                <svg
+                  class="h-5 w-5 text-primary"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"
+                  />
+                </svg>
+                +12 (00) 456 8900
+              </a>
+              <a
+                href="#cta"
+                class="mt-8 inline-flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-dark hover:text-accent"
+              >
+                <span
+                  class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+                >
+                  <svg
+                    class="h-4 w-4 text-accent"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="7" y1="17" x2="17" y2="7" />
+                    <polyline points="7 7 17 7 17 17" />
+                  </svg>
+                </span>
+                Contact Us Now
+              </a>
+            </div>
+
+            <img
+              src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1080&q=80"
+              loading="lazy"
+              alt="Judge reviewing documents at a desk in a library."
+              class="mt-10 h-72 w-full rounded-2xl object-cover"
+            />
+          </div>
+
+          <!-- Native <details> accordion replaces the Webflow tabs widget -->
+          <div class="flex flex-col gap-4 lg:w-[52%]">
+            <details class="group rounded-[20px] bg-offwhite p-5 lg:p-8" open>
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-4 [&::-webkit-details-marker]:hidden"
+              >
+                <h3 class="font-heading text-xl font-medium lg:text-[25px]">
+                  How much does a consultation cost?
+                </h3>
+                <span
+                  class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-dark"
+                >
+                  <svg
+                    class="h-4 w-4 group-open:hidden"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                  <svg
+                    class="hidden h-4 w-4 group-open:block"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                </span>
+              </summary>
+              <p class="pt-4 text-base text-muted">
+                Your first consultation is free. We use it to understand your
+                matter, outline the realistic options, and give you a clear
+                estimate before any engagement begins.
+              </p>
+            </details>
+
+            <details class="group rounded-[20px] bg-offwhite p-5 lg:p-8">
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-4 [&::-webkit-details-marker]:hidden"
+              >
+                <h3 class="font-heading text-xl font-medium lg:text-[25px]">
+                  How are your legal fees structured?
+                </h3>
+                <span
+                  class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-dark"
+                >
+                  <svg
+                    class="h-4 w-4 group-open:hidden"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                  <svg
+                    class="hidden h-4 w-4 group-open:block"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                </span>
+              </summary>
+              <p class="pt-4 text-base text-muted">
+                We offer hourly, fixed-fee and contingency arrangements
+                depending on the matter. Whichever applies, you get the
+                structure in writing before we start.
+              </p>
+            </details>
+
+            <details class="group rounded-[20px] bg-offwhite p-5 lg:p-8">
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-4 [&::-webkit-details-marker]:hidden"
+              >
+                <h3 class="font-heading text-xl font-medium lg:text-[25px]">
+                  How long will my case take?
+                </h3>
+                <span
+                  class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-dark"
+                >
+                  <svg
+                    class="h-4 w-4 group-open:hidden"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                  <svg
+                    class="hidden h-4 w-4 group-open:block"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                </span>
+              </summary>
+              <p class="pt-4 text-base text-muted">
+                The duration of a legal case varies significantly based on its
+                complexity and whether it goes to trial. We prioritize
+                efficiency and will provide you with a realistic timeline and
+                regular updates on the progress of your matter.
+              </p>
+            </details>
+
+            <details class="group rounded-[20px] bg-offwhite p-5 lg:p-8">
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-4 [&::-webkit-details-marker]:hidden"
+              >
+                <h3 class="font-heading text-xl font-medium lg:text-[25px]">
+                  What should I prepare for our meeting?
+                </h3>
+                <span
+                  class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-dark"
+                >
+                  <svg
+                    class="h-4 w-4 group-open:hidden"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                  <svg
+                    class="hidden h-4 w-4 group-open:block"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                </span>
+              </summary>
+              <p class="pt-4 text-base text-muted">
+                Bring any contracts, correspondence, court papers and a short
+                timeline of events. Nothing is required up front — we can work
+                from whatever you have.
+              </p>
+            </details>
+
+            <details class="group rounded-[20px] bg-offwhite p-5 lg:p-8">
+              <summary
+                class="flex cursor-pointer list-none items-center justify-between gap-4 [&::-webkit-details-marker]:hidden"
+              >
+                <h3 class="font-heading text-xl font-medium lg:text-[25px]">
+                  What sets your firm apart from others?
+                </h3>
+                <span
+                  class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-dark"
+                >
+                  <svg
+                    class="h-4 w-4 group-open:hidden"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                  <svg
+                    class="hidden h-4 w-4 group-open:block"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                </span>
+              </summary>
+              <p class="pt-4 text-base text-muted">
+                Integrity, clear communication and tireless advocacy — backed by
+                a 98% client success rate across complex legal matters.
+              </p>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CTA ===================== -->
+    <section id="cta" class="relative overflow-clip">
+      <img
+        src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1600&q=80"
+        loading="lazy"
+        alt="Gavel and scales of justice on a desk."
+        class="absolute inset-0 h-full w-full object-cover"
+      />
+      <div class="absolute inset-0 bg-dark/85"></div>
+
+      <div class="relative py-16 md:py-24 lg:py-[130px]">
+        <div class="mx-auto max-w-container px-4">
+          <div class="grid gap-8 sm:grid-cols-3">
+            <div>
+              <div class="text-base text-white/70">Call Us</div>
+              <a
+                href="tel:+12004568900"
+                class="mt-2 flex items-center gap-2 font-heading text-xl font-medium text-offwhite transition hover:text-accent"
+              >
+                <svg
+                  class="h-5 w-5 text-accent"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"
+                  />
+                </svg>
+                +12 (00) 456 8900
+              </a>
+            </div>
+            <div>
+              <div class="text-base text-white/70">Email Us</div>
+              <a
+                href="mailto:support@lexica.com"
+                class="mt-2 flex items-center gap-2 font-heading text-xl font-medium text-offwhite transition hover:text-accent"
+              >
+                <svg
+                  class="h-5 w-5 text-accent"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"
+                  />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+                support@lexica.com
+              </a>
+            </div>
+            <div>
+              <div class="text-base text-white/70">Our Location</div>
+              <div
+                class="mt-2 flex items-center gap-2 font-heading text-xl font-medium text-offwhite"
+              >
+                <svg
+                  class="h-5 w-5 text-accent"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                40 Anytown, Chicago, IL
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Marquee band -->
+        <div class="my-14 flex w-max animate-marquee-slow overflow-hidden">
+          <div class="flex shrink-0">
+            <h2
+              class="mr-8 font-body text-[64px] font-extralight text-white/20 lg:text-[120px]"
+            >
+              Book Free Consultation
+            </h2>
+            <h2
+              class="mr-8 font-body text-[64px] font-extralight text-white/20 lg:text-[120px]"
+            >
+              Book Free Consultation
+            </h2>
+            <h2
+              class="mr-8 font-body text-[64px] font-extralight text-white/20 lg:text-[120px]"
+            >
+              Book Free Consultation
+            </h2>
+          </div>
+          <div class="flex shrink-0" aria-hidden="true">
+            <h2
+              class="mr-8 font-body text-[64px] font-extralight text-white/20 lg:text-[120px]"
+            >
+              Book Free Consultation
+            </h2>
+            <h2
+              class="mr-8 font-body text-[64px] font-extralight text-white/20 lg:text-[120px]"
+            >
+              Book Free Consultation
+            </h2>
+            <h2
+              class="mr-8 font-body text-[64px] font-extralight text-white/20 lg:text-[120px]"
+            >
+              Book Free Consultation
+            </h2>
+          </div>
+        </div>
+
+        <div class="mx-auto max-w-container px-4">
+          <div class="max-w-[531px]">
+            <h2
+              class="font-heading text-[31px] font-medium leading-[130%] text-white md:text-[39px] lg:text-[48px]"
+            >
+              Ready to Discuss Your Legal Options?
+            </h2>
+            <p class="mt-5 text-white/70">
+              Facing a legal challenge? It's time to understand your rights and
+              options. Let's discuss your situation confidentially and find the
+              best strategy for you.
+            </p>
+            <a
+              href="mailto:support@lexica.com"
+              class="mt-8 inline-flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-white"
+            >
+              <span
+                class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+              >
+                <svg
+                  class="h-4 w-4 text-accent"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <line x1="7" y1="17" x2="17" y2="7" />
+                  <polyline points="7 7 17 7 17 17" />
+                </svg>
+              </span>
+              Book a Call
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== BLOG ===================== -->
+    <section id="blog" class="bg-offwhite py-16 md:py-24 lg:py-[130px]">
+      <div class="mx-auto max-w-container px-4">
+        <div
+          class="mb-12 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between"
+        >
+          <div>
+            <div class="mb-5 flex items-center gap-2.5">
+              <span class="h-1 w-1 rounded-full bg-secondary"></span>
+              <span class="text-base font-bold text-secondary">Blogs</span>
+            </div>
+            <h2
+              class="font-heading text-[31px] font-medium leading-[130%] tracking-[-0.02em] md:text-[39px] lg:text-[48px]"
+            >
+              The Essential Guide to Getting Started
+            </h2>
+          </div>
+          <a
+            href="#blog"
+            class="inline-flex shrink-0 items-center gap-3 self-start rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-dark hover:text-accent"
+          >
+            <span
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+            >
+              <svg
+                class="h-4 w-4 text-accent"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <line x1="7" y1="17" x2="17" y2="7" />
+                <polyline points="7 7 17 7 17 17" />
+              </svg>
+            </span>
+            View All Blogs
+          </a>
+        </div>
+
+        <div class="flex flex-col gap-6">
+          <article
+            class="flex flex-col gap-6 rounded-2xl border border-accent/30 p-5 transition hover:border-accent md:flex-row md:items-center md:justify-between lg:py-8 lg:pl-4 lg:pr-10"
+          >
+            <div class="flex-1">
+              <div class="flex flex-wrap items-center gap-4">
+                <div>
+                  <div class="font-heading text-sm font-bold text-muted">
+                    Published
+                  </div>
+                  <div class="font-heading text-base font-bold">
+                    Oct 12, 2025
+                  </div>
+                </div>
+                <div class="h-8 w-px bg-accent/40"></div>
+                <div>
+                  <div class="font-heading text-sm font-bold text-muted">
+                    Category
+                  </div>
+                  <div class="font-heading text-base font-bold">
+                    Estate Planning
+                  </div>
+                </div>
+              </div>
+              <div class="mt-6 flex items-center gap-3">
+                <span class="font-heading text-sm font-bold text-primary"
+                  >By</span
+                >
+                <img
+                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=96&q=80"
+                  loading="lazy"
+                  alt="Portrait of Thomas Volk"
+                  class="h-8 w-8 rounded-full object-cover"
+                />
+                <span class="font-heading text-sm font-bold text-primary"
+                  >Thomas Volk</span
+                >
+              </div>
+              <h3
+                class="mt-4 font-heading text-xl font-medium leading-[130%] lg:text-[25px]"
+              >
+                The Essential Documents You Need for Estate Planning
+              </h3>
+            </div>
+            <img
+              src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1080&q=80"
+              loading="lazy"
+              alt="Legal documents and a pen on a desk."
+              class="h-56 w-full rounded-2xl object-cover md:h-[220px] md:w-[268px]"
+            />
+          </article>
+
+          <article
+            class="flex flex-col gap-6 rounded-2xl border border-accent/30 p-5 transition hover:border-accent md:flex-row md:items-center md:justify-between lg:py-8 lg:pl-4 lg:pr-10"
+          >
+            <div class="flex-1">
+              <div class="flex flex-wrap items-center gap-4">
+                <div>
+                  <div class="font-heading text-sm font-bold text-muted">
+                    Published
+                  </div>
+                  <div class="font-heading text-base font-bold">
+                    Jan 20, 2026
+                  </div>
+                </div>
+                <div class="h-8 w-px bg-accent/40"></div>
+                <div>
+                  <div class="font-heading text-sm font-bold text-muted">
+                    Category
+                  </div>
+                  <div class="font-heading text-base font-bold">
+                    Client Focus
+                  </div>
+                </div>
+              </div>
+              <div class="mt-6 flex items-center gap-3">
+                <span class="font-heading text-sm font-bold text-primary"
+                  >By</span
+                >
+                <img
+                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=96&q=80"
+                  loading="lazy"
+                  alt="Portrait of Alisa Olivia"
+                  class="h-8 w-8 rounded-full object-cover"
+                />
+                <span class="font-heading text-sm font-bold text-primary"
+                  >Alisa Olivia</span
+                >
+              </div>
+              <h3
+                class="mt-4 font-heading text-xl font-medium leading-[130%] lg:text-[25px]"
+              >
+                Navigating a Business Partnership Breakup
+              </h3>
+            </div>
+            <img
+              src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1080&q=80"
+              loading="lazy"
+              alt="Business partners in discussion around a table."
+              class="h-56 w-full rounded-2xl object-cover md:h-[220px] md:w-[268px]"
+            />
+          </article>
+
+          <article
+            class="flex flex-col gap-6 rounded-2xl border border-accent/30 p-5 transition hover:border-accent md:flex-row md:items-center md:justify-between lg:py-8 lg:pl-4 lg:pr-10"
+          >
+            <div class="flex-1">
+              <div class="flex flex-wrap items-center gap-4">
+                <div>
+                  <div class="font-heading text-sm font-bold text-muted">
+                    Published
+                  </div>
+                  <div class="font-heading text-base font-bold">
+                    Oct 12, 2025
+                  </div>
+                </div>
+                <div class="h-8 w-px bg-accent/40"></div>
+                <div>
+                  <div class="font-heading text-sm font-bold text-muted">
+                    Category
+                  </div>
+                  <div class="font-heading text-base font-bold">
+                    Corporate Law
+                  </div>
+                </div>
+              </div>
+              <div class="mt-6 flex items-center gap-3">
+                <span class="font-heading text-sm font-bold text-primary"
+                  >By</span
+                >
+                <img
+                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=96&q=80"
+                  loading="lazy"
+                  alt="Portrait of Thomas Volk"
+                  class="h-8 w-8 rounded-full object-cover"
+                />
+                <span class="font-heading text-sm font-bold text-primary"
+                  >Thomas Volk</span
+                >
+              </div>
+              <h3
+                class="mt-4 font-heading text-xl font-medium leading-[130%] lg:text-[25px]"
+              >
+                What Every Founder Should Know About Shareholder Agreements
+              </h3>
+            </div>
+            <img
+              src="https://images.unsplash.com/photo-1423592707957-3b212afa6733?w=1080&q=80"
+              loading="lazy"
+              alt="Open reference books on a desk."
+              class="h-56 w-full rounded-2xl object-cover md:h-[220px] md:w-[268px]"
+            />
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer
+      id="footer"
+      class="relative overflow-clip bg-dark pt-16 md:pt-24 lg:pt-[130px]"
+    >
+      <img
+        src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?w=1600&q=80"
+        loading="lazy"
+        alt=""
+        aria-hidden="true"
+        class="absolute inset-0 h-full w-full object-cover opacity-20"
+      />
+
+      <div class="relative mx-auto max-w-container px-4 pb-12">
+        <div
+          class="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between"
+        >
+          <a href="#Main" class="flex items-center gap-3">
+            <svg
+              class="h-12 w-12"
+              viewBox="0 0 32 32"
+              fill="none"
+              aria-hidden="true"
+            >
+              <rect width="32" height="32" rx="8" fill="#d6b980" />
+              <path
+                d="M11 8v15h10"
+                stroke="#110e0e"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span
+              class="font-heading text-[39px] font-bold tracking-tight text-offwhite lg:text-[48px]"
+              >Lexica</span
+            >
+          </a>
+
+          <div class="flex flex-col gap-4">
+            <a
+              href="tel:+12004568900"
+              class="flex items-center gap-2 font-heading text-xl font-medium text-offwhite transition hover:text-accent"
+            >
+              <svg
+                class="h-5 w-5 text-accent"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"
+                />
+              </svg>
+              +12 (00) 456 8900
+            </a>
+            <div
+              class="flex items-center gap-2 font-heading text-xl font-medium text-offwhite"
+            >
+              <svg
+                class="h-5 w-5 text-accent"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              40 Anytown, Chicago, IL
+            </div>
+            <a
+              href="mailto:support@lexica.com"
+              class="flex items-center gap-2 font-heading text-xl font-medium text-offwhite transition hover:text-accent"
+            >
+              <svg
+                class="h-5 w-5 text-accent"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"
+                />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              support@lexica.com
+            </a>
+          </div>
+        </div>
+
+        <div class="my-10 h-px w-full bg-white/10"></div>
+
+        <nav class="flex flex-wrap gap-x-10 gap-y-4" aria-label="Footer">
+          <a
+            href="#Main"
+            class="font-heading text-xl font-medium text-offwhite transition hover:text-accent"
+            >Home</a
+          >
+          <a
+            href="#about"
+            class="font-heading text-xl font-medium text-offwhite transition hover:text-accent"
+            >About</a
+          >
+          <a
+            href="#results"
+            class="font-heading text-xl font-medium text-offwhite transition hover:text-accent"
+            >Case Studies</a
+          >
+          <a
+            href="#testimonials"
+            class="font-heading text-xl font-medium text-offwhite transition hover:text-accent"
+            >Teams</a
+          >
+          <a
+            href="#services"
+            class="font-heading text-xl font-medium text-offwhite transition hover:text-accent"
+            >Services</a
+          >
+        </nav>
+
+        <div class="my-10 h-px w-full bg-white/10"></div>
+
+        <div class="flex flex-col gap-12 lg:flex-row lg:justify-between">
+          <div class="lg:max-w-md">
+            <h3 class="font-heading text-[25px] font-medium text-offwhite">
+              Stay Up To Date
+            </h3>
+            <p class="mt-2 text-white/70">
+              Unlock exclusive legal tips. Join our newsletter today.
+            </p>
+
+            <form class="relative mt-6" method="get">
+              <label for="email" class="sr-only">Email address</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                placeholder="email@example.com"
+                class="h-[60px] w-full rounded-xl border-b border-white/20 bg-transparent px-3 text-offwhite placeholder:text-white/40 focus:border-accent focus:outline-none"
+              />
+              <button
+                type="submit"
+                class="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-accent text-dark transition hover:bg-white"
+                aria-label="Subscribe"
+              >
+                <svg
+                  class="h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </button>
+            </form>
+
+            <div class="mt-8 flex flex-wrap gap-4">
+              <a
+                href="https://www.facebook.com/"
+                target="_blank"
+                rel="noopener"
+                class="flex h-14 w-14 items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition hover:bg-accent hover:text-dark"
+                aria-label="Lexica on Facebook"
+              >
+                <svg
+                  class="h-5 w-5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://www.instagram.com/"
+                target="_blank"
+                rel="noopener"
+                class="flex h-14 w-14 items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition hover:bg-accent hover:text-dark"
+                aria-label="Lexica on Instagram"
+              >
+                <svg
+                  class="h-5 w-5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <rect x="2" y="2" width="20" height="20" rx="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+              </a>
+              <a
+                href="https://x.com/"
+                target="_blank"
+                rel="noopener"
+                class="flex h-14 w-14 items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition hover:bg-accent hover:text-dark"
+                aria-label="Lexica on X"
+              >
+                <svg
+                  class="h-5 w-5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <line x1="4" y1="4" x2="20" y2="20" />
+                  <line x1="20" y1="4" x2="4" y2="20" />
+                </svg>
+              </a>
+              <a
+                href="https://www.linkedin.com/"
+                target="_blank"
+                rel="noopener"
+                class="flex h-14 w-14 items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition hover:bg-accent hover:text-dark"
+                aria-label="Lexica on LinkedIn"
+              >
+                <svg
+                  class="h-5 w-5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"
+                  />
+                  <rect x="2" y="9" width="4" height="12" />
+                  <circle cx="4" cy="4" r="2" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-10 sm:flex-row sm:gap-20">
+            <div>
+              <h4 class="mb-6 font-heading text-[25px] font-medium text-white">
+                Support
+              </h4>
+              <div class="flex flex-col gap-3">
+                <a
+                  href="#cta"
+                  class="text-base text-offwhite/80 transition hover:text-accent"
+                  >Contact</a
+                >
+                <a
+                  href="#blog"
+                  class="text-base text-offwhite/80 transition hover:text-accent"
+                  >Blogs</a
+                >
+                <a
+                  href="#faq"
+                  class="text-base text-offwhite/80 transition hover:text-accent"
+                  >FAQs</a
+                >
+                <a
+                  href="#services"
+                  class="text-base text-offwhite/80 transition hover:text-accent"
+                  >Services</a
+                >
+                <a
+                  href="#partners"
+                  class="text-base text-offwhite/80 transition hover:text-accent"
+                  >Partners</a
+                >
+              </div>
+            </div>
+            <div>
+              <h4 class="mb-6 font-heading text-[25px] font-medium text-white">
+                Utilities
+              </h4>
+              <div class="flex flex-col gap-3">
+                <a
+                  href="#results"
+                  class="text-base text-offwhite/80 transition hover:text-accent"
+                  >Case Studies</a
+                >
+                <a
+                  href="#testimonials"
+                  class="text-base text-offwhite/80 transition hover:text-accent"
+                  >Testimonials</a
+                >
+                <a
+                  href="#about"
+                  class="text-base text-offwhite/80 transition hover:text-accent"
+                  >Our Story</a
+                >
+                <a
+                  href="#about"
+                  class="text-base text-offwhite/80 transition hover:text-accent"
+                  >Licenses</a
+                >
+                <a
+                  href="#about"
+                  class="text-base text-offwhite/80 transition hover:text-accent"
+                  >Change Log</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6"
+        >
+          <div class="text-sm text-white">
+            Designed by
+            <a href="#Main" class="text-accent hover:underline">Lexica</a>
+          </div>
+          <div class="text-sm text-white">
+            Built with
+            <a
+              href="https://tailwindcss.com"
+              target="_blank"
+              rel="noopener"
+              class="text-accent hover:underline"
+              >Tailwind CSS</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Back to top: always visible (the original was revealed by scroll JS) -->
+    <a
+      href="#Main"
+      class="fixed bottom-6 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-accent text-dark shadow-lg transition hover:bg-dark hover:text-accent"
+      aria-label="Back to top"
+    >
+      <svg
+        class="h-5 w-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <line x1="12" y1="19" x2="12" y2="5" />
+        <polyline points="5 12 12 5 19 12" />
+      </svg>
+    </a>
+  </body>
+</html>
