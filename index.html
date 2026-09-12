@@ -105,6 +105,59 @@
                 "0%": { transform: "scaleX(0)" },
                 "100%": { transform: "scaleX(1)" },
               },
+              "pop-in": {
+                "0%": { opacity: "0", transform: "scale(0.6) translateY(8px)" },
+                "60%": { transform: "scale(1.06) translateY(0)" },
+                "100%": { opacity: "1", transform: "scale(1) translateY(0)" },
+              },
+              "slide-down": {
+                "0%": { opacity: "0", transform: "translateY(-10px)" },
+                "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+              "blur-in": {
+                "0%": { opacity: "0", filter: "blur(12px)" },
+                "100%": { opacity: "1", filter: "blur(0)" },
+              },
+              "tilt-in": {
+                "0%": {
+                  opacity: "0",
+                  transform: "perspective(900px) rotateX(12deg) translateY(24px)",
+                },
+                "100%": {
+                  opacity: "1",
+                  transform: "perspective(900px) rotateX(0) translateY(0)",
+                },
+              },
+              "draw-line": {
+                "0%": { strokeDashoffset: "120" },
+                "100%": { strokeDashoffset: "0" },
+              },
+              sheen: {
+                "0%": { transform: "translateX(-120%) skewX(-18deg)" },
+                "100%": { transform: "translateX(320%) skewX(-18deg)" },
+              },
+              "progress-x": {
+                "0%": { transform: "scaleX(0)" },
+                "100%": { transform: "scaleX(1)" },
+              },
+              "header-solid": {
+                "0%": {
+                  backgroundColor: "rgba(17,14,14,0.25)",
+                  backdropFilter: "blur(4px)",
+                },
+                "100%": {
+                  backgroundColor: "rgba(17,14,14,0.92)",
+                  backdropFilter: "blur(14px)",
+                },
+              },
+              "reveal-up": {
+                "0%": { opacity: "0", transform: "translateY(100%)" },
+                "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+              wiggle: {
+                "0%, 100%": { transform: "rotate(-4deg)" },
+                "50%": { transform: "rotate(4deg)" },
+              },
             },
             animation: {
               marquee: "marquee 40s linear infinite",
@@ -119,6 +172,16 @@
               "pulse-ring": "pulse-ring 2.4s ease-out infinite",
               shimmer: "shimmer 6s linear infinite",
               "grow-x": "grow-x 1.2s cubic-bezier(0.16,1,0.3,1) both",
+              "pop-in": "pop-in 0.6s cubic-bezier(0.16,1,0.3,1) both",
+              "slide-down": "slide-down 0.28s ease-out both",
+              "blur-in": "blur-in 1s ease both",
+              "tilt-in": "tilt-in 0.9s cubic-bezier(0.16,1,0.3,1) both",
+              "draw-line": "draw-line 1.4s ease-out both",
+              sheen: "sheen 0.9s ease-out",
+              "progress-x": "progress-x linear both",
+              "header-solid": "header-solid linear both",
+              "reveal-up": "reveal-up 0.9s cubic-bezier(0.16,1,0.3,1) both",
+              wiggle: "wiggle 0.5s ease-in-out",
             },
           },
         },
@@ -221,6 +284,167 @@
         background-size: 100% 1px;
       }
 
+      /* ---------- Page-level scroll-driven effects ---------- */
+      @supports (animation-timeline: scroll()) {
+        /* Reading-progress bar across the top of the viewport. */
+        #scroll-progress {
+          animation: progress-x 1s linear both;
+          animation-timeline: scroll(root block);
+        }
+        /* Header fades from translucent to near-solid over the first viewport. */
+        #site-header {
+          animation: header-solid 1s linear both;
+          animation-timeline: scroll(root block);
+          animation-range: 0 60vh;
+        }
+        /* Back-to-top button only materialises once you are past the hero. */
+        #to-top {
+          animation: to-top-in 1s linear both;
+          animation-timeline: scroll(root block);
+          animation-range: 40vh 90vh;
+        }
+      }
+      @keyframes to-top-in {
+        0% {
+          opacity: 0;
+          transform: scale(0.5);
+          pointer-events: none;
+        }
+        99% {
+          pointer-events: none;
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+          pointer-events: auto;
+        }
+      }
+      /* Without scroll timelines the button is simply always visible. */
+      @supports not (animation-timeline: scroll()) {
+        #scroll-progress {
+          display: none;
+        }
+      }
+
+      /*
+       * Line-by-line text reveal: each line rides up from behind its own
+       * clipping box. Used on the big section headings.
+       */
+      .reveal-lines > span {
+        display: block;
+        overflow: hidden;
+      }
+      .reveal-lines > span > span {
+        display: block;
+        animation: reveal-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+      @supports (animation-timeline: view()) {
+        .reveal-lines > span > span {
+          animation-timeline: view();
+          animation-range: entry 10% cover 35%;
+        }
+      }
+
+      /* Nav dropdown panels animate in rather than snapping open. */
+      .group:hover > .dropdown,
+      .group:focus-within > .dropdown {
+        animation: slide-down 0.28s ease-out both;
+      }
+
+      /* Mobile nav panel slides down when the toggle checkbox is checked. */
+      #nav-toggle:checked ~ nav {
+        animation: slide-down 0.3s ease-out both;
+      }
+
+      /*
+       * Light sweep across a button on hover. The pseudo-element is clipped by
+       * the button's own rounded overflow.
+       */
+      .sheen {
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+      }
+      .sheen::after {
+        content: "";
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 40%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.55),
+          transparent
+        );
+        transform: translateX(-120%) skewX(-18deg);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .sheen:hover::after {
+        animation: sheen 0.9s ease-out;
+      }
+
+      /* SVG icons that draw themselves in when their card scrolls into view. */
+      .draw path,
+      .draw line,
+      .draw polyline,
+      .draw polygon,
+      .draw rect,
+      .draw circle {
+        stroke-dasharray: 120;
+        animation: draw-line 1.4s ease-out both;
+      }
+      @supports (animation-timeline: view()) {
+        .draw path,
+        .draw line,
+        .draw polyline,
+        .draw polygon,
+        .draw rect,
+        .draw circle {
+          animation-timeline: view();
+          animation-range: entry 0% cover 30%;
+        }
+      }
+
+      /* Star ratings twinkle in one after another. */
+      .stars > svg {
+        animation: pop-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+      .stars > svg:nth-child(2) {
+        animation-delay: 0.07s;
+      }
+      .stars > svg:nth-child(3) {
+        animation-delay: 0.14s;
+      }
+      .stars > svg:nth-child(4) {
+        animation-delay: 0.21s;
+      }
+      .stars > svg:nth-child(5) {
+        animation-delay: 0.28s;
+      }
+
+      /* Overlapping hero avatars pop in one by one. */
+      .avatars > img {
+        animation: pop-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .avatars > img:nth-child(1) {
+        animation-delay: 0.5s;
+      }
+      .avatars > img:nth-child(2) {
+        animation-delay: 0.62s;
+      }
+      .avatars > img:nth-child(3) {
+        animation-delay: 0.74s;
+      }
+      .avatars:hover > img {
+        transform: translateY(-4px);
+      }
+      .avatars > img:hover {
+        transform: translateY(-8px) scale(1.12);
+        z-index: 1;
+      }
+
       @media (prefers-reduced-motion: reduce) {
         *,
         *::before,
@@ -229,6 +453,10 @@
           animation-iteration-count: 1 !important;
           transition-duration: 0.001ms !important;
           scroll-behavior: auto !important;
+        }
+        /* Keep the drawn icons fully drawn rather than half-stroked. */
+        .draw * {
+          stroke-dasharray: none !important;
         }
       }
     </style>
@@ -254,16 +482,25 @@
     class="bg-offwhite font-body text-[18px] font-normal leading-[150%] text-dark antialiased"
   >
     <!-- ===================== NAVBAR ===================== -->
-    <header class="fixed inset-x-0 top-0 z-50 bg-dark/40 backdrop-blur-md">
+    <div
+      id="scroll-progress"
+      class="fixed inset-x-0 top-0 z-[60] h-1 origin-left bg-gradient-to-r from-accent via-primary to-accent"
+      aria-hidden="true"
+    ></div>
+
+    <header
+      id="site-header"
+      class="fixed inset-x-0 top-0 z-50 bg-dark/40 backdrop-blur-md transition-colors"
+    >
       <div class="relative mx-auto max-w-container px-4">
         <div class="flex items-center justify-between gap-6 py-4">
           <a
             href="#Main"
-            class="flex shrink-0 items-center gap-2.5"
+            class="group/logo flex shrink-0 items-center gap-2.5"
             aria-label="Sichangi Law Alliance home"
           >
             <svg
-              class="h-9 w-9"
+              class="h-9 w-9 transition-transform duration-500 group-hover/logo:rotate-[-8deg] group-hover/logo:scale-110"
               viewBox="0 0 32 32"
               fill="none"
               aria-hidden="true"
@@ -278,7 +515,7 @@
               />
             </svg>
             <span
-              class="font-heading text-2xl font-bold tracking-tight text-white"
+              class="font-heading text-2xl font-bold tracking-tight text-white transition-colors duration-300 group-hover/logo:text-accent"
               >SLA</span
             >
           </a>
@@ -320,7 +557,7 @@
                   </svg>
                 </button>
                 <div
-                  class="mt-3 lg:absolute lg:left-0 lg:top-full lg:mt-0 lg:hidden lg:w-56 lg:pt-5 lg:group-focus-within:block lg:group-hover:block"
+                  class="dropdown mt-3 lg:absolute lg:left-0 lg:top-full lg:mt-0 lg:hidden lg:w-56 lg:pt-5 lg:group-focus-within:block lg:group-hover:block"
                 >
                   <div
                     class="flex flex-col gap-3 rounded-2xl bg-white p-5 lg:shadow-2xl"
@@ -381,7 +618,7 @@
                   </svg>
                 </button>
                 <div
-                  class="mt-3 lg:absolute lg:left-0 lg:top-full lg:mt-0 lg:hidden lg:w-[640px] lg:pt-5 lg:group-focus-within:block lg:group-hover:block"
+                  class="dropdown mt-3 lg:absolute lg:left-0 lg:top-full lg:mt-0 lg:hidden lg:w-[640px] lg:pt-5 lg:group-focus-within:block lg:group-hover:block"
                 >
                   <div
                     class="grid grid-cols-1 gap-6 rounded-2xl bg-white p-6 sm:grid-cols-3 lg:shadow-2xl"
@@ -491,7 +728,7 @@
           <div class="flex shrink-0 items-center gap-3">
             <a
               href="#cta"
-              class="hidden items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-white sm:flex"
+              class="hidden items-center gap-3 sheen rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-white sm:flex"
             >
               <span
                 class="flex h-9 w-9 items-center justify-center rounded-full bg-dark"
@@ -515,7 +752,7 @@
 
             <label
               for="nav-toggle"
-              class="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-white/20 text-white lg:hidden"
+              class="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-white/20 text-white transition duration-300 hover:border-accent hover:bg-white/10 hover:text-accent lg:hidden"
               aria-label="Toggle navigation menu"
             >
               <svg
@@ -562,7 +799,7 @@
             <div class="mx-auto w-full max-w-container px-4">
               <div class="max-w-2xl">
                 <h1
-                  class="animate-fade-up font-heading text-[40px] font-medium leading-[110%] tracking-[-0.03em] text-white md:text-[52px] lg:text-[61px]"
+                  class="animate-blur-in font-heading text-[40px] font-medium leading-[110%] tracking-[-0.03em] text-white md:text-[52px] lg:text-[61px]"
                 >
                   Integrated Legal Solutions. Partner-Led Accountability.
                 </h1>
@@ -573,7 +810,7 @@
                 <div class="mt-8 flex animate-fade-up flex-wrap items-center gap-6 [animation-delay:300ms]">
                   <a
                     href="#cta"
-                    class="flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-white"
+                    class="flex items-center gap-3 sheen rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-white"
                   >
                     <span
                       class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
@@ -594,11 +831,11 @@
                     </span>
                     Discuss Your Legal Needs
                   </a>
-                  <div class="flex items-center gap-3">
+                  <div class="flex animate-fade-up items-center gap-3 [animation-delay:450ms]">
                     <span class="text-sm text-white/80"
                       >Full-service capability</span
                     >
-                    <div class="flex -space-x-3">
+                    <div class="avatars flex -space-x-3">
                       <img
                         src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&q=80"
                         loading="lazy"
@@ -643,7 +880,7 @@
             <div class="mx-auto w-full max-w-container px-4">
               <div class="max-w-2xl">
                 <h1
-                  class="animate-fade-up font-heading text-[40px] font-medium leading-[110%] tracking-[-0.03em] text-white md:text-[52px] lg:text-[61px]"
+                  class="animate-blur-in font-heading text-[40px] font-medium leading-[110%] tracking-[-0.03em] text-white md:text-[52px] lg:text-[61px]"
                 >
                   Coordinated Advice for Complex Legal Matters
                 </h1>
@@ -654,7 +891,7 @@
                 <div class="mt-8 animate-fade-up [animation-delay:300ms]">
                   <a
                     href="#services"
-                    class="inline-flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-white"
+                    class="inline-flex items-center gap-3 sheen rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-white"
                   >
                     <span
                       class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
@@ -696,7 +933,7 @@
             <div class="mx-auto w-full max-w-container px-4">
               <div class="max-w-2xl">
                 <h1
-                  class="animate-fade-up font-heading text-[40px] font-medium leading-[110%] tracking-[-0.03em] text-white md:text-[52px] lg:text-[61px]"
+                  class="animate-blur-in font-heading text-[40px] font-medium leading-[110%] tracking-[-0.03em] text-white md:text-[52px] lg:text-[61px]"
                 >
                   Strategic Counsel for People and Businesses
                 </h1>
@@ -707,7 +944,7 @@
                 <div class="mt-8 animate-fade-up [animation-delay:300ms]">
                   <a
                     href="#cta"
-                    class="inline-flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-white"
+                    class="inline-flex items-center gap-3 sheen rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-white"
                   >
                     <span
                       class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
@@ -767,8 +1004,13 @@
           class="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between"
         >
           <div class="lg:max-w-3xl">
-            <div class="mb-6 flex items-center gap-2.5">
-              <span class="h-1 w-1 animate-pulse rounded-full bg-secondary"></span>
+            <div class="reveal mb-6 flex animate-fade-right items-center gap-2.5">
+              <span class="relative flex h-1 w-1">
+                <span
+                  class="absolute inset-0 animate-pulse-ring rounded-full bg-secondary"
+                ></span>
+                <span class="h-1 w-1 rounded-full bg-secondary"></span>
+              </span>
               <span class="text-base font-bold text-secondary">About Us</span>
             </div>
             <h2
@@ -785,7 +1027,7 @@
             </p>
             <a
               href="#services"
-              class="mt-8 inline-flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent"
+              class="mt-8 inline-flex items-center gap-3 sheen rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent"
             >
               <span
                 class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
@@ -817,10 +1059,10 @@
           <div class="grid gap-10 sm:grid-cols-2 lg:max-w-xl">
             <div>
               <span
-                class="flex h-14 w-14 animate-float items-center justify-center rounded-2xl bg-accent/20"
+                class="group/stat flex h-14 w-14 animate-float items-center justify-center rounded-2xl bg-accent/20 transition-colors duration-300 hover:bg-accent/40"
               >
                 <svg
-                  class="h-7 w-7 text-primary"
+                  class="h-7 w-7 text-primary transition-transform duration-500 group-hover/stat:rotate-12 group-hover/stat:scale-110"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -847,10 +1089,10 @@
             </div>
             <div>
               <span
-                class="flex h-14 w-14 animate-float items-center justify-center rounded-2xl bg-accent/20"
+                class="group/stat flex h-14 w-14 animate-float items-center justify-center rounded-2xl bg-accent/20 transition-colors duration-300 hover:bg-accent/40"
               >
                 <svg
-                  class="h-7 w-7 text-primary"
+                  class="h-7 w-7 text-primary transition-transform duration-500 group-hover/stat:rotate-12 group-hover/stat:scale-110"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -920,10 +1162,10 @@
       <div class="marquee-pause mt-10 flex w-max animate-marquee">
         <div class="flex shrink-0">
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
+            class="group/tile mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
-              class="h-8 w-8 text-primary"
+              class="h-8 w-8 text-primary transition-transform duration-500 group-hover/tile:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -941,10 +1183,10 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
+            class="group/tile mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
-              class="h-8 w-8 text-primary"
+              class="h-8 w-8 text-primary transition-transform duration-500 group-hover/tile:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -964,10 +1206,10 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
+            class="group/tile mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
-              class="h-8 w-8 text-primary"
+              class="h-8 w-8 text-primary transition-transform duration-500 group-hover/tile:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -984,10 +1226,10 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
+            class="group/tile mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
-              class="h-8 w-8 text-primary"
+              class="h-8 w-8 text-primary transition-transform duration-500 group-hover/tile:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -1003,10 +1245,10 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
+            class="group/tile mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
-              class="h-8 w-8 text-primary"
+              class="h-8 w-8 text-primary transition-transform duration-500 group-hover/tile:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -1023,10 +1265,10 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
+            class="group/tile mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
-              class="h-8 w-8 text-primary"
+              class="h-8 w-8 text-primary transition-transform duration-500 group-hover/tile:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -1043,10 +1285,10 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
+            class="group/tile mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
-              class="h-8 w-8 text-primary"
+              class="h-8 w-8 text-primary transition-transform duration-500 group-hover/tile:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -1063,10 +1305,10 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
+            class="group/tile mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
-              class="h-8 w-8 text-primary"
+              class="h-8 w-8 text-primary transition-transform duration-500 group-hover/tile:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -1083,10 +1325,10 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
+            class="group/tile mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
-              class="h-8 w-8 text-primary"
+              class="h-8 w-8 text-primary transition-transform duration-500 group-hover/tile:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -1102,10 +1344,10 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
+            class="group/tile mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
-              class="h-8 w-8 text-primary"
+              class="h-8 w-8 text-primary transition-transform duration-500 group-hover/tile:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -1125,10 +1367,10 @@
         <!-- duplicate track -->
         <div class="flex shrink-0" aria-hidden="true">
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
+            class="group/tile mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
-              class="h-8 w-8 text-primary"
+              class="h-8 w-8 text-primary transition-transform duration-500 group-hover/tile:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -1145,10 +1387,10 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
+            class="group/tile mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
-              class="h-8 w-8 text-primary"
+              class="h-8 w-8 text-primary transition-transform duration-500 group-hover/tile:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -1167,10 +1409,10 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
+            class="group/tile mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
-              class="h-8 w-8 text-primary"
+              class="h-8 w-8 text-primary transition-transform duration-500 group-hover/tile:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -1186,10 +1428,10 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
+            class="group/tile mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
-              class="h-8 w-8 text-primary"
+              class="h-8 w-8 text-primary transition-transform duration-500 group-hover/tile:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -1204,10 +1446,10 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
+            class="group/tile mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
-              class="h-8 w-8 text-primary"
+              class="h-8 w-8 text-primary transition-transform duration-500 group-hover/tile:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -1223,10 +1465,10 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
+            class="group/tile mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
-              class="h-8 w-8 text-primary"
+              class="h-8 w-8 text-primary transition-transform duration-500 group-hover/tile:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -1242,10 +1484,10 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
+            class="group/tile mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
-              class="h-8 w-8 text-primary"
+              class="h-8 w-8 text-primary transition-transform duration-500 group-hover/tile:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -1261,10 +1503,10 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
+            class="group/tile mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
-              class="h-8 w-8 text-primary"
+              class="h-8 w-8 text-primary transition-transform duration-500 group-hover/tile:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -1280,10 +1522,10 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
+            class="group/tile mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
-              class="h-8 w-8 text-primary"
+              class="h-8 w-8 text-primary transition-transform duration-500 group-hover/tile:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -1298,10 +1540,10 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
+            class="group/tile mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
-              class="h-8 w-8 text-primary"
+              class="h-8 w-8 text-primary transition-transform duration-500 group-hover/tile:rotate-180"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -1327,8 +1569,13 @@
           class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between"
         >
           <div>
-            <div class="mb-5 flex items-center gap-2.5">
-              <span class="h-1 w-1 animate-pulse rounded-full bg-secondary"></span>
+            <div class="reveal mb-5 flex animate-fade-right items-center gap-2.5">
+              <span class="relative flex h-1 w-1">
+                <span
+                  class="absolute inset-0 animate-pulse-ring rounded-full bg-secondary"
+                ></span>
+                <span class="h-1 w-1 rounded-full bg-secondary"></span>
+              </span>
               <span class="text-base font-bold text-secondary"
                 >Our Services</span
               >
@@ -1341,7 +1588,7 @@
           </div>
           <a
             href="#cta"
-            class="inline-flex shrink-0 items-center gap-3 self-start rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent"
+            class="inline-flex shrink-0 items-center gap-3 self-start sheen rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent"
           >
             <span
               class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
@@ -1366,11 +1613,11 @@
 
         <div class="stack mt-12 flex flex-col gap-6 pb-6">
           <article
-            class="group flex flex-col gap-6 rounded-[32px] bg-white p-5 shadow-[0_-8px_30px_-12px_rgba(17,14,14,0.18)] transition-shadow duration-300 hover:shadow-2xl md:flex-row md:items-stretch md:p-8 lg:p-12"
+            class="group flex flex-col gap-6 rounded-[32px] bg-white p-5 shadow-[0_-8px_30px_-12px_rgba(17,14,14,0.18)] transition-shadow duration-500 hover:shadow-2xl md:flex-row md:items-stretch md:p-8 lg:p-12"
           >
             <div class="flex flex-1 flex-col">
               <svg
-                class="h-10 w-10 text-primary lg:h-16 lg:w-16"
+                class="draw h-10 w-10 text-primary transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6 lg:h-16 lg:w-16"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -1397,7 +1644,7 @@
               </p>
               <a
                 href="#cta"
-                class="mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent lg:mt-auto"
+                class="mt-6 inline-flex w-fit items-center gap-3 sheen rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent lg:mt-auto"
               >
                 <span
                   class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
@@ -1428,11 +1675,11 @@
           </article>
 
           <article
-            class="group flex flex-col gap-6 rounded-[32px] bg-white p-5 shadow-[0_-8px_30px_-12px_rgba(17,14,14,0.18)] transition-shadow duration-300 hover:shadow-2xl md:flex-row md:items-stretch md:p-8 lg:p-12"
+            class="group flex flex-col gap-6 rounded-[32px] bg-white p-5 shadow-[0_-8px_30px_-12px_rgba(17,14,14,0.18)] transition-shadow duration-500 hover:shadow-2xl md:flex-row md:items-stretch md:p-8 lg:p-12"
           >
             <div class="flex flex-1 flex-col">
               <svg
-                class="h-10 w-10 text-primary lg:h-16 lg:w-16"
+                class="draw h-10 w-10 text-primary transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6 lg:h-16 lg:w-16"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -1455,7 +1702,7 @@
               </p>
               <a
                 href="#cta"
-                class="mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent lg:mt-auto"
+                class="mt-6 inline-flex w-fit items-center gap-3 sheen rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent lg:mt-auto"
               >
                 <span
                   class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
@@ -1486,11 +1733,11 @@
           </article>
 
           <article
-            class="group flex flex-col gap-6 rounded-[32px] bg-white p-5 shadow-[0_-8px_30px_-12px_rgba(17,14,14,0.18)] transition-shadow duration-300 hover:shadow-2xl md:flex-row md:items-stretch md:p-8 lg:p-12"
+            class="group flex flex-col gap-6 rounded-[32px] bg-white p-5 shadow-[0_-8px_30px_-12px_rgba(17,14,14,0.18)] transition-shadow duration-500 hover:shadow-2xl md:flex-row md:items-stretch md:p-8 lg:p-12"
           >
             <div class="flex flex-1 flex-col">
               <svg
-                class="h-10 w-10 text-primary lg:h-16 lg:w-16"
+                class="draw h-10 w-10 text-primary transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6 lg:h-16 lg:w-16"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -1515,7 +1762,7 @@
               </p>
               <a
                 href="#cta"
-                class="mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent lg:mt-auto"
+                class="mt-6 inline-flex w-fit items-center gap-3 sheen rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent lg:mt-auto"
               >
                 <span
                   class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
@@ -1546,11 +1793,11 @@
           </article>
 
           <article
-            class="group flex flex-col gap-6 rounded-[32px] bg-white p-5 shadow-[0_-8px_30px_-12px_rgba(17,14,14,0.18)] transition-shadow duration-300 hover:shadow-2xl md:flex-row md:items-stretch md:p-8 lg:p-12"
+            class="group flex flex-col gap-6 rounded-[32px] bg-white p-5 shadow-[0_-8px_30px_-12px_rgba(17,14,14,0.18)] transition-shadow duration-500 hover:shadow-2xl md:flex-row md:items-stretch md:p-8 lg:p-12"
           >
             <div class="flex flex-1 flex-col">
               <svg
-                class="h-10 w-10 text-primary lg:h-16 lg:w-16"
+                class="draw h-10 w-10 text-primary transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6 lg:h-16 lg:w-16"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -1575,7 +1822,7 @@
               </p>
               <a
                 href="#cta"
-                class="mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent lg:mt-auto"
+                class="mt-6 inline-flex w-fit items-center gap-3 sheen rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent lg:mt-auto"
               >
                 <span
                   class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
@@ -1606,11 +1853,11 @@
           </article>
 
           <article
-            class="group flex flex-col gap-6 rounded-[32px] bg-white p-5 shadow-[0_-8px_30px_-12px_rgba(17,14,14,0.18)] transition-shadow duration-300 hover:shadow-2xl md:flex-row md:items-stretch md:p-8 lg:p-12"
+            class="group flex flex-col gap-6 rounded-[32px] bg-white p-5 shadow-[0_-8px_30px_-12px_rgba(17,14,14,0.18)] transition-shadow duration-500 hover:shadow-2xl md:flex-row md:items-stretch md:p-8 lg:p-12"
           >
             <div class="flex flex-1 flex-col">
               <svg
-                class="h-10 w-10 text-primary lg:h-16 lg:w-16"
+                class="draw h-10 w-10 text-primary transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6 lg:h-16 lg:w-16"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -1633,7 +1880,7 @@
               </p>
               <a
                 href="#cta"
-                class="mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent lg:mt-auto"
+                class="mt-6 inline-flex w-fit items-center gap-3 sheen rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent lg:mt-auto"
               >
                 <span
                   class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
@@ -1676,8 +1923,13 @@
           class="mb-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between"
         >
           <div>
-            <div class="mb-5 flex items-center gap-2.5">
-              <span class="h-1 w-1 animate-pulse rounded-full bg-secondary"></span>
+            <div class="reveal mb-5 flex animate-fade-right items-center gap-2.5">
+              <span class="relative flex h-1 w-1">
+                <span
+                  class="absolute inset-0 animate-pulse-ring rounded-full bg-secondary"
+                ></span>
+                <span class="h-1 w-1 rounded-full bg-secondary"></span>
+              </span>
               <span class="text-base font-bold text-secondary"
                 >Real Results</span
               >
@@ -1690,7 +1942,7 @@
           </div>
           <a
             href="#cta"
-            class="inline-flex shrink-0 items-center gap-3 self-start rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent"
+            class="inline-flex shrink-0 items-center gap-3 self-start sheen rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent"
           >
             <span
               class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
@@ -1714,10 +1966,10 @@
         </div>
 
         <div class="stagger grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-          <article class="reveal group flex animate-fade-up flex-col gap-4">
+          <article class="reveal group flex animate-tilt-in flex-col gap-4">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+                <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-accent"></span>
                 <span class="font-heading text-base font-medium"
                   >Corporate</span
                 >
@@ -1732,7 +1984,7 @@
               alt="Team reviewing documents around a meeting table."
               class="h-64 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <h3 class="font-heading text-xl font-medium leading-[130%]">
+            <h3 class="font-heading text-xl font-medium leading-[130%] transition-colors duration-300 group-hover:text-primary">
               Full-Service Capability
             </h3>
             <p class="text-muted">
@@ -1741,10 +1993,10 @@
             </p>
           </article>
 
-          <article class="reveal group flex animate-fade-up flex-col gap-4">
+          <article class="reveal group flex animate-tilt-in flex-col gap-4">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+                <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-accent"></span>
                 <span class="font-heading text-base font-medium"
                   >Family Law</span
                 >
@@ -1759,7 +2011,7 @@
               alt="Two people shaking hands to close a deal."
               class="h-64 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <h3 class="font-heading text-xl font-medium leading-[130%]">
+            <h3 class="font-heading text-xl font-medium leading-[130%] transition-colors duration-300 group-hover:text-primary">
               Specialist Expertise
             </h3>
             <p class="text-muted">
@@ -1768,10 +2020,10 @@
             </p>
           </article>
 
-          <article class="reveal group flex animate-fade-up flex-col gap-4">
+          <article class="reveal group flex animate-tilt-in flex-col gap-4">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+                <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-accent"></span>
                 <span class="font-heading text-base font-medium">Business</span>
               </div>
               <span class="font-heading text-base font-medium text-muted"
@@ -1784,7 +2036,7 @@
               alt="Property keys being handed over."
               class="h-64 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <h3 class="font-heading text-xl font-medium leading-[130%]">
+            <h3 class="font-heading text-xl font-medium leading-[130%] transition-colors duration-300 group-hover:text-primary">
               Partner-Level Accountability
             </h3>
             <p class="text-muted">
@@ -1793,10 +2045,10 @@
             </p>
           </article>
 
-          <article class="reveal group flex animate-fade-up flex-col gap-4">
+          <article class="reveal group flex animate-tilt-in flex-col gap-4">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+                <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-accent"></span>
                 <span class="font-heading text-base font-medium"
                   >Real Estate</span
                 >
@@ -1811,7 +2063,7 @@
               alt="Open law books on a table."
               class="h-64 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <h3 class="font-heading text-xl font-medium leading-[130%]">
+            <h3 class="font-heading text-xl font-medium leading-[130%] transition-colors duration-300 group-hover:text-primary">
               Integrated Service Delivery
             </h3>
             <p class="text-muted">
@@ -1820,10 +2072,10 @@
             </p>
           </article>
 
-          <article class="reveal group flex animate-fade-up flex-col gap-4">
+          <article class="reveal group flex animate-tilt-in flex-col gap-4">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+                <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-accent"></span>
                 <span class="font-heading text-base font-medium"
                   >Immigration</span
                 >
@@ -1838,7 +2090,7 @@
               alt="Attorney taking notes on a legal pad."
               class="h-64 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <h3 class="font-heading text-xl font-medium leading-[130%]">
+            <h3 class="font-heading text-xl font-medium leading-[130%] transition-colors duration-300 group-hover:text-primary">
               Resolved an intricate quiet title action involving disputed
               easements
             </h3>
@@ -1848,10 +2100,10 @@
             </p>
           </article>
 
-          <article class="reveal group flex animate-fade-up flex-col gap-4">
+          <article class="reveal group flex animate-tilt-in flex-col gap-4">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+                <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-accent"></span>
                 <span class="font-heading text-base font-medium"
                   >Family Law</span
                 >
@@ -1866,7 +2118,7 @@
               alt="Courthouse exterior with tall columns."
               class="h-64 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <h3 class="font-heading text-xl font-medium leading-[130%]">
+            <h3 class="font-heading text-xl font-medium leading-[130%] transition-colors duration-300 group-hover:text-primary">
               Systems &amp; Efficiency
             </h3>
             <p class="text-muted">
@@ -1885,8 +2137,13 @@
           class="mb-12 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between"
         >
           <div>
-            <div class="mb-5 flex items-center gap-2.5">
-              <span class="h-1 w-1 animate-pulse rounded-full bg-secondary"></span>
+            <div class="reveal mb-5 flex animate-fade-right items-center gap-2.5">
+              <span class="relative flex h-1 w-1">
+                <span
+                  class="absolute inset-0 animate-pulse-ring rounded-full bg-secondary"
+                ></span>
+                <span class="h-1 w-1 rounded-full bg-secondary"></span>
+              </span>
               <span class="text-base font-bold text-secondary"
                 >Our Clients</span
               >
@@ -1913,7 +2170,7 @@
 
         <div class="stagger grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <figure class="reveal flex animate-fade-up flex-col rounded-[20px] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-            <div class="flex gap-1 text-accent" aria-label="Rated 5 out of 5">
+            <div class="stars flex gap-1 text-accent" aria-label="Rated 5 out of 5">
               <svg
                 class="h-5 w-5"
                 viewBox="0 0 24 24"
@@ -1986,7 +2243,7 @@
           </figure>
 
           <figure class="reveal flex animate-fade-up flex-col rounded-[20px] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-            <div class="flex gap-1 text-accent" aria-label="Rated 5 out of 5">
+            <div class="stars flex gap-1 text-accent" aria-label="Rated 5 out of 5">
               <svg
                 class="h-5 w-5"
                 viewBox="0 0 24 24"
@@ -2059,7 +2316,7 @@
           </figure>
 
           <figure class="reveal flex animate-fade-up flex-col rounded-[20px] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-            <div class="flex gap-1 text-accent" aria-label="Rated 5 out of 5">
+            <div class="stars flex gap-1 text-accent" aria-label="Rated 5 out of 5">
               <svg
                 class="h-5 w-5"
                 viewBox="0 0 24 24"
@@ -2132,7 +2389,7 @@
           </figure>
 
           <figure class="reveal flex animate-fade-up flex-col rounded-[20px] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-            <div class="flex gap-1 text-accent" aria-label="Rated 5 out of 5">
+            <div class="stars flex gap-1 text-accent" aria-label="Rated 5 out of 5">
               <svg
                 class="h-5 w-5"
                 viewBox="0 0 24 24"
@@ -2205,7 +2462,7 @@
           </figure>
 
           <figure class="reveal flex animate-fade-up flex-col rounded-[20px] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-            <div class="flex gap-1 text-accent" aria-label="Rated 5 out of 5">
+            <div class="stars flex gap-1 text-accent" aria-label="Rated 5 out of 5">
               <svg
                 class="h-5 w-5"
                 viewBox="0 0 24 24"
@@ -2280,7 +2537,7 @@
           </figure>
 
           <figure class="reveal flex animate-fade-up flex-col rounded-[20px] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
-            <div class="flex gap-1 text-accent" aria-label="Rated 5 out of 5">
+            <div class="stars flex gap-1 text-accent" aria-label="Rated 5 out of 5">
               <svg
                 class="h-5 w-5"
                 viewBox="0 0 24 24"
@@ -2364,8 +2621,13 @@
           class="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-16"
         >
           <div class="lg:w-[45%]">
-            <div class="mb-5 flex items-center gap-2.5">
-              <span class="h-1 w-1 animate-pulse rounded-full bg-secondary"></span>
+            <div class="reveal mb-5 flex animate-fade-right items-center gap-2.5">
+              <span class="relative flex h-1 w-1">
+                <span
+                  class="absolute inset-0 animate-pulse-ring rounded-full bg-secondary"
+                ></span>
+                <span class="h-1 w-1 rounded-full bg-secondary"></span>
+              </span>
               <span class="text-base font-bold text-secondary">FAQs</span>
             </div>
             <h2
@@ -2405,7 +2667,7 @@
               </a>
               <a
                 href="#cta"
-                class="mt-8 inline-flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent"
+                class="mt-8 inline-flex items-center gap-3 sheen rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent"
               >
                 <span
                   class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
@@ -2746,34 +3008,34 @@
         <div class="marquee-pause my-14 flex w-max animate-marquee-slow overflow-hidden">
           <div class="flex shrink-0">
             <h2
-              class="mr-8 font-body text-[64px] font-extralight text-white/20 lg:text-[120px]"
+              class="mr-8 animate-shimmer bg-gradient-to-r from-white/10 via-white/40 to-white/10 bg-[length:200%_100%] bg-clip-text font-body text-[64px] font-extralight text-transparent lg:text-[120px]"
             >
               Book Free Consultation
             </h2>
             <h2
-              class="mr-8 font-body text-[64px] font-extralight text-white/20 lg:text-[120px]"
+              class="mr-8 animate-shimmer bg-gradient-to-r from-white/10 via-white/40 to-white/10 bg-[length:200%_100%] bg-clip-text font-body text-[64px] font-extralight text-transparent lg:text-[120px]"
             >
               Book Free Consultation
             </h2>
             <h2
-              class="mr-8 font-body text-[64px] font-extralight text-white/20 lg:text-[120px]"
+              class="mr-8 animate-shimmer bg-gradient-to-r from-white/10 via-white/40 to-white/10 bg-[length:200%_100%] bg-clip-text font-body text-[64px] font-extralight text-transparent lg:text-[120px]"
             >
               Book Free Consultation
             </h2>
           </div>
           <div class="flex shrink-0" aria-hidden="true">
             <h2
-              class="mr-8 font-body text-[64px] font-extralight text-white/20 lg:text-[120px]"
+              class="mr-8 animate-shimmer bg-gradient-to-r from-white/10 via-white/40 to-white/10 bg-[length:200%_100%] bg-clip-text font-body text-[64px] font-extralight text-transparent lg:text-[120px]"
             >
               Book Free Consultation
             </h2>
             <h2
-              class="mr-8 font-body text-[64px] font-extralight text-white/20 lg:text-[120px]"
+              class="mr-8 animate-shimmer bg-gradient-to-r from-white/10 via-white/40 to-white/10 bg-[length:200%_100%] bg-clip-text font-body text-[64px] font-extralight text-transparent lg:text-[120px]"
             >
               Book Free Consultation
             </h2>
             <h2
-              class="mr-8 font-body text-[64px] font-extralight text-white/20 lg:text-[120px]"
+              class="mr-8 animate-shimmer bg-gradient-to-r from-white/10 via-white/40 to-white/10 bg-[length:200%_100%] bg-clip-text font-body text-[64px] font-extralight text-transparent lg:text-[120px]"
             >
               Book Free Consultation
             </h2>
@@ -2794,7 +3056,7 @@
             </p>
             <a
               href="#cta"
-              class="mt-8 inline-flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-white"
+              class="mt-8 inline-flex items-center gap-3 sheen rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-white"
             >
               <span
                 class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
@@ -2827,8 +3089,13 @@
           class="mb-12 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between"
         >
           <div>
-            <div class="mb-5 flex items-center gap-2.5">
-              <span class="h-1 w-1 animate-pulse rounded-full bg-secondary"></span>
+            <div class="reveal mb-5 flex animate-fade-right items-center gap-2.5">
+              <span class="relative flex h-1 w-1">
+                <span
+                  class="absolute inset-0 animate-pulse-ring rounded-full bg-secondary"
+                ></span>
+                <span class="h-1 w-1 rounded-full bg-secondary"></span>
+              </span>
               <span class="text-base font-bold text-secondary">Innovation</span>
             </div>
             <h2
@@ -2839,7 +3106,7 @@
           </div>
           <a
             href="#blog"
-            class="inline-flex shrink-0 items-center gap-3 self-start rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent"
+            class="inline-flex shrink-0 items-center gap-3 self-start sheen rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent"
           >
             <span
               class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
@@ -2876,7 +3143,7 @@
                     Practice Management
                   </div>
                 </div>
-                <div class="h-8 w-px bg-accent/40"></div>
+                <div class="h-8 w-px origin-top scale-y-75 bg-accent/40 transition-transform duration-300 group-hover:scale-y-100"></div>
                 <div>
                   <div class="font-heading text-sm font-bold text-muted">
                     Category
@@ -2899,7 +3166,7 @@
                 >
               </div>
               <h3
-                class="mt-4 font-heading text-xl font-medium leading-[130%] lg:text-[25px]"
+                class="mt-4 font-heading text-xl font-medium leading-[130%] transition-transform duration-300 group-hover:translate-x-1 lg:text-[25px]"
               >
                 Practice Management and Client Relationship Systems
               </h3>
@@ -2925,7 +3192,7 @@
                     Document Automation
                   </div>
                 </div>
-                <div class="h-8 w-px bg-accent/40"></div>
+                <div class="h-8 w-px origin-top scale-y-75 bg-accent/40 transition-transform duration-300 group-hover:scale-y-100"></div>
                 <div>
                   <div class="font-heading text-sm font-bold text-muted">
                     Category
@@ -2950,7 +3217,7 @@
                 >
               </div>
               <h3
-                class="mt-4 font-heading text-xl font-medium leading-[130%] lg:text-[25px]"
+                class="mt-4 font-heading text-xl font-medium leading-[130%] transition-transform duration-300 group-hover:translate-x-1 lg:text-[25px]"
               >
                 Efficient Document, Billing and Time-Tracking Workflows
               </h3>
@@ -2976,7 +3243,7 @@
                     Knowledge Management
                   </div>
                 </div>
-                <div class="h-8 w-px bg-accent/40"></div>
+                <div class="h-8 w-px origin-top scale-y-75 bg-accent/40 transition-transform duration-300 group-hover:scale-y-100"></div>
                 <div>
                   <div class="font-heading text-sm font-bold text-muted">
                     Category
@@ -3001,7 +3268,7 @@
                 >
               </div>
               <h3
-                class="mt-4 font-heading text-xl font-medium leading-[130%] lg:text-[25px]"
+                class="mt-4 font-heading text-xl font-medium leading-[130%] transition-transform duration-300 group-hover:translate-x-1 lg:text-[25px]"
               >
                 A Centralised Legal Knowledge Repository
               </h3>
@@ -3121,30 +3388,30 @@
 
         <div class="my-10 h-px w-full bg-white/10"></div>
 
-        <nav class="flex flex-wrap gap-x-10 gap-y-4" aria-label="Footer">
+        <nav class="stagger flex flex-wrap gap-x-10 gap-y-4" aria-label="Footer">
           <a
             href="#Main"
-            class="link-underline font-heading text-xl font-medium text-offwhite transition hover:text-accent"
+            class="link-underline animate-fade-up font-heading text-xl font-medium text-offwhite transition hover:text-accent"
             >Home</a
           >
           <a
             href="#about"
-            class="link-underline font-heading text-xl font-medium text-offwhite transition hover:text-accent"
+            class="link-underline animate-fade-up font-heading text-xl font-medium text-offwhite transition hover:text-accent"
             >About</a
           >
           <a
             href="#results"
-            class="link-underline font-heading text-xl font-medium text-offwhite transition hover:text-accent"
+            class="link-underline animate-fade-up font-heading text-xl font-medium text-offwhite transition hover:text-accent"
             >Case Studies</a
           >
           <a
             href="#testimonials"
-            class="link-underline font-heading text-xl font-medium text-offwhite transition hover:text-accent"
+            class="link-underline animate-fade-up font-heading text-xl font-medium text-offwhite transition hover:text-accent"
             >Teams</a
           >
           <a
             href="#services"
-            class="link-underline font-heading text-xl font-medium text-offwhite transition hover:text-accent"
+            class="link-underline animate-fade-up font-heading text-xl font-medium text-offwhite transition hover:text-accent"
             >Services</a
           >
         </nav>
@@ -3168,7 +3435,7 @@
                 type="email"
                 required
                 placeholder="email@example.com"
-                class="h-[60px] w-full rounded-xl border-b border-white/20 bg-transparent px-3 text-offwhite placeholder:text-white/40 focus:border-accent focus:outline-none"
+                class="h-[60px] w-full rounded-xl border-b border-white/20 bg-transparent px-3 text-offwhite transition duration-300 placeholder:text-white/40 focus:border-accent focus:bg-white/5 focus:shadow-[0_0_0_3px_rgba(214,185,128,0.18)] focus:outline-none"
               />
               <button
                 type="submit"
@@ -3191,12 +3458,12 @@
               </button>
             </form>
 
-            <div class="mt-8 flex flex-wrap gap-4">
+            <div class="stagger mt-8 flex flex-wrap gap-4">
               <a
                 href="https://www.facebook.com/"
                 target="_blank"
                 rel="noopener"
-                class="flex h-14 w-14 items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition duration-300 hover:-translate-y-1 hover:rotate-6 hover:bg-accent hover:text-dark"
+                class="flex h-14 w-14 animate-pop-in items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition duration-300 hover:-translate-y-1 hover:rotate-6 hover:bg-accent hover:text-dark"
                 aria-label="SLA on Facebook"
               >
                 <svg
@@ -3218,7 +3485,7 @@
                 href="https://www.instagram.com/"
                 target="_blank"
                 rel="noopener"
-                class="flex h-14 w-14 items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition duration-300 hover:-translate-y-1 hover:rotate-6 hover:bg-accent hover:text-dark"
+                class="flex h-14 w-14 animate-pop-in items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition duration-300 hover:-translate-y-1 hover:rotate-6 hover:bg-accent hover:text-dark"
                 aria-label="SLA on Instagram"
               >
                 <svg
@@ -3240,7 +3507,7 @@
                 href="https://x.com/"
                 target="_blank"
                 rel="noopener"
-                class="flex h-14 w-14 items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition duration-300 hover:-translate-y-1 hover:rotate-6 hover:bg-accent hover:text-dark"
+                class="flex h-14 w-14 animate-pop-in items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition duration-300 hover:-translate-y-1 hover:rotate-6 hover:bg-accent hover:text-dark"
                 aria-label="SLA on X"
               >
                 <svg
@@ -3261,7 +3528,7 @@
                 href="https://www.linkedin.com/"
                 target="_blank"
                 rel="noopener"
-                class="flex h-14 w-14 items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition duration-300 hover:-translate-y-1 hover:rotate-6 hover:bg-accent hover:text-dark"
+                class="flex h-14 w-14 animate-pop-in items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition duration-300 hover:-translate-y-1 hover:rotate-6 hover:bg-accent hover:text-dark"
                 aria-label="SLA on LinkedIn"
               >
                 <svg
@@ -3286,7 +3553,7 @@
 
           <div class="flex flex-col gap-10 sm:flex-row sm:gap-20">
             <div>
-              <h4 class="mb-6 font-heading text-[25px] font-medium text-white">
+              <h4 class="reveal mb-6 animate-fade-up font-heading text-[25px] font-medium text-white">
                 Support
               </h4>
               <div class="flex flex-col gap-3">
@@ -3318,7 +3585,7 @@
               </div>
             </div>
             <div>
-              <h4 class="mb-6 font-heading text-[25px] font-medium text-white">
+              <h4 class="reveal mb-6 animate-fade-up font-heading text-[25px] font-medium text-white">
                 Utilities
               </h4>
               <div class="flex flex-col gap-3">
@@ -3376,7 +3643,8 @@
     <!-- Back to top: always visible (the original was revealed by scroll JS) -->
     <a
       href="#Main"
-      class="fixed bottom-6 right-6 z-40 flex h-12 w-12 animate-float items-center justify-center rounded-full bg-accent text-dark shadow-lg transition duration-300 hover:bg-dark hover:text-accent"
+      id="to-top"
+      class="fixed bottom-6 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-accent text-dark shadow-lg transition duration-300 hover:scale-110 hover:bg-dark hover:text-accent"
       aria-label="Back to top"
     >
       <svg
