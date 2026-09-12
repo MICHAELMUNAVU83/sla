@@ -65,15 +65,173 @@
                 "0%": { transform: "translateX(0)" },
                 "100%": { transform: "translateX(-50%)" },
               },
+              "fade-up": {
+                "0%": { opacity: "0", transform: "translateY(28px)" },
+                "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+              "fade-in": {
+                "0%": { opacity: "0" },
+                "100%": { opacity: "1" },
+              },
+              "fade-right": {
+                "0%": { opacity: "0", transform: "translateX(-36px)" },
+                "100%": { opacity: "1", transform: "translateX(0)" },
+              },
+              "fade-left": {
+                "0%": { opacity: "0", transform: "translateX(36px)" },
+                "100%": { opacity: "1", transform: "translateX(0)" },
+              },
+              "zoom-in": {
+                "0%": { opacity: "0", transform: "scale(0.94)" },
+                "100%": { opacity: "1", transform: "scale(1)" },
+              },
+              "ken-burns": {
+                "0%": { transform: "scale(1)" },
+                "100%": { transform: "scale(1.08)" },
+              },
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-8px)" },
+              },
+              "pulse-ring": {
+                "0%": { opacity: "0.6", transform: "scale(1)" },
+                "100%": { opacity: "0", transform: "scale(2.2)" },
+              },
+              shimmer: {
+                "0%": { backgroundPosition: "-200% 0" },
+                "100%": { backgroundPosition: "200% 0" },
+              },
+              "grow-x": {
+                "0%": { transform: "scaleX(0)" },
+                "100%": { transform: "scaleX(1)" },
+              },
             },
             animation: {
               marquee: "marquee 40s linear infinite",
               "marquee-slow": "marquee 60s linear infinite",
+              "fade-up": "fade-up 0.8s cubic-bezier(0.16,1,0.3,1) both",
+              "fade-in": "fade-in 1s ease both",
+              "fade-right": "fade-right 0.8s cubic-bezier(0.16,1,0.3,1) both",
+              "fade-left": "fade-left 0.8s cubic-bezier(0.16,1,0.3,1) both",
+              "zoom-in": "zoom-in 0.9s cubic-bezier(0.16,1,0.3,1) both",
+              "ken-burns": "ken-burns 18s ease-out alternate infinite",
+              float: "float 5s ease-in-out infinite",
+              "pulse-ring": "pulse-ring 2.4s ease-out infinite",
+              shimmer: "shimmer 6s linear infinite",
+              "grow-x": "grow-x 1.2s cubic-bezier(0.16,1,0.3,1) both",
             },
           },
         },
       };
     </script>
+
+    <style>
+      /*
+       * Scroll-driven reveals, no JS. Browsers with `animation-timeline: view()`
+       * (Chrome/Edge 115+) tie each element's entry animation to its own scroll
+       * progress; everywhere else the animation simply plays once on load, which
+       * degrades gracefully.
+       */
+      @supports (animation-timeline: view()) {
+        .reveal,
+        .reveal-left,
+        .reveal-right,
+        .reveal-zoom {
+          animation-timeline: view();
+          animation-range: entry 5% cover 32%;
+        }
+        /* Stagger children of a grid/flex group as the group scrolls in.
+           Scroll timelines ignore animation-delay, so the offset is expressed
+           as a later animation-range per child instead. */
+        .stagger > * {
+          animation-timeline: view();
+        }
+        .stagger > *:nth-child(2) {
+          animation-range: entry 12% cover 40%;
+        }
+        .stagger > *:nth-child(3) {
+          animation-range: entry 19% cover 48%;
+        }
+        .stagger > *:nth-child(4) {
+          animation-range: entry 26% cover 56%;
+        }
+        .stagger > *:nth-child(5) {
+          animation-range: entry 33% cover 64%;
+        }
+        .stagger > *:nth-child(6) {
+          animation-range: entry 40% cover 72%;
+        }
+      }
+
+      .stagger > *:nth-child(2) {
+        animation-delay: 0.08s;
+      }
+      .stagger > *:nth-child(3) {
+        animation-delay: 0.16s;
+      }
+      .stagger > *:nth-child(4) {
+        animation-delay: 0.24s;
+      }
+      .stagger > *:nth-child(5) {
+        animation-delay: 0.32s;
+      }
+      .stagger > *:nth-child(6) {
+        animation-delay: 0.4s;
+      }
+
+      /*
+       * Sticky card stack: each card pins just below the fixed header, offset a
+       * little further down than the one before, so cards pile up on top of each
+       * other as you scroll. Opaque card backgrounds do the occluding.
+       */
+      .stack > * {
+        position: sticky;
+        top: 110px;
+      }
+      .stack > *:nth-child(2) {
+        top: 132px;
+      }
+      .stack > *:nth-child(3) {
+        top: 154px;
+      }
+      .stack > *:nth-child(4) {
+        top: 176px;
+      }
+      .stack > *:nth-child(5) {
+        top: 198px;
+      }
+      .stack > *:nth-child(6) {
+        top: 220px;
+      }
+
+      /* Pause the logo/CTA marquees when the pointer rests on them. */
+      .marquee-pause:hover {
+        animation-play-state: paused;
+      }
+
+      /* Animated underline for text links. */
+      .link-underline {
+        background-image: linear-gradient(currentColor, currentColor);
+        background-repeat: no-repeat;
+        background-position: 0 100%;
+        background-size: 0% 1px;
+        transition: background-size 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .link-underline:hover {
+        background-size: 100% 1px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.001ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.001ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
 
     <script type="application/ld+json">
       {
@@ -137,7 +295,7 @@
             >
               <a
                 href="#Main"
-                class="font-body text-base font-medium text-white transition hover:text-accent"
+                class="link-underline font-body text-base font-medium text-white transition hover:text-accent"
                 >Home</a
               >
 
@@ -149,7 +307,7 @@
                 >
                   About
                   <svg
-                    class="h-3.5 w-3.5 text-accent"
+                    class="h-3.5 w-3.5 text-accent transition-transform duration-300 lg:group-hover:rotate-180"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -169,22 +327,22 @@
                   >
                     <a
                       href="#Main"
-                      class="text-base text-muted transition hover:text-primary"
+                      class="link-underline text-base text-muted transition hover:text-primary"
                       >Home</a
                     >
                     <a
                       href="#about"
-                      class="text-base text-muted transition hover:text-primary"
+                      class="link-underline text-base text-muted transition hover:text-primary"
                       >About</a
                     >
                     <a
                       href="#testimonials"
-                      class="text-base text-muted transition hover:text-primary"
+                      class="link-underline text-base text-muted transition hover:text-primary"
                       >Our Clients</a
                     >
                     <a
                       href="#services"
-                      class="text-base text-muted transition hover:text-primary"
+                      class="link-underline text-base text-muted transition hover:text-primary"
                       >Practice Areas</a
                     >
                   </div>
@@ -193,12 +351,12 @@
 
               <a
                 href="#services"
-                class="font-body text-base font-medium text-white transition hover:text-accent"
+                class="link-underline font-body text-base font-medium text-white transition hover:text-accent"
                 >Services</a
               >
               <a
                 href="#results"
-                class="font-body text-base font-medium text-white transition hover:text-accent"
+                class="link-underline font-body text-base font-medium text-white transition hover:text-accent"
                 >Our Approach</a
               >
 
@@ -210,7 +368,7 @@
                 >
                   Pages
                   <svg
-                    class="h-3.5 w-3.5 text-accent"
+                    class="h-3.5 w-3.5 text-accent transition-transform duration-300 lg:group-hover:rotate-180"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -231,96 +389,96 @@
                     <div class="flex flex-col gap-3">
                       <a
                         href="#Main"
-                        class="text-base text-muted transition hover:text-primary"
+                        class="link-underline text-base text-muted transition hover:text-primary"
                         >Home</a
                       >
                       <a
                         href="#about"
-                        class="text-base text-muted transition hover:text-primary"
+                        class="link-underline text-base text-muted transition hover:text-primary"
                         >About</a
                       >
                       <a
                         href="#testimonials"
-                        class="text-base text-muted transition hover:text-primary"
+                        class="link-underline text-base text-muted transition hover:text-primary"
                         >Team</a
                       >
                       <a
                         href="#results"
-                        class="text-base text-muted transition hover:text-primary"
+                        class="link-underline text-base text-muted transition hover:text-primary"
                         >Case</a
                       >
                       <a
                         href="#blog"
-                        class="text-base text-muted transition hover:text-primary"
+                        class="link-underline text-base text-muted transition hover:text-primary"
                         >Blogs</a
                       >
                       <a
                         href="#services"
-                        class="text-base text-muted transition hover:text-primary"
+                        class="link-underline text-base text-muted transition hover:text-primary"
                         >Price</a
                       >
                       <a
                         href="#cta"
-                        class="text-base text-muted transition hover:text-primary"
+                        class="link-underline text-base text-muted transition hover:text-primary"
                         >Contact</a
                       >
                     </div>
                     <div class="flex flex-col gap-3">
                       <a
                         href="#services"
-                        class="text-base text-muted transition hover:text-primary"
+                        class="link-underline text-base text-muted transition hover:text-primary"
                         >Services Single</a
                       >
                       <a
                         href="#blog"
-                        class="text-base text-muted transition hover:text-primary"
+                        class="link-underline text-base text-muted transition hover:text-primary"
                         >Blogs Single</a
                       >
                       <a
                         href="#testimonials"
-                        class="text-base text-muted transition hover:text-primary"
+                        class="link-underline text-base text-muted transition hover:text-primary"
                         >Team Single</a
                       >
                       <a
                         href="#services"
-                        class="text-base text-muted transition hover:text-primary"
+                        class="link-underline text-base text-muted transition hover:text-primary"
                         >Price Single</a
                       >
                       <a
                         href="#cta"
-                        class="text-base text-muted transition hover:text-primary"
+                        class="link-underline text-base text-muted transition hover:text-primary"
                         >Sign In</a
                       >
                       <a
                         href="#cta"
-                        class="text-base text-muted transition hover:text-primary"
+                        class="link-underline text-base text-muted transition hover:text-primary"
                         >Sign Up</a
                       >
                     </div>
                     <div class="flex flex-col gap-3">
                       <a
                         href="#faq"
-                        class="text-base text-muted transition hover:text-primary"
+                        class="link-underline text-base text-muted transition hover:text-primary"
                         >FAQs</a
                       >
                       <a
                         href="#partners"
-                        class="text-base text-muted transition hover:text-primary"
+                        class="link-underline text-base text-muted transition hover:text-primary"
                         >Partners</a
                       >
                       <a
                         href="#about"
-                        class="text-base text-muted transition hover:text-primary"
+                        class="link-underline text-base text-muted transition hover:text-primary"
                         >Our Story</a
                       >
                       <a
                         href="#footer"
-                        class="text-base text-muted transition hover:text-primary"
+                        class="link-underline text-base text-muted transition hover:text-primary"
                         >Licenses</a
                       >
                       <a
                         href="#footer"
-                        class="text-base text-muted transition hover:text-primary"
+                        class="link-underline text-base text-muted transition hover:text-primary"
                         >Changelog</a
                       >
                     </div>
@@ -333,7 +491,7 @@
           <div class="flex shrink-0 items-center gap-3">
             <a
               href="#cta"
-              class="hidden items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-white sm:flex"
+              class="hidden items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-white sm:flex"
             >
               <span
                 class="flex h-9 w-9 items-center justify-center rounded-full bg-dark"
@@ -387,37 +545,38 @@
       class="relative overflow-clip rounded-b-[32px] lg:rounded-b-[48px]"
     >
       <div
+        id="hero-track"
         class="flex snap-x snap-mandatory overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         <!-- Slide 1 -->
-        <div id="slide-1" class="relative w-full shrink-0 snap-start">
+        <div id="slide-1" class="relative w-full shrink-0 snap-start overflow-hidden">
           <img
             src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1600&q=80"
             alt="Scales of justice on a desk in a law office."
-            class="h-[760px] w-full object-cover object-top md:h-[860px]"
+            class="h-[760px] w-full animate-ken-burns object-cover object-top md:h-[860px]"
           />
           <div
-            class="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/70 to-dark/30"
+            class="absolute inset-0 animate-fade-in bg-gradient-to-r from-dark/90 via-dark/70 to-dark/30"
           ></div>
           <div class="absolute inset-0 flex items-end pb-20 pt-40">
             <div class="mx-auto w-full max-w-container px-4">
               <div class="max-w-2xl">
                 <h1
-                  class="font-heading text-[40px] font-medium leading-[110%] tracking-[-0.03em] text-white md:text-[52px] lg:text-[61px]"
+                  class="animate-fade-up font-heading text-[40px] font-medium leading-[110%] tracking-[-0.03em] text-white md:text-[52px] lg:text-[61px]"
                 >
                   Integrated Legal Solutions. Partner-Led Accountability.
                 </h1>
-                <p class="mt-6 max-w-xl text-white/80">
+                <p class="mt-6 max-w-xl animate-fade-up text-white/80 [animation-delay:150ms]">
                   Sichangi Law Alliance LLP provides coordinated, commercially
                   responsive legal services across the lifecycle of your needs.
                 </p>
-                <div class="mt-8 flex flex-wrap items-center gap-6">
+                <div class="mt-8 flex animate-fade-up flex-wrap items-center gap-6 [animation-delay:300ms]">
                   <a
                     href="#cta"
-                    class="flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-white"
+                    class="flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-white"
                   >
                     <span
-                      class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+                      class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
                     >
                       <svg
                         class="h-4 w-4 text-accent"
@@ -470,35 +629,35 @@
         </div>
 
         <!-- Slide 2 -->
-        <div id="slide-2" class="relative w-full shrink-0 snap-start">
+        <div id="slide-2" class="relative w-full shrink-0 snap-start overflow-hidden">
           <img
             src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1600&q=80"
             loading="lazy"
             alt="Two professionals shaking hands across a desk."
-            class="h-[760px] w-full object-cover object-top md:h-[860px]"
+            class="h-[760px] w-full animate-ken-burns object-cover object-top md:h-[860px]"
           />
           <div
-            class="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/70 to-dark/30"
+            class="absolute inset-0 animate-fade-in bg-gradient-to-r from-dark/90 via-dark/70 to-dark/30"
           ></div>
           <div class="absolute inset-0 flex items-end pb-20 pt-40">
             <div class="mx-auto w-full max-w-container px-4">
               <div class="max-w-2xl">
                 <h1
-                  class="font-heading text-[40px] font-medium leading-[110%] tracking-[-0.03em] text-white md:text-[52px] lg:text-[61px]"
+                  class="animate-fade-up font-heading text-[40px] font-medium leading-[110%] tracking-[-0.03em] text-white md:text-[52px] lg:text-[61px]"
                 >
                   Coordinated Advice for Complex Legal Matters
                 </h1>
-                <p class="mt-6 max-w-xl text-white/80">
+                <p class="mt-6 max-w-xl animate-fade-up text-white/80 [animation-delay:150ms]">
                   Our multi-specialist practice brings together the right legal
                   expertise wherever a matter crosses disciplines.
                 </p>
-                <div class="mt-8">
+                <div class="mt-8 animate-fade-up [animation-delay:300ms]">
                   <a
                     href="#services"
-                    class="inline-flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-white"
+                    class="inline-flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-white"
                   >
                     <span
-                      class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+                      class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
                     >
                       <svg
                         class="h-4 w-4 text-accent"
@@ -523,35 +682,35 @@
         </div>
 
         <!-- Slide 3 -->
-        <div id="slide-3" class="relative w-full shrink-0 snap-start">
+        <div id="slide-3" class="relative w-full shrink-0 snap-start overflow-hidden">
           <img
             src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1600&q=80"
             loading="lazy"
             alt="Attorney writing notes on a legal pad at a desk."
-            class="h-[760px] w-full object-cover object-top md:h-[860px]"
+            class="h-[760px] w-full animate-ken-burns object-cover object-top md:h-[860px]"
           />
           <div
-            class="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/70 to-dark/30"
+            class="absolute inset-0 animate-fade-in bg-gradient-to-r from-dark/90 via-dark/70 to-dark/30"
           ></div>
           <div class="absolute inset-0 flex items-end pb-20 pt-40">
             <div class="mx-auto w-full max-w-container px-4">
               <div class="max-w-2xl">
                 <h1
-                  class="font-heading text-[40px] font-medium leading-[110%] tracking-[-0.03em] text-white md:text-[52px] lg:text-[61px]"
+                  class="animate-fade-up font-heading text-[40px] font-medium leading-[110%] tracking-[-0.03em] text-white md:text-[52px] lg:text-[61px]"
                 >
                   Strategic Counsel for People and Businesses
                 </h1>
-                <p class="mt-6 max-w-xl text-white/80">
+                <p class="mt-6 max-w-xl animate-fade-up text-white/80 [animation-delay:150ms]">
                   We combine partner-level strategy and client management with
                   specialist legal execution and rigorous analysis.
                 </p>
-                <div class="mt-8">
+                <div class="mt-8 animate-fade-up [animation-delay:300ms]">
                   <a
                     href="#cta"
-                    class="inline-flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-white"
+                    class="inline-flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-white"
                   >
                     <span
-                      class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+                      class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
                     >
                       <svg
                         class="h-4 w-4 text-accent"
@@ -581,17 +740,17 @@
         <div class="mx-auto flex max-w-container justify-end gap-3 px-4">
           <a
             href="#slide-1"
-            class="pointer-events-auto flex h-9 w-9 items-center justify-center rounded-full border border-white/40 font-heading text-sm text-white transition hover:border-accent hover:text-accent"
+            class="pointer-events-auto flex h-9 w-9 items-center justify-center rounded-full border border-white/40 font-heading text-sm text-white transition duration-300 hover:scale-110 hover:border-accent hover:text-accent"
             >01</a
           >
           <a
             href="#slide-2"
-            class="pointer-events-auto flex h-9 w-9 items-center justify-center rounded-full border border-white/40 font-heading text-sm text-white transition hover:border-accent hover:text-accent"
+            class="pointer-events-auto flex h-9 w-9 items-center justify-center rounded-full border border-white/40 font-heading text-sm text-white transition duration-300 hover:scale-110 hover:border-accent hover:text-accent"
             >02</a
           >
           <a
             href="#slide-3"
-            class="pointer-events-auto flex h-9 w-9 items-center justify-center rounded-full border border-white/40 font-heading text-sm text-white transition hover:border-accent hover:text-accent"
+            class="pointer-events-auto flex h-9 w-9 items-center justify-center rounded-full border border-white/40 font-heading text-sm text-white transition duration-300 hover:scale-110 hover:border-accent hover:text-accent"
             >03</a
           >
         </div>
@@ -609,11 +768,11 @@
         >
           <div class="lg:max-w-3xl">
             <div class="mb-6 flex items-center gap-2.5">
-              <span class="h-1 w-1 rounded-full bg-secondary"></span>
+              <span class="h-1 w-1 animate-pulse rounded-full bg-secondary"></span>
               <span class="text-base font-bold text-secondary">About Us</span>
             </div>
             <h2
-              class="font-heading text-[25px] font-medium leading-[130%] tracking-[-0.02em] md:text-[31px] lg:text-[39px]"
+              class="reveal animate-fade-up font-heading text-[25px] font-medium leading-[130%] tracking-[-0.02em] md:text-[31px] lg:text-[39px]"
             >
               A partner-led, full-service law firm built for an increasingly
               sophisticated legal market.
@@ -626,10 +785,10 @@
             </p>
             <a
               href="#services"
-              class="mt-8 inline-flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-dark hover:text-accent"
+              class="mt-8 inline-flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent"
             >
               <span
-                class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+                class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
               >
                 <svg
                   class="h-4 w-4 text-accent"
@@ -650,7 +809,7 @@
           </div>
         </div>
 
-        <div class="mt-16 h-px w-full bg-accent/30"></div>
+        <div class="reveal mt-16 h-px w-full origin-left animate-grow-x bg-accent/30"></div>
 
         <div
           class="mt-12 flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between"
@@ -658,7 +817,7 @@
           <div class="grid gap-10 sm:grid-cols-2 lg:max-w-xl">
             <div>
               <span
-                class="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/20"
+                class="flex h-14 w-14 animate-float items-center justify-center rounded-2xl bg-accent/20"
               >
                 <svg
                   class="h-7 w-7 text-primary"
@@ -675,7 +834,7 @@
                 </svg>
               </span>
               <h3
-                class="mt-6 font-body text-[39px] font-medium leading-none lg:text-[80px]"
+                class="reveal mt-6 animate-zoom-in font-body text-[39px] font-medium leading-none lg:text-[80px]"
               >
                 16
               </h3>
@@ -688,7 +847,7 @@
             </div>
             <div>
               <span
-                class="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/20"
+                class="flex h-14 w-14 animate-float items-center justify-center rounded-2xl bg-accent/20"
               >
                 <svg
                   class="h-7 w-7 text-primary"
@@ -705,7 +864,7 @@
                 </svg>
               </span>
               <h3
-                class="mt-6 font-body text-[39px] font-medium leading-none lg:text-[80px]"
+                class="reveal mt-6 animate-zoom-in font-body text-[39px] font-medium leading-none lg:text-[80px]"
               >
                 7
               </h3>
@@ -719,7 +878,7 @@
           </div>
 
           <!-- Native autoplaying background video: no JS needed, poster covers the no-video case -->
-          <div class="w-full overflow-hidden rounded-2xl lg:max-w-[660px]">
+          <div class="reveal w-full animate-fade-left overflow-hidden rounded-2xl lg:max-w-[660px]">
             <video
               class="h-[220px] w-full object-cover md:h-[400px]"
               autoplay
@@ -758,10 +917,10 @@
       </div>
 
       <!-- CSS-only marquee: two identical tracks, the wrapper slides -50% -->
-      <div class="mt-10 flex w-max animate-marquee">
+      <div class="marquee-pause mt-10 flex w-max animate-marquee">
         <div class="flex shrink-0">
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
               class="h-8 w-8 text-primary"
@@ -782,7 +941,7 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
               class="h-8 w-8 text-primary"
@@ -805,7 +964,7 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
               class="h-8 w-8 text-primary"
@@ -825,7 +984,7 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
               class="h-8 w-8 text-primary"
@@ -844,7 +1003,7 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
               class="h-8 w-8 text-primary"
@@ -864,7 +1023,7 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
               class="h-8 w-8 text-primary"
@@ -884,7 +1043,7 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
               class="h-8 w-8 text-primary"
@@ -904,7 +1063,7 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
               class="h-8 w-8 text-primary"
@@ -924,7 +1083,7 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
               class="h-8 w-8 text-primary"
@@ -943,7 +1102,7 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
               class="h-8 w-8 text-primary"
@@ -966,7 +1125,7 @@
         <!-- duplicate track -->
         <div class="flex shrink-0" aria-hidden="true">
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
               class="h-8 w-8 text-primary"
@@ -986,7 +1145,7 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
               class="h-8 w-8 text-primary"
@@ -1008,7 +1167,7 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
               class="h-8 w-8 text-primary"
@@ -1027,7 +1186,7 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
               class="h-8 w-8 text-primary"
@@ -1045,7 +1204,7 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
               class="h-8 w-8 text-primary"
@@ -1064,7 +1223,7 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
               class="h-8 w-8 text-primary"
@@ -1083,7 +1242,7 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
               class="h-8 w-8 text-primary"
@@ -1102,7 +1261,7 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
               class="h-8 w-8 text-primary"
@@ -1121,7 +1280,7 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
               class="h-8 w-8 text-primary"
@@ -1139,7 +1298,7 @@
             >
           </div>
           <div
-            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white lg:h-[180px] lg:w-[180px]"
+            class="mr-4 flex h-[120px] w-[140px] flex-col items-center justify-center gap-2 rounded-2xl bg-white transition duration-300 hover:-translate-y-1 hover:shadow-xl lg:h-[180px] lg:w-[180px]"
           >
             <svg
               class="h-8 w-8 text-primary"
@@ -1169,23 +1328,23 @@
         >
           <div>
             <div class="mb-5 flex items-center gap-2.5">
-              <span class="h-1 w-1 rounded-full bg-secondary"></span>
+              <span class="h-1 w-1 animate-pulse rounded-full bg-secondary"></span>
               <span class="text-base font-bold text-secondary"
                 >Our Services</span
               >
             </div>
             <h2
-              class="font-heading text-[31px] font-medium leading-[130%] tracking-[-0.02em] md:text-[39px] lg:text-[48px]"
+              class="reveal animate-fade-up font-heading text-[31px] font-medium leading-[130%] tracking-[-0.02em] md:text-[39px] lg:text-[48px]"
             >
               Our Core Practice Areas
             </h2>
           </div>
           <a
             href="#cta"
-            class="inline-flex shrink-0 items-center gap-3 self-start rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-dark hover:text-accent"
+            class="inline-flex shrink-0 items-center gap-3 self-start rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent"
           >
             <span
-              class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
             >
               <svg
                 class="h-4 w-4 text-accent"
@@ -1205,9 +1364,9 @@
           </a>
         </div>
 
-        <div class="mt-12 flex flex-col gap-6">
+        <div class="stack mt-12 flex flex-col gap-6 pb-6">
           <article
-            class="flex flex-col gap-6 rounded-[32px] bg-white p-5 md:flex-row md:items-stretch md:p-8 lg:p-12"
+            class="group flex flex-col gap-6 rounded-[32px] bg-white p-5 shadow-[0_-8px_30px_-12px_rgba(17,14,14,0.18)] transition-shadow duration-300 hover:shadow-2xl md:flex-row md:items-stretch md:p-8 lg:p-12"
           >
             <div class="flex flex-1 flex-col">
               <svg
@@ -1238,10 +1397,10 @@
               </p>
               <a
                 href="#cta"
-                class="mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-dark hover:text-accent lg:mt-auto"
+                class="mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent lg:mt-auto"
               >
                 <span
-                  class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+                  class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
                 >
                   <svg
                     class="h-4 w-4 text-accent"
@@ -1264,12 +1423,12 @@
               src="https://images.unsplash.com/photo-1436450412740-6b988f486c6b?w=1080&q=80"
               loading="lazy"
               alt="Rows of leather-bound law books on a library shelf."
-              class="h-56 w-full rounded-2xl object-cover md:h-auto md:w-[45%]"
+              class="h-56 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-[1.03] md:h-auto md:w-[45%]"
             />
           </article>
 
           <article
-            class="flex flex-col gap-6 rounded-[32px] bg-white p-5 md:flex-row md:items-stretch md:p-8 lg:p-12"
+            class="group flex flex-col gap-6 rounded-[32px] bg-white p-5 shadow-[0_-8px_30px_-12px_rgba(17,14,14,0.18)] transition-shadow duration-300 hover:shadow-2xl md:flex-row md:items-stretch md:p-8 lg:p-12"
           >
             <div class="flex flex-1 flex-col">
               <svg
@@ -1296,10 +1455,10 @@
               </p>
               <a
                 href="#cta"
-                class="mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-dark hover:text-accent lg:mt-auto"
+                class="mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent lg:mt-auto"
               >
                 <span
-                  class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+                  class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
                 >
                   <svg
                     class="h-4 w-4 text-accent"
@@ -1322,12 +1481,12 @@
               src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1080&q=80"
               loading="lazy"
               alt="Real estate agent handing over keys in front of a property."
-              class="h-56 w-full rounded-2xl object-cover md:h-auto md:w-[45%]"
+              class="h-56 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-[1.03] md:h-auto md:w-[45%]"
             />
           </article>
 
           <article
-            class="flex flex-col gap-6 rounded-[32px] bg-white p-5 md:flex-row md:items-stretch md:p-8 lg:p-12"
+            class="group flex flex-col gap-6 rounded-[32px] bg-white p-5 shadow-[0_-8px_30px_-12px_rgba(17,14,14,0.18)] transition-shadow duration-300 hover:shadow-2xl md:flex-row md:items-stretch md:p-8 lg:p-12"
           >
             <div class="flex flex-1 flex-col">
               <svg
@@ -1356,10 +1515,10 @@
               </p>
               <a
                 href="#cta"
-                class="mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-dark hover:text-accent lg:mt-auto"
+                class="mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent lg:mt-auto"
               >
                 <span
-                  class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+                  class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
                 >
                   <svg
                     class="h-4 w-4 text-accent"
@@ -1382,12 +1541,12 @@
               src="https://images.unsplash.com/photo-1511895426328-dc8714191300?w=1080&q=80"
               loading="lazy"
               alt="A family sitting together on a sofa."
-              class="h-56 w-full rounded-2xl object-cover md:h-auto md:w-[45%]"
+              class="h-56 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-[1.03] md:h-auto md:w-[45%]"
             />
           </article>
 
           <article
-            class="flex flex-col gap-6 rounded-[32px] bg-white p-5 md:flex-row md:items-stretch md:p-8 lg:p-12"
+            class="group flex flex-col gap-6 rounded-[32px] bg-white p-5 shadow-[0_-8px_30px_-12px_rgba(17,14,14,0.18)] transition-shadow duration-300 hover:shadow-2xl md:flex-row md:items-stretch md:p-8 lg:p-12"
           >
             <div class="flex flex-1 flex-col">
               <svg
@@ -1416,10 +1575,10 @@
               </p>
               <a
                 href="#cta"
-                class="mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-dark hover:text-accent lg:mt-auto"
+                class="mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent lg:mt-auto"
               >
                 <span
-                  class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+                  class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
                 >
                   <svg
                     class="h-4 w-4 text-accent"
@@ -1442,12 +1601,12 @@
               src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?w=1080&q=80"
               loading="lazy"
               alt="Neoclassical courthouse columns."
-              class="h-56 w-full rounded-2xl object-cover md:h-auto md:w-[45%]"
+              class="h-56 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-[1.03] md:h-auto md:w-[45%]"
             />
           </article>
 
           <article
-            class="flex flex-col gap-6 rounded-[32px] bg-white p-5 md:flex-row md:items-stretch md:p-8 lg:p-12"
+            class="group flex flex-col gap-6 rounded-[32px] bg-white p-5 shadow-[0_-8px_30px_-12px_rgba(17,14,14,0.18)] transition-shadow duration-300 hover:shadow-2xl md:flex-row md:items-stretch md:p-8 lg:p-12"
           >
             <div class="flex flex-1 flex-col">
               <svg
@@ -1474,10 +1633,10 @@
               </p>
               <a
                 href="#cta"
-                class="mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-dark hover:text-accent lg:mt-auto"
+                class="mt-6 inline-flex w-fit items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent lg:mt-auto"
               >
                 <span
-                  class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+                  class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
                 >
                   <svg
                     class="h-4 w-4 text-accent"
@@ -1500,7 +1659,7 @@
               src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1080&q=80"
               loading="lazy"
               alt="Modern corporate office interior."
-              class="h-56 w-full rounded-2xl object-cover md:h-auto md:w-[45%]"
+              class="h-56 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-[1.03] md:h-auto md:w-[45%]"
             />
           </article>
         </div>
@@ -1518,23 +1677,23 @@
         >
           <div>
             <div class="mb-5 flex items-center gap-2.5">
-              <span class="h-1 w-1 rounded-full bg-secondary"></span>
+              <span class="h-1 w-1 animate-pulse rounded-full bg-secondary"></span>
               <span class="text-base font-bold text-secondary"
                 >Real Results</span
               >
             </div>
             <h2
-              class="font-heading text-[31px] font-medium leading-[130%] tracking-[-0.02em] md:text-[39px] lg:text-[48px]"
+              class="reveal animate-fade-up font-heading text-[31px] font-medium leading-[130%] tracking-[-0.02em] md:text-[39px] lg:text-[48px]"
             >
               A Modern, Integrated Legal Practice
             </h2>
           </div>
           <a
             href="#cta"
-            class="inline-flex shrink-0 items-center gap-3 self-start rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-dark hover:text-accent"
+            class="inline-flex shrink-0 items-center gap-3 self-start rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent"
           >
             <span
-              class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
             >
               <svg
                 class="h-4 w-4 text-accent"
@@ -1554,8 +1713,8 @@
           </a>
         </div>
 
-        <div class="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-          <article class="flex flex-col gap-4">
+        <div class="stagger grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+          <article class="reveal group flex animate-fade-up flex-col gap-4">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
@@ -1571,7 +1730,7 @@
               src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1080&q=80"
               loading="lazy"
               alt="Team reviewing documents around a meeting table."
-              class="h-64 w-full rounded-2xl object-cover"
+              class="h-64 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <h3 class="font-heading text-xl font-medium leading-[130%]">
               Full-Service Capability
@@ -1582,7 +1741,7 @@
             </p>
           </article>
 
-          <article class="flex flex-col gap-4">
+          <article class="reveal group flex animate-fade-up flex-col gap-4">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
@@ -1598,7 +1757,7 @@
               src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1080&q=80"
               loading="lazy"
               alt="Two people shaking hands to close a deal."
-              class="h-64 w-full rounded-2xl object-cover"
+              class="h-64 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <h3 class="font-heading text-xl font-medium leading-[130%]">
               Specialist Expertise
@@ -1609,7 +1768,7 @@
             </p>
           </article>
 
-          <article class="flex flex-col gap-4">
+          <article class="reveal group flex animate-fade-up flex-col gap-4">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
@@ -1623,7 +1782,7 @@
               src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1080&q=80"
               loading="lazy"
               alt="Property keys being handed over."
-              class="h-64 w-full rounded-2xl object-cover"
+              class="h-64 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <h3 class="font-heading text-xl font-medium leading-[130%]">
               Partner-Level Accountability
@@ -1634,7 +1793,7 @@
             </p>
           </article>
 
-          <article class="flex flex-col gap-4">
+          <article class="reveal group flex animate-fade-up flex-col gap-4">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
@@ -1650,7 +1809,7 @@
               src="https://images.unsplash.com/photo-1423592707957-3b212afa6733?w=1080&q=80"
               loading="lazy"
               alt="Open law books on a table."
-              class="h-64 w-full rounded-2xl object-cover"
+              class="h-64 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <h3 class="font-heading text-xl font-medium leading-[130%]">
               Integrated Service Delivery
@@ -1661,7 +1820,7 @@
             </p>
           </article>
 
-          <article class="flex flex-col gap-4">
+          <article class="reveal group flex animate-fade-up flex-col gap-4">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
@@ -1677,7 +1836,7 @@
               src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1080&q=80"
               loading="lazy"
               alt="Attorney taking notes on a legal pad."
-              class="h-64 w-full rounded-2xl object-cover"
+              class="h-64 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <h3 class="font-heading text-xl font-medium leading-[130%]">
               Resolved an intricate quiet title action involving disputed
@@ -1689,7 +1848,7 @@
             </p>
           </article>
 
-          <article class="flex flex-col gap-4">
+          <article class="reveal group flex animate-fade-up flex-col gap-4">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
@@ -1705,7 +1864,7 @@
               src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?w=1080&q=80"
               loading="lazy"
               alt="Courthouse exterior with tall columns."
-              class="h-64 w-full rounded-2xl object-cover"
+              class="h-64 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <h3 class="font-heading text-xl font-medium leading-[130%]">
               Systems &amp; Efficiency
@@ -1727,13 +1886,13 @@
         >
           <div>
             <div class="mb-5 flex items-center gap-2.5">
-              <span class="h-1 w-1 rounded-full bg-secondary"></span>
+              <span class="h-1 w-1 animate-pulse rounded-full bg-secondary"></span>
               <span class="text-base font-bold text-secondary"
                 >Our Clients</span
               >
             </div>
             <h2
-              class="font-heading text-[31px] font-medium leading-[130%] tracking-[-0.02em] md:text-[39px] lg:text-[48px]"
+              class="reveal animate-fade-up font-heading text-[31px] font-medium leading-[130%] tracking-[-0.02em] md:text-[39px] lg:text-[48px]"
             >
               Cross-Sector Experience. Specialist Knowledge.
             </h2>
@@ -1752,8 +1911,8 @@
           </div>
         </div>
 
-        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <figure class="flex flex-col rounded-[20px] bg-white p-6">
+        <div class="stagger grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <figure class="reveal flex animate-fade-up flex-col rounded-[20px] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
             <div class="flex gap-1 text-accent" aria-label="Rated 5 out of 5">
               <svg
                 class="h-5 w-5"
@@ -1815,7 +1974,7 @@
                 src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=128&q=80"
                 loading="lazy"
                 alt="Portrait of Ben Carter"
-                class="h-14 w-14 rounded-full object-cover"
+                class="h-14 w-14 rounded-full object-cover transition-transform duration-300 hover:scale-110"
               />
               <div>
                 <p class="font-heading text-lg font-medium">
@@ -1826,7 +1985,7 @@
             </figcaption>
           </figure>
 
-          <figure class="flex flex-col rounded-[20px] bg-white p-6">
+          <figure class="reveal flex animate-fade-up flex-col rounded-[20px] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
             <div class="flex gap-1 text-accent" aria-label="Rated 5 out of 5">
               <svg
                 class="h-5 w-5"
@@ -1888,7 +2047,7 @@
                 src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=128&q=80"
                 loading="lazy"
                 alt="Portrait of Jessica Miller"
-                class="h-14 w-14 rounded-full object-cover"
+                class="h-14 w-14 rounded-full object-cover transition-transform duration-300 hover:scale-110"
               />
               <div>
                 <p class="font-heading text-lg font-medium">
@@ -1899,7 +2058,7 @@
             </figcaption>
           </figure>
 
-          <figure class="flex flex-col rounded-[20px] bg-white p-6">
+          <figure class="reveal flex animate-fade-up flex-col rounded-[20px] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
             <div class="flex gap-1 text-accent" aria-label="Rated 5 out of 5">
               <svg
                 class="h-5 w-5"
@@ -1961,7 +2120,7 @@
                 src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=128&q=80"
                 loading="lazy"
                 alt="Portrait of Eleanor Vance"
-                class="h-14 w-14 rounded-full object-cover"
+                class="h-14 w-14 rounded-full object-cover transition-transform duration-300 hover:scale-110"
               />
               <div>
                 <p class="font-heading text-lg font-medium">Corporates</p>
@@ -1972,7 +2131,7 @@
             </figcaption>
           </figure>
 
-          <figure class="flex flex-col rounded-[20px] bg-white p-6">
+          <figure class="reveal flex animate-fade-up flex-col rounded-[20px] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
             <div class="flex gap-1 text-accent" aria-label="Rated 5 out of 5">
               <svg
                 class="h-5 w-5"
@@ -2034,7 +2193,7 @@
                 src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=128&q=80"
                 loading="lazy"
                 alt="Portrait of Dr. Lena Alami"
-                class="h-14 w-14 rounded-full object-cover"
+                class="h-14 w-14 rounded-full object-cover transition-transform duration-300 hover:scale-110"
               />
               <div>
                 <p class="font-heading text-lg font-medium">
@@ -2045,7 +2204,7 @@
             </figcaption>
           </figure>
 
-          <figure class="flex flex-col rounded-[20px] bg-white p-6">
+          <figure class="reveal flex animate-fade-up flex-col rounded-[20px] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
             <div class="flex gap-1 text-accent" aria-label="Rated 5 out of 5">
               <svg
                 class="h-5 w-5"
@@ -2107,7 +2266,7 @@
                 src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=128&q=80"
                 loading="lazy"
                 alt="Portrait of Ravi Singh"
-                class="h-14 w-14 rounded-full object-cover"
+                class="h-14 w-14 rounded-full object-cover transition-transform duration-300 hover:scale-110"
               />
               <div>
                 <p class="font-heading text-lg font-medium">
@@ -2120,7 +2279,7 @@
             </figcaption>
           </figure>
 
-          <figure class="flex flex-col rounded-[20px] bg-white p-6">
+          <figure class="reveal flex animate-fade-up flex-col rounded-[20px] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
             <div class="flex gap-1 text-accent" aria-label="Rated 5 out of 5">
               <svg
                 class="h-5 w-5"
@@ -2182,7 +2341,7 @@
                 src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=128&q=80"
                 loading="lazy"
                 alt="Portrait of Marcus Hale"
-                class="h-14 w-14 rounded-full object-cover"
+                class="h-14 w-14 rounded-full object-cover transition-transform duration-300 hover:scale-110"
               />
               <div>
                 <p class="font-heading text-lg font-medium">
@@ -2206,11 +2365,11 @@
         >
           <div class="lg:w-[45%]">
             <div class="mb-5 flex items-center gap-2.5">
-              <span class="h-1 w-1 rounded-full bg-secondary"></span>
+              <span class="h-1 w-1 animate-pulse rounded-full bg-secondary"></span>
               <span class="text-base font-bold text-secondary">FAQs</span>
             </div>
             <h2
-              class="font-heading text-[31px] font-medium leading-[130%] tracking-[-0.02em] md:text-[39px] lg:text-[48px]"
+              class="reveal animate-fade-up font-heading text-[31px] font-medium leading-[130%] tracking-[-0.02em] md:text-[39px] lg:text-[48px]"
             >
               Let's find the answers together.
             </h2>
@@ -2223,7 +2382,7 @@
               <h3 class="font-heading text-[25px] font-medium">
                 Still Got Questions?
               </h3>
-              <div class="my-4 h-px w-full max-w-xs bg-accent/40"></div>
+              <div class="reveal my-4 h-px w-full max-w-xs origin-left animate-grow-x bg-accent/40"></div>
               <a
                 href="#cta"
                 class="flex items-center gap-3 font-heading text-[25px] font-medium"
@@ -2246,10 +2405,10 @@
               </a>
               <a
                 href="#cta"
-                class="mt-8 inline-flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-dark hover:text-accent"
+                class="mt-8 inline-flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent"
               >
                 <span
-                  class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+                  class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
                 >
                   <svg
                     class="h-4 w-4 text-accent"
@@ -2273,13 +2432,13 @@
               src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1080&q=80"
               loading="lazy"
               alt="Judge reviewing documents at a desk in a library."
-              class="mt-10 h-72 w-full rounded-2xl object-cover"
+              class="reveal mt-10 h-72 w-full animate-zoom-in rounded-2xl object-cover"
             />
           </div>
 
           <!-- Native <details> accordion replaces the Webflow tabs widget -->
           <div class="flex flex-col gap-4 lg:w-[52%]">
-            <details class="group rounded-[20px] bg-offwhite p-5 lg:p-8" open>
+            <details class="group rounded-[20px] bg-offwhite p-5 transition-colors duration-300 hover:bg-accent/10 lg:p-8" open>
               <summary
                 class="flex cursor-pointer list-none items-center justify-between gap-4 [&::-webkit-details-marker]:hidden"
               >
@@ -2287,7 +2446,7 @@
                   How does SLA begin a new matter?
                 </h3>
                 <span
-                  class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-dark"
+                  class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-dark transition-transform duration-300 group-open:rotate-180"
                 >
                   <svg
                     class="h-4 w-4 group-open:hidden"
@@ -2316,13 +2475,13 @@
                   </svg>
                 </span>
               </summary>
-              <p class="pt-4 text-base text-muted">
+              <p class="animate-fade-up pt-4 text-base text-muted">
                 We begin with client onboarding, then define the scope and
                 pricing before allocating the appropriate partner and team.
               </p>
             </details>
 
-            <details class="group rounded-[20px] bg-offwhite p-5 lg:p-8">
+            <details class="group rounded-[20px] bg-offwhite p-5 transition-colors duration-300 hover:bg-accent/10 lg:p-8">
               <summary
                 class="flex cursor-pointer list-none items-center justify-between gap-4 [&::-webkit-details-marker]:hidden"
               >
@@ -2330,7 +2489,7 @@
                   How does SLA deliver legal work?
                 </h3>
                 <span
-                  class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-dark"
+                  class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-dark transition-transform duration-300 group-open:rotate-180"
                 >
                   <svg
                     class="h-4 w-4 group-open:hidden"
@@ -2359,13 +2518,13 @@
                   </svg>
                 </span>
               </summary>
-              <p class="pt-4 text-base text-muted">
+              <p class="animate-fade-up pt-4 text-base text-muted">
                 Partner-level strategy and client management are combined with
                 specialist execution by associates and analytical teams.
               </p>
             </details>
 
-            <details class="group rounded-[20px] bg-offwhite p-5 lg:p-8">
+            <details class="group rounded-[20px] bg-offwhite p-5 transition-colors duration-300 hover:bg-accent/10 lg:p-8">
               <summary
                 class="flex cursor-pointer list-none items-center justify-between gap-4 [&::-webkit-details-marker]:hidden"
               >
@@ -2373,7 +2532,7 @@
                   How does SLA manage quality?
                 </h3>
                 <span
-                  class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-dark"
+                  class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-dark transition-transform duration-300 group-open:rotate-180"
                 >
                   <svg
                     class="h-4 w-4 group-open:hidden"
@@ -2402,13 +2561,13 @@
                   </svg>
                 </span>
               </summary>
-              <p class="pt-4 text-base text-muted">
+              <p class="animate-fade-up pt-4 text-base text-muted">
                 Each matter moves through legal execution, quality review,
                 billing and collection, and knowledge capture.
               </p>
             </details>
 
-            <details class="group rounded-[20px] bg-offwhite p-5 lg:p-8">
+            <details class="group rounded-[20px] bg-offwhite p-5 transition-colors duration-300 hover:bg-accent/10 lg:p-8">
               <summary
                 class="flex cursor-pointer list-none items-center justify-between gap-4 [&::-webkit-details-marker]:hidden"
               >
@@ -2416,7 +2575,7 @@
                   Can SLA coordinate multiple practice areas?
                 </h3>
                 <span
-                  class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-dark"
+                  class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-dark transition-transform duration-300 group-open:rotate-180"
                 >
                   <svg
                     class="h-4 w-4 group-open:hidden"
@@ -2445,14 +2604,14 @@
                   </svg>
                 </span>
               </summary>
-              <p class="pt-4 text-base text-muted">
+              <p class="animate-fade-up pt-4 text-base text-muted">
                 Yes. Integration without fragmentation allows corporate,
                 finance, tax, property, regulatory and dispute teams to work
                 together on complex matters.
               </p>
             </details>
 
-            <details class="group rounded-[20px] bg-offwhite p-5 lg:p-8">
+            <details class="group rounded-[20px] bg-offwhite p-5 transition-colors duration-300 hover:bg-accent/10 lg:p-8">
               <summary
                 class="flex cursor-pointer list-none items-center justify-between gap-4 [&::-webkit-details-marker]:hidden"
               >
@@ -2460,7 +2619,7 @@
                   What is SLA's client service model?
                 </h3>
                 <span
-                  class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-dark"
+                  class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-dark transition-transform duration-300 group-open:rotate-180"
                 >
                   <svg
                     class="h-4 w-4 group-open:hidden"
@@ -2489,7 +2648,7 @@
                   </svg>
                 </span>
               </summary>
-              <p class="pt-4 text-base text-muted">
+              <p class="animate-fade-up pt-4 text-base text-muted">
                 SLA provides responsive, predictable and commercially relevant
                 services while building long-term institutional relationships.
               </p>
@@ -2511,7 +2670,7 @@
 
       <div class="relative py-16 md:py-24 lg:py-[130px]">
         <div class="mx-auto max-w-container px-4">
-          <div class="grid gap-8 sm:grid-cols-3">
+          <div class="stagger grid animate-fade-up gap-8 sm:grid-cols-3">
             <div>
               <div class="text-base text-white/70">Call Us</div>
               <a
@@ -2584,7 +2743,7 @@
         </div>
 
         <!-- Marquee band -->
-        <div class="my-14 flex w-max animate-marquee-slow overflow-hidden">
+        <div class="marquee-pause my-14 flex w-max animate-marquee-slow overflow-hidden">
           <div class="flex shrink-0">
             <h2
               class="mr-8 font-body text-[64px] font-extralight text-white/20 lg:text-[120px]"
@@ -2624,7 +2783,7 @@
         <div class="mx-auto max-w-container px-4">
           <div class="max-w-[531px]">
             <h2
-              class="font-heading text-[31px] font-medium leading-[130%] text-white md:text-[39px] lg:text-[48px]"
+              class="reveal animate-fade-up font-heading text-[31px] font-medium leading-[130%] text-white md:text-[39px] lg:text-[48px]"
             >
               Ready to Discuss Your Legal Options?
             </h2>
@@ -2635,10 +2794,10 @@
             </p>
             <a
               href="#cta"
-              class="mt-8 inline-flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-white"
+              class="mt-8 inline-flex items-center gap-3 rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-white"
             >
               <span
-                class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+                class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
               >
                 <svg
                   class="h-4 w-4 text-accent"
@@ -2669,21 +2828,21 @@
         >
           <div>
             <div class="mb-5 flex items-center gap-2.5">
-              <span class="h-1 w-1 rounded-full bg-secondary"></span>
+              <span class="h-1 w-1 animate-pulse rounded-full bg-secondary"></span>
               <span class="text-base font-bold text-secondary">Innovation</span>
             </div>
             <h2
-              class="font-heading text-[31px] font-medium leading-[130%] tracking-[-0.02em] md:text-[39px] lg:text-[48px]"
+              class="reveal animate-fade-up font-heading text-[31px] font-medium leading-[130%] tracking-[-0.02em] md:text-[39px] lg:text-[48px]"
             >
               Technology Supporting Better Legal Service
             </h2>
           </div>
           <a
             href="#blog"
-            class="inline-flex shrink-0 items-center gap-3 self-start rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition hover:bg-dark hover:text-accent"
+            class="inline-flex shrink-0 items-center gap-3 self-start rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-dark hover:text-accent"
           >
             <span
-              class="flex h-10 w-10 items-center justify-center rounded-full bg-dark"
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-dark transition-transform duration-300 group-hover/btn:rotate-45"
             >
               <svg
                 class="h-4 w-4 text-accent"
@@ -2705,7 +2864,7 @@
 
         <div class="flex flex-col gap-6">
           <article
-            class="flex flex-col gap-6 rounded-2xl border border-accent/30 p-5 transition hover:border-accent md:flex-row md:items-center md:justify-between lg:py-8 lg:pl-4 lg:pr-10"
+            class="reveal group flex animate-fade-right flex-col gap-6 rounded-2xl border border-accent/30 p-5 transition duration-300 hover:border-accent hover:bg-white md:flex-row md:items-center md:justify-between lg:py-8 lg:pl-4 lg:pr-10"
           >
             <div class="flex-1">
               <div class="flex flex-wrap items-center gap-4">
@@ -2749,12 +2908,12 @@
               src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1080&q=80"
               loading="lazy"
               alt="Legal documents and a pen on a desk."
-              class="h-56 w-full rounded-2xl object-cover md:h-[220px] md:w-[268px]"
+              class="h-56 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-105 md:h-[220px] md:w-[268px]"
             />
           </article>
 
           <article
-            class="flex flex-col gap-6 rounded-2xl border border-accent/30 p-5 transition hover:border-accent md:flex-row md:items-center md:justify-between lg:py-8 lg:pl-4 lg:pr-10"
+            class="reveal group flex animate-fade-right flex-col gap-6 rounded-2xl border border-accent/30 p-5 transition duration-300 hover:border-accent hover:bg-white md:flex-row md:items-center md:justify-between lg:py-8 lg:pl-4 lg:pr-10"
           >
             <div class="flex-1">
               <div class="flex flex-wrap items-center gap-4">
@@ -2800,12 +2959,12 @@
               src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1080&q=80"
               loading="lazy"
               alt="Business partners in discussion around a table."
-              class="h-56 w-full rounded-2xl object-cover md:h-[220px] md:w-[268px]"
+              class="h-56 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-105 md:h-[220px] md:w-[268px]"
             />
           </article>
 
           <article
-            class="flex flex-col gap-6 rounded-2xl border border-accent/30 p-5 transition hover:border-accent md:flex-row md:items-center md:justify-between lg:py-8 lg:pl-4 lg:pr-10"
+            class="reveal group flex animate-fade-right flex-col gap-6 rounded-2xl border border-accent/30 p-5 transition duration-300 hover:border-accent hover:bg-white md:flex-row md:items-center md:justify-between lg:py-8 lg:pl-4 lg:pr-10"
           >
             <div class="flex-1">
               <div class="flex flex-wrap items-center gap-4">
@@ -2851,7 +3010,7 @@
               src="https://images.unsplash.com/photo-1423592707957-3b212afa6733?w=1080&q=80"
               loading="lazy"
               alt="Open reference books on a desk."
-              class="h-56 w-full rounded-2xl object-cover md:h-[220px] md:w-[268px]"
+              class="h-56 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-105 md:h-[220px] md:w-[268px]"
             />
           </article>
         </div>
@@ -2965,27 +3124,27 @@
         <nav class="flex flex-wrap gap-x-10 gap-y-4" aria-label="Footer">
           <a
             href="#Main"
-            class="font-heading text-xl font-medium text-offwhite transition hover:text-accent"
+            class="link-underline font-heading text-xl font-medium text-offwhite transition hover:text-accent"
             >Home</a
           >
           <a
             href="#about"
-            class="font-heading text-xl font-medium text-offwhite transition hover:text-accent"
+            class="link-underline font-heading text-xl font-medium text-offwhite transition hover:text-accent"
             >About</a
           >
           <a
             href="#results"
-            class="font-heading text-xl font-medium text-offwhite transition hover:text-accent"
+            class="link-underline font-heading text-xl font-medium text-offwhite transition hover:text-accent"
             >Case Studies</a
           >
           <a
             href="#testimonials"
-            class="font-heading text-xl font-medium text-offwhite transition hover:text-accent"
+            class="link-underline font-heading text-xl font-medium text-offwhite transition hover:text-accent"
             >Teams</a
           >
           <a
             href="#services"
-            class="font-heading text-xl font-medium text-offwhite transition hover:text-accent"
+            class="link-underline font-heading text-xl font-medium text-offwhite transition hover:text-accent"
             >Services</a
           >
         </nav>
@@ -3013,7 +3172,7 @@
               />
               <button
                 type="submit"
-                class="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-accent text-dark transition hover:bg-white"
+                class="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-accent text-dark transition duration-300 hover:translate-x-0.5 hover:bg-white"
                 aria-label="Subscribe"
               >
                 <svg
@@ -3037,7 +3196,7 @@
                 href="https://www.facebook.com/"
                 target="_blank"
                 rel="noopener"
-                class="flex h-14 w-14 items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition hover:bg-accent hover:text-dark"
+                class="flex h-14 w-14 items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition duration-300 hover:-translate-y-1 hover:rotate-6 hover:bg-accent hover:text-dark"
                 aria-label="SLA on Facebook"
               >
                 <svg
@@ -3059,7 +3218,7 @@
                 href="https://www.instagram.com/"
                 target="_blank"
                 rel="noopener"
-                class="flex h-14 w-14 items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition hover:bg-accent hover:text-dark"
+                class="flex h-14 w-14 items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition duration-300 hover:-translate-y-1 hover:rotate-6 hover:bg-accent hover:text-dark"
                 aria-label="SLA on Instagram"
               >
                 <svg
@@ -3081,7 +3240,7 @@
                 href="https://x.com/"
                 target="_blank"
                 rel="noopener"
-                class="flex h-14 w-14 items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition hover:bg-accent hover:text-dark"
+                class="flex h-14 w-14 items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition duration-300 hover:-translate-y-1 hover:rotate-6 hover:bg-accent hover:text-dark"
                 aria-label="SLA on X"
               >
                 <svg
@@ -3102,7 +3261,7 @@
                 href="https://www.linkedin.com/"
                 target="_blank"
                 rel="noopener"
-                class="flex h-14 w-14 items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition hover:bg-accent hover:text-dark"
+                class="flex h-14 w-14 items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition duration-300 hover:-translate-y-1 hover:rotate-6 hover:bg-accent hover:text-dark"
                 aria-label="SLA on LinkedIn"
               >
                 <svg
@@ -3133,27 +3292,27 @@
               <div class="flex flex-col gap-3">
                 <a
                   href="#cta"
-                  class="text-base text-offwhite/80 transition hover:text-accent"
+                  class="link-underline text-base text-offwhite/80 transition hover:text-accent"
                   >Contact</a
                 >
                 <a
                   href="#blog"
-                  class="text-base text-offwhite/80 transition hover:text-accent"
+                  class="link-underline text-base text-offwhite/80 transition hover:text-accent"
                   >Blogs</a
                 >
                 <a
                   href="#faq"
-                  class="text-base text-offwhite/80 transition hover:text-accent"
+                  class="link-underline text-base text-offwhite/80 transition hover:text-accent"
                   >FAQs</a
                 >
                 <a
                   href="#services"
-                  class="text-base text-offwhite/80 transition hover:text-accent"
+                  class="link-underline text-base text-offwhite/80 transition hover:text-accent"
                   >Services</a
                 >
                 <a
                   href="#partners"
-                  class="text-base text-offwhite/80 transition hover:text-accent"
+                  class="link-underline text-base text-offwhite/80 transition hover:text-accent"
                   >Partners</a
                 >
               </div>
@@ -3165,27 +3324,27 @@
               <div class="flex flex-col gap-3">
                 <a
                   href="#results"
-                  class="text-base text-offwhite/80 transition hover:text-accent"
+                  class="link-underline text-base text-offwhite/80 transition hover:text-accent"
                   >Our Approach</a
                 >
                 <a
                   href="#testimonials"
-                  class="text-base text-offwhite/80 transition hover:text-accent"
+                  class="link-underline text-base text-offwhite/80 transition hover:text-accent"
                   >Our Clients</a
                 >
                 <a
                   href="#about"
-                  class="text-base text-offwhite/80 transition hover:text-accent"
+                  class="link-underline text-base text-offwhite/80 transition hover:text-accent"
                   >Firm Overview</a
                 >
                 <a
                   href="#about"
-                  class="text-base text-offwhite/80 transition hover:text-accent"
+                  class="link-underline text-base text-offwhite/80 transition hover:text-accent"
                   >Licenses</a
                 >
                 <a
                   href="#about"
-                  class="text-base text-offwhite/80 transition hover:text-accent"
+                  class="link-underline text-base text-offwhite/80 transition hover:text-accent"
                   >Change Log</a
                 >
               </div>
@@ -3217,7 +3376,7 @@
     <!-- Back to top: always visible (the original was revealed by scroll JS) -->
     <a
       href="#Main"
-      class="fixed bottom-6 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-accent text-dark shadow-lg transition hover:bg-dark hover:text-accent"
+      class="fixed bottom-6 right-6 z-40 flex h-12 w-12 animate-float items-center justify-center rounded-full bg-accent text-dark shadow-lg transition duration-300 hover:bg-dark hover:text-accent"
       aria-label="Back to top"
     >
       <svg
@@ -3234,5 +3393,52 @@
         <polyline points="5 12 12 5 19 12" />
       </svg>
     </a>
+    <!--
+      Hero autoplay. The slider itself is a CSS scroll-snap container, so this
+      only nudges it along: dots, swipe and keyboard scrolling keep working, and
+      autoplay pauses while the pointer or keyboard focus is inside the hero, or
+      when the tab is hidden.
+    -->
+    <script>
+      (function () {
+        var track = document.getElementById("hero-track");
+        if (!track) return;
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+          return;
+
+        var INTERVAL = 6000;
+        var paused = false;
+        var timer = setInterval(advance, INTERVAL);
+
+        function advance() {
+          if (paused || document.hidden) return;
+          var slide = track.clientWidth;
+          // Within half a slide of the end? Wrap back to the first slide.
+          var atEnd = track.scrollLeft + slide * 1.5 >= track.scrollWidth;
+          track.scrollTo({
+            left: atEnd ? 0 : Math.round(track.scrollLeft / slide + 1) * slide,
+            behavior: "smooth",
+          });
+        }
+
+        function pause() {
+          paused = true;
+        }
+        function resume() {
+          paused = false;
+        }
+
+        track.addEventListener("pointerenter", pause);
+        track.addEventListener("pointerleave", resume);
+        track.addEventListener("focusin", pause);
+        track.addEventListener("focusout", resume);
+        // Restart the countdown after a manual interaction so the next
+        // auto-advance is not cut short.
+        track.addEventListener("scroll", function () {
+          clearInterval(timer);
+          timer = setInterval(advance, INTERVAL);
+        });
+      })();
+    </script>
   </body>
 </html>
