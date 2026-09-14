@@ -17,8 +17,12 @@
     />
     <meta
       property="og:image"
-      content="assets/images/kenyan-legal-team-hero.png"
+      content="assets/logo-sla-social.png"
     />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="520" />
+    <meta property="og:image:height" content="254" />
+    <meta property="og:image:alt" content="Sichangi Law Alliance logo on an orange background" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Sichangi Law Alliance LLP" />
     <meta
@@ -27,10 +31,11 @@
     />
     <meta
       name="twitter:image"
-      content="assets/images/kenyan-legal-team-hero.png"
+      content="assets/logo-sla-social.png"
     />
+    <meta name="twitter:image:alt" content="Sichangi Law Alliance logo on an orange background" />
 
-    <link rel="icon" href="assets/logo-sla.svg" type="image/svg+xml" />
+    <link rel="icon" href="assets/logo-sla-transparent.png" type="image/png" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -64,12 +69,12 @@
         theme: {
           extend: {
             colors: {
-              dark: "#110e0e",
-              offwhite: "#fcf8f2",
-              accent: "#d6b980",
-              primary: "#705200",
-              secondary: "#1e3a8a",
-              muted: "#4a4a4a",
+              dark: "#2d2d2c",
+              offwhite: "#f0efec",
+              accent: "#ff6500",
+              primary: "#ff6500",
+              secondary: "#ff6500",
+              muted: "#625f5b",
             },
             fontFamily: {
               heading: ['"Plus Jakarta Sans"', "Arial", "sans-serif"],
@@ -400,6 +405,27 @@
         animation: sheen 0.9s ease-out;
       }
 
+      /* Brand CTA treatment: orange field, white label and white icon disc. */
+      .sheen {
+        color: #fff !important;
+      }
+      .sheen > span:first-child {
+        background: #fff !important;
+      }
+      .sheen > span:first-child svg {
+        color: #ff6500 !important;
+      }
+      .sheen:hover {
+        background: #fff !important;
+        color: #ff6500 !important;
+      }
+      .sheen:hover > span:first-child {
+        background: #ff6500 !important;
+      }
+      .sheen:hover > span:first-child svg {
+        color: #fff !important;
+      }
+
       /* SVG icons that draw themselves in when their card scrolls into view. */
       .draw path,
       .draw line,
@@ -516,14 +542,10 @@
             aria-label="Sichangi Law Alliance home"
           >
             <img
-              src="assets/logo-sla.svg"
+              src="assets/logo-sla-transparent.png"
               alt=""
-              class="h-10 w-10 transition-transform duration-500 group-hover/logo:rotate-[-8deg] group-hover/logo:scale-110"
+              class="h-11 w-auto transition-transform duration-500 group-hover/logo:scale-105"
             />
-            <span
-              class="font-heading text-2xl font-bold tracking-tight text-white transition-colors duration-300 group-hover/logo:text-accent"
-              >SLA</span
-            >
           </a>
 
           <!-- CSS-only mobile nav toggle: the checkbox drives the `peer-checked` state on the nav below -->
@@ -1951,9 +1973,9 @@
               >
             </div>
             <img
-              src="assets/images/result-corporate-due-diligence.png"
+              src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&amp;q=85"
               loading="lazy"
-              alt="Three Kenyan advocates conducting corporate due diligence in Nairobi."
+              alt="Contemporary commercial towers viewed from below."
               class="h-64 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <h3 class="font-heading text-xl font-medium leading-[130%] transition-colors duration-300 group-hover:text-primary">
@@ -1978,9 +2000,9 @@
               >
             </div>
             <img
-              src="assets/images/result-family-consultation.png"
+              src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200&amp;q=85"
               loading="lazy"
-              alt="A Kenyan family-law advocate listening to a client in a private consultation."
+              alt="A calm contemporary interior with natural light."
               class="h-64 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <h3 class="font-heading text-xl font-medium leading-[130%] transition-colors duration-300 group-hover:text-primary">
@@ -2002,9 +2024,9 @@
               >
             </div>
             <img
-              src="assets/images/result-business-advisory.png"
+              src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1200&amp;q=85"
               loading="lazy"
-              alt="A senior Kenyan legal partner advising two business founders."
+              alt="A modern city skyline at dusk."
               class="h-64 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <h3 class="font-heading text-xl font-medium leading-[130%] transition-colors duration-300 group-hover:text-primary">
@@ -2029,9 +2051,9 @@
               >
             </div>
             <img
-              src="assets/images/result-real-estate-conveyancing.png"
+              src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1200&amp;q=85"
               loading="lazy"
-              alt="A Kenyan conveyancing advocate reviewing development plans with an architect."
+              alt="A contemporary residential property exterior."
               class="h-64 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <h3 class="font-heading text-xl font-medium leading-[130%] transition-colors duration-300 group-hover:text-primary">
@@ -2056,9 +2078,9 @@
               >
             </div>
             <img
-              src="assets/images/result-immigration-counsel.png"
+              src="https://images.unsplash.com/photo-1494526585095-c41746248156?w=1200&amp;q=85"
               loading="lazy"
-              alt="A Kenyan immigration advocate preparing mobility documents with a client."
+              alt="A modern home framed by mature landscaping."
               class="h-64 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <h3 class="font-heading text-xl font-medium leading-[130%] transition-colors duration-300 group-hover:text-primary">
@@ -2084,9 +2106,9 @@
               >
             </div>
             <img
-              src="assets/images/result-legal-systems.png"
+              src="https://images.unsplash.com/photo-1522083165195-3424ed129620?w=1200&amp;q=85"
               loading="lazy"
-              alt="Kenyan legal professionals working with a modern case-management system."
+              alt="Historic city buildings lining an urban street."
               class="h-64 w-full rounded-2xl object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <h3 class="font-heading text-xl font-medium leading-[130%] transition-colors duration-300 group-hover:text-primary">
@@ -2196,12 +2218,6 @@
               Legal advisory and institutional support for government entities, including regulatory engagement and mandates in the public sector.
             </blockquote>
             <figcaption class="mt-6 flex items-center gap-4">
-              <img
-                src="https://images.unsplash.com/photo-1552058544-f2b08422138a?w=128&q=80"
-                loading="lazy"
-                alt="Portrait of a public-sector client"
-                class="h-14 w-14 rounded-full object-cover transition-transform duration-300 hover:scale-110"
-              />
               <div>
                 <p class="font-heading text-lg font-medium">
                   Government Institutions
@@ -2269,12 +2285,6 @@
               for banks, SACCOs, fintechs and other financial stakeholders.
             </blockquote>
             <figcaption class="mt-6 flex items-center gap-4">
-              <img
-                src="https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=128&q=80"
-                loading="lazy"
-                alt="Portrait of a financial-institution client"
-                class="h-14 w-14 rounded-full object-cover transition-transform duration-300 hover:scale-110"
-              />
               <div>
                 <p class="font-heading text-lg font-medium">
                   Financial Institutions
@@ -2342,12 +2352,6 @@
               advisory across the lifecycle of business operations.
             </blockquote>
             <figcaption class="mt-6 flex items-center gap-4">
-              <img
-                src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=128&q=80"
-                loading="lazy"
-                alt="Portrait of a corporate client"
-                class="h-14 w-14 rounded-full object-cover transition-transform duration-300 hover:scale-110"
-              />
               <div>
                 <p class="font-heading text-lg font-medium">Corporates</p>
                 <p class="text-sm text-muted">
@@ -2415,12 +2419,6 @@
               family businesses, including succession planning.
             </blockquote>
             <figcaption class="mt-6 flex items-center gap-4">
-              <img
-                src="https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?w=128&q=80"
-                loading="lazy"
-                alt="Portrait of an SME and family-business client"
-                class="h-14 w-14 rounded-full object-cover transition-transform duration-300 hover:scale-110"
-              />
               <div>
                 <p class="font-heading text-lg font-medium">
                   SMEs &amp; Family Businesses
@@ -2488,12 +2486,6 @@
               developers, infrastructure sponsors and energy projects.
             </blockquote>
             <figcaption class="mt-6 flex items-center gap-4">
-              <img
-                src="https://images.unsplash.com/photo-1615109398623-88346a601842?w=128&q=80"
-                loading="lazy"
-                alt="Portrait of a developer and infrastructure-sponsor client"
-                class="h-14 w-14 rounded-full object-cover transition-transform duration-300 hover:scale-110"
-              />
               <div>
                 <p class="font-heading text-lg font-medium">
                   Developers &amp; Sponsors
@@ -2562,12 +2554,6 @@
               Specialist institutional services and advice to private clients for NGOs, trusts, development organisations and estates.
             </blockquote>
             <figcaption class="mt-6 flex items-center gap-4">
-              <img
-                src="https://images.unsplash.com/photo-1589156280159-27698a70f29e?w=128&q=80"
-                loading="lazy"
-                alt="Portrait of an organisation and private client"
-                class="h-14 w-14 rounded-full object-cover transition-transform duration-300 hover:scale-110"
-              />
               <div>
                 <p class="font-heading text-lg font-medium">
                   Organisations &amp; Estates
@@ -2889,12 +2875,12 @@
     <!-- ===================== CTA ===================== -->
     <section id="cta" class="relative overflow-clip">
       <img
-        src="assets/images/kenyan-legal-team-hero.png"
+        src="https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?w=1800&amp;q=85"
         loading="lazy"
-        alt="Kenyan advocates collaborating on a commercial matter in Nairobi."
+        alt="Modern city architecture rising into the sky."
         class="absolute inset-0 h-full w-full object-cover"
       />
-      <div class="absolute inset-0 bg-dark/85"></div>
+      <div class="absolute inset-0 bg-dark/80"></div>
 
       <div class="relative py-16 md:py-24 lg:py-[130px]">
         <div class="mx-auto max-w-container px-4">
@@ -2971,7 +2957,7 @@
         </div>
 
         <!-- Marquee band -->
-        <div class="marquee-pause my-14 flex w-max animate-marquee-slow overflow-hidden">
+        <div class="hidden" aria-hidden="true">
           <div class="flex shrink-0">
             <h2
               class="mr-8 animate-shimmer bg-gradient-to-r from-white/10 via-white/40 to-white/10 bg-[length:200%_100%] bg-clip-text font-body text-[64px] font-extralight text-transparent lg:text-[120px]"
@@ -3008,7 +2994,7 @@
           </div>
         </div>
 
-        <div class="mx-auto max-w-container px-4">
+        <div class="mx-auto mt-16 max-w-container px-4 md:mt-24">
           <div class="max-w-[531px]">
             <h2
               class="reveal animate-fade-up font-heading text-[31px] font-medium leading-[130%] text-white md:text-[39px] lg:text-[48px]"
@@ -3122,10 +3108,10 @@
                   >By</span
                 >
                 <img
-                  src="assets/logo-sla.svg"
+                  src="assets/logo-sla-transparent.png"
                   loading="lazy"
                   alt="Sichangi Law Alliance"
-                  class="h-8 w-8 rounded-lg object-cover"
+                  class="h-8 w-auto object-contain"
                 />
                 <span class="font-heading text-sm font-bold text-primary"
                   >SLA</span
@@ -3173,10 +3159,10 @@
                   >By</span
                 >
                 <img
-                  src="assets/logo-sla.svg"
+                  src="assets/logo-sla-transparent.png"
                   loading="lazy"
                   alt="Sichangi Law Alliance"
-                  class="h-8 w-8 rounded-lg object-cover"
+                  class="h-8 w-auto object-contain"
                 />
                 <span class="font-heading text-sm font-bold text-primary"
                   >SLA</span
@@ -3224,10 +3210,10 @@
                   >By</span
                 >
                 <img
-                  src="assets/logo-sla.svg"
+                  src="assets/logo-sla-transparent.png"
                   loading="lazy"
                   alt="Sichangi Law Alliance"
-                  class="h-8 w-8 rounded-lg object-cover"
+                  class="h-8 w-auto object-contain"
                 />
                 <span class="font-heading text-sm font-bold text-primary"
                   >SLA</span
@@ -3268,11 +3254,7 @@
           class="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between"
         >
           <a href="#Main" class="flex items-center gap-3">
-            <img src="assets/logo-sla.svg" alt="" class="h-14 w-14" />
-            <span
-              class="font-heading text-[39px] font-bold tracking-tight text-offwhite lg:text-[48px]"
-              >SLA</span
-            >
+            <img src="assets/logo-sla-transparent.png" alt="" class="h-16 w-auto" />
           </a>
 
           <div class="flex flex-col gap-4">
@@ -3415,7 +3397,7 @@
                 href="https://www.facebook.com/"
                 target="_blank"
                 rel="noopener"
-                class="flex h-14 w-14 animate-pop-in items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition duration-300 hover:-translate-y-1 hover:rotate-6 hover:bg-accent hover:text-dark"
+                class="flex h-14 w-14 animate-pop-in items-center justify-center rounded-[18px] bg-dark text-offwhite transition duration-300 hover:-translate-y-1 hover:rotate-6 hover:bg-accent hover:text-dark"
                 aria-label="SLA on Facebook"
               >
                 <svg
@@ -3437,7 +3419,7 @@
                 href="https://www.instagram.com/"
                 target="_blank"
                 rel="noopener"
-                class="flex h-14 w-14 animate-pop-in items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition duration-300 hover:-translate-y-1 hover:rotate-6 hover:bg-accent hover:text-dark"
+                class="flex h-14 w-14 animate-pop-in items-center justify-center rounded-[18px] bg-dark text-offwhite transition duration-300 hover:-translate-y-1 hover:rotate-6 hover:bg-accent hover:text-dark"
                 aria-label="SLA on Instagram"
               >
                 <svg
@@ -3459,7 +3441,7 @@
                 href="https://x.com/"
                 target="_blank"
                 rel="noopener"
-                class="flex h-14 w-14 animate-pop-in items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition duration-300 hover:-translate-y-1 hover:rotate-6 hover:bg-accent hover:text-dark"
+                class="flex h-14 w-14 animate-pop-in items-center justify-center rounded-[18px] bg-dark text-offwhite transition duration-300 hover:-translate-y-1 hover:rotate-6 hover:bg-accent hover:text-dark"
                 aria-label="SLA on X"
               >
                 <svg
@@ -3480,7 +3462,7 @@
                 href="https://www.linkedin.com/"
                 target="_blank"
                 rel="noopener"
-                class="flex h-14 w-14 animate-pop-in items-center justify-center rounded-[18px] bg-[#252323] text-offwhite transition duration-300 hover:-translate-y-1 hover:rotate-6 hover:bg-accent hover:text-dark"
+                class="flex h-14 w-14 animate-pop-in items-center justify-center rounded-[18px] bg-dark text-offwhite transition duration-300 hover:-translate-y-1 hover:rotate-6 hover:bg-accent hover:text-dark"
                 aria-label="SLA on LinkedIn"
               >
                 <svg
