@@ -517,7 +517,16 @@
         "inLanguage": "en",
         "about": {
           "@type": "LegalService",
-          "name": "Sichangi Law Alliance LLP"
+          "name": "Sichangi Law Alliance LLP",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "BHQ, 31/33 Muthithi Road",
+            "addressLocality": "Nairobi",
+            "addressCountry": "KE"
+          },
+          "email": "admin@betasigmacorporation.com",
+          "telephone": "+254790419999",
+          "hasMap": "https://maps.app.goo.gl/rSQs5PZV4JwYe8Kn6"
         }
       }
     </script>
@@ -572,60 +581,16 @@
                 >Home</a
               >
 
-              <!-- Dropdown: opens on hover (pointer) and on focus-within (keyboard / touch) -->
-              <div class="group relative">
-                <button
-                  type="button"
-                  class="flex items-center gap-1.5 font-body text-base font-medium text-white transition hover:text-accent"
-                >
-                  About
-                  <svg
-                    class="h-3.5 w-3.5 text-accent transition-transform duration-300 lg:group-hover:rotate-180"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                  >
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
-                </button>
-                <div
-                  class="dropdown mt-3 lg:absolute lg:left-0 lg:top-full lg:mt-0 lg:hidden lg:w-56 lg:pt-5 lg:group-focus-within:block lg:group-hover:block"
-                >
-                  <div
-                    class="flex flex-col gap-3 rounded-2xl bg-white p-5 lg:shadow-2xl"
-                  >
-                    <a
-                      href="#Main"
-                      class="link-underline text-base text-muted transition hover:text-primary"
-                      >Home</a
-                    >
-                    <a
-                      href="#about"
-                      class="link-underline text-base text-muted transition hover:text-primary"
-                      >About</a
-                    >
-                    <a
-                      href="#our-story"
-                      class="link-underline text-base text-muted transition hover:text-primary"
-                      >Our Story</a
-                    >
-                    <a
-                      href="#testimonials"
-                      class="link-underline text-base text-muted transition hover:text-primary"
-                      >Our Clients</a
-                    >
-                    <a
-                      href="#services"
-                      class="link-underline text-base text-muted transition hover:text-primary"
-                      >Practice Areas</a
-                    >
-                  </div>
-                </div>
-              </div>
+              <a
+                href="#about"
+                class="link-underline font-body text-base font-medium text-white transition hover:text-accent"
+                >About Us</a
+              >
+              <a
+                href="#our-story"
+                class="link-underline font-body text-base font-medium text-white transition hover:text-accent"
+                >Our Story</a
+              >
 
               <a
                 href="#services"
@@ -958,6 +923,32 @@
           </div>
         </div>
 
+        <div class="mt-12 grid gap-6 md:grid-cols-2">
+          <div
+            id="our-vision"
+            class="rounded-2xl border border-accent/30 bg-white p-6 md:p-8"
+          >
+            <h3 class="font-heading text-xl font-semibold text-dark">
+              Our Vision
+            </h3>
+            <p class="mt-4 text-lg leading-relaxed text-muted">
+              African legal excellence.
+            </p>
+          </div>
+          <div
+            id="our-mission"
+            class="rounded-2xl border border-accent/30 bg-white p-6 md:p-8"
+          >
+            <h3 class="font-heading text-xl font-semibold text-dark">
+              Our Mission
+            </h3>
+            <p class="mt-4 text-lg leading-relaxed text-muted">
+              To think differently, go where others haven&rsquo;t, and deliver
+              exceptional outcomes for our clients across Africa.
+            </p>
+          </div>
+        </div>
+
         <div
           class="reveal mt-16 h-px w-full origin-left animate-grow-x bg-accent/30"
         ></div>
@@ -1168,9 +1159,27 @@
               the future &mdash; ready to help you navigate what lies ahead with
               a tried and tested legal partner by your side.
             </p>
-            <p class="font-heading text-lg text-accent">
-              Karibu, Sawubona, Akwaba, Salaam &mdash; Sichangi Law Alliance.
-            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        id="welcome-marquee"
+        class="mt-12 overflow-hidden border-y border-accent/30 py-6 lg:mt-16 lg:py-8"
+      >
+        <p class="sr-only motion-reduce:not-sr-only motion-reduce:px-4 motion-reduce:text-center motion-reduce:text-accent">
+          Karibu, Sawubona, Akwaba, Salaam &mdash; Sichangi Law Alliance.
+        </p>
+        <div
+          class="marquee-pause flex w-max animate-marquee font-heading text-2xl font-medium text-accent motion-reduce:hidden md:text-4xl lg:text-5xl"
+          aria-hidden="true"
+        >
+          <div class="flex shrink-0 items-center">
+            <span class="whitespace-nowrap pr-16">Karibu, Sawubona, Akwaba, Salaam &mdash; Sichangi Law Alliance.</span>
+            <span class="whitespace-nowrap pr-16">Karibu, Sawubona, Akwaba, Salaam &mdash; Sichangi Law Alliance.</span>
+          </div>
+          <div class="flex shrink-0 items-center">
+            <span class="whitespace-nowrap pr-16">Karibu, Sawubona, Akwaba, Salaam &mdash; Sichangi Law Alliance.</span>
+            <span class="whitespace-nowrap pr-16">Karibu, Sawubona, Akwaba, Salaam &mdash; Sichangi Law Alliance.</span>
           </div>
         </div>
       </div>
@@ -1179,7 +1188,7 @@
     <!-- ===================== PARTNERS ===================== -->
     <section
       id="partners"
-      class="overflow-clip bg-offwhite pb-16 md:pb-24 lg:pb-[130px]"
+      class="overflow-clip bg-offwhite pt-8 pb-16 md:pt-12 md:pb-24 lg:pb-[130px]"
     >
       <div class="mx-auto max-w-container px-4">
         <div class="flex flex-wrap items-center gap-6">
@@ -2706,7 +2715,7 @@
                 class="reveal my-4 h-px w-full max-w-xs origin-left animate-grow-x bg-accent/40"
               ></div>
               <a
-                href="#cta"
+                href="tel:+254790419999"
                 class="flex items-center gap-3 font-heading text-[25px] font-medium"
               >
                 <svg
@@ -2723,7 +2732,7 @@
                     d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"
                   />
                 </svg>
-                Contact details available on request
+                0790419999
               </a>
               <a
                 href="#cta"
@@ -3007,7 +3016,7 @@
             <div>
               <div class="text-base text-white/70">Call Us</div>
               <a
-                href="#cta"
+                href="tel:+254790419999"
                 class="mt-2 flex items-center gap-2 font-heading text-xl font-medium text-offwhite transition hover:text-accent"
               >
                 <svg
@@ -3024,13 +3033,13 @@
                     d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"
                   />
                 </svg>
-                Contact details available on request
+                0790419999
               </a>
             </div>
             <div>
               <div class="text-base text-white/70">Email Us</div>
               <a
-                href="#cta"
+                href="mailto:admin@betasigmacorporation.com"
                 class="mt-2 flex items-center gap-2 font-heading text-xl font-medium text-offwhite transition hover:text-accent"
               >
                 <svg
@@ -3048,7 +3057,7 @@
                   />
                   <polyline points="22,6 12,13 2,6" />
                 </svg>
-                Sichangi Law Alliance LLP
+                <span class="min-w-0 break-words">admin@betasigmacorporation.com</span>
               </a>
             </div>
             <div>
@@ -3069,8 +3078,15 @@
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                   <circle cx="12" cy="10" r="3" />
                 </svg>
-                Serving public and private sector clients
+                BHQ, 31/33 Muthithi Road, Nairobi, Kenya
               </div>
+              <a
+                href="https://maps.app.goo.gl/rSQs5PZV4JwYe8Kn6"
+                target="_blank"
+                rel="noopener"
+                class="mt-4 inline-block text-accent transition hover:text-white"
+                >Visit our offices &rarr;</a
+              >
             </div>
           </div>
         </div>
@@ -3530,7 +3546,24 @@
               Contact
             </h4>
             <address class="flex flex-col gap-3 not-italic text-offwhite/80">
-              <span>33 Muthithi Road, Westlands<br />Nairobi, Kenya</span>
+              <span>BHQ, 31/33 Muthithi Road<br />Nairobi, Kenya</span>
+              <a
+                href="mailto:admin@betasigmacorporation.com"
+                class="w-fit break-all transition hover:text-accent"
+                >admin@betasigmacorporation.com</a
+              >
+              <a
+                href="tel:+254790419999"
+                class="link-underline w-fit transition hover:text-accent"
+                >0790419999</a
+              >
+              <a
+                href="https://maps.app.goo.gl/rSQs5PZV4JwYe8Kn6"
+                target="_blank"
+                rel="noopener"
+                class="link-underline w-fit transition hover:text-accent"
+                >Visit our offices &rarr;</a
+              >
               <a
                 href="https://www.sichangilaw.africa"
                 target="_blank"
