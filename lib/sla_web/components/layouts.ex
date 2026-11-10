@@ -64,6 +64,10 @@ defmodule SlaWeb.Layouts do
             name="hero-sparkles"
             class="size-5"
           /><span>AI workspace</span></.link>
+          <.link id="nav-integrations" navigate={~p"/integrations"}><.icon
+            name="hero-puzzle-piece"
+            class="size-5"
+          /><span>Integrations</span></.link>
           <.link
             :if={Sla.Policy.admin?(@current_scope)}
             id="nav-admin-users"

@@ -50,11 +50,29 @@ defmodule SlaWeb.Router do
       live "/billing", BillingLive.Index, :index
       live "/reports", ReportsLive.Index, :index
       live "/intelligence", IntelligenceLive.Index, :index
+      live "/integrations", IntegrationLive.Index, :index
       live "/admin/users", AdminUserLive.Index, :index
     end
 
     get "/documents/:id/download", DocumentFileController, :download
     get "/documents/:id/preview", DocumentFileController, :preview
+  end
+
+  scope "/webhooks", SlaWeb do
+    pipe_through :api
+    post "/:provider", IntegrationWebhookController, :receive
+  end
+
+  scope "/portal", SlaWeb do
+    pipe_through :browser
+
+    live_session :client_portal do
+      live "/log-in", PortalLive.Login, :new
+      live "/", PortalLive.Index, :index
+    end
+
+    post "/log-in", PortalSessionController, :create
+    delete "/log-out", PortalSessionController, :delete
   end
 
   # Other scopes may use custom stacks.

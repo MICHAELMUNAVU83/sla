@@ -9,6 +9,7 @@ defmodule Sla.Documents.Document do
     field :ocr_status, :string, default: "not_requested"
     field :extracted_data, :map, default: %{}
     field :embedding, {:array, :float}
+    field :portal_visible, :boolean, default: false
     belongs_to :client, Sla.Clients.Client
     belongs_to :matter, Sla.Matters.Matter
     belongs_to :category, Sla.Documents.Category
@@ -29,7 +30,8 @@ defmodule Sla.Documents.Document do
       :extracted_text,
       :ocr_status,
       :extracted_data,
-      :embedding
+      :embedding,
+      :portal_visible
     ])
     |> validate_required([:client_id, :category_id, :title])
     |> validate_length(:title, max: 240)

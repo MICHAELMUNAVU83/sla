@@ -15,6 +15,10 @@ defmodule Sla.Billing.Invoice do
     field :total, :decimal, default: 0
     field :approved_at, :utc_datetime
     field :issued_at, :utc_datetime
+    field :etims_control_number, :string
+    field :etims_qr_data, :string
+    field :etims_status, :string
+    field :etims_submitted_at, :utc_datetime
     belongs_to :client, Sla.Clients.Client
     belongs_to :matter, Sla.Matters.Matter
     belongs_to :approved_by, Sla.Accounts.User

@@ -1,5 +1,25 @@
 import Config
 
+integration_config = fn prefix ->
+  [
+    base_url: System.get_env("#{prefix}_BASE_URL"),
+    token: System.get_env("#{prefix}_API_TOKEN"),
+    webhook_token: System.get_env("#{prefix}_WEBHOOK_TOKEN")
+  ]
+end
+
+config :sla, :integrations,
+  mpesa: integration_config.("MPESA"),
+  etims: integration_config.("ETIMS"),
+  gmail: integration_config.("GMAIL"),
+  outlook: integration_config.("OUTLOOK"),
+  docusign: integration_config.("DOCUSIGN"),
+  africastalking: integration_config.("AFRICASTALKING"),
+  whatsapp: integration_config.("WHATSAPP"),
+  quickbooks: integration_config.("QUICKBOOKS"),
+  sage: integration_config.("SAGE"),
+  xero: integration_config.("XERO")
+
 if config_env() == :prod do
   config :sla,
     storage: [

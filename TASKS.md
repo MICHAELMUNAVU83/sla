@@ -189,13 +189,13 @@ Legend: ⭐ = gap from Be Corp (top priority)
 
 ## M7 — Integrations (3–4 wks)
 
-- [ ] M-Pesa Daraja: STK push, C2B paybill callback → auto payment + receipt
-- [ ] KRA eTIMS: submit tax invoices, store control number/QR on PDF
-- [ ] Gmail/Outlook integration: file emails to matter → auto activity
-- [ ] Client portal (separate auth): matter status, shared docs, invoices, pay via M-Pesa, secure messages
-- [ ] E-signature for engagement letters/agreements
-- [ ] SMS/WhatsApp notifications (Africa's Talking / WhatsApp Business API)
-- [ ] Accounting export/sync (QuickBooks / Sage / Xero — confirm which)
+- [x] M-Pesa Daraja: STK push, C2B paybill callback → auto payment + receipt
+- [x] KRA eTIMS: submit tax invoices, store control number/QR on PDF
+- [x] Gmail/Outlook integration: file emails to matter → auto activity
+- [x] Client portal (separate auth): matter status, shared docs, invoices, pay via M-Pesa, secure messages
+- [x] E-signature for engagement letters/agreements
+- [x] SMS/WhatsApp notifications (Africa's Talking / WhatsApp Business API)
+- [x] Accounting export/sync (QuickBooks / Sage / Xero — confirm which)
 
 ---
 
