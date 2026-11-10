@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content={get_csrf_token()} />
+    <.live_title default="SLA Practice ERP" suffix=" · Sichangi Law Alliance" phx-no-format>{assigns[:page_title]}</.live_title>
+    <link phx-track-static rel="stylesheet" href={~p"/assets/css/app.css"} />
+    <script defer phx-track-static type="text/javascript" src={~p"/assets/js/app.js"}>
+    </script>
+  </head>
+  <body>
+    <div :if={@current_scope && @current_scope.user} class="sr-only">
+      <span>{@current_scope.user.email}</span><.link href={~p"/users/settings"}>Settings</.link>
+      <.link href={~p"/users/log-out"} method="delete">Log out</.link>
+    </div>
+    {@inner_content}
+  </body>
+</html>
