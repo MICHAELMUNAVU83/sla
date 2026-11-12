@@ -1,32 +1,24 @@
-defmodule SlaWeb.MatterLive.Form do
-  use SlaWeb, :live_view
+defmodule SlaWeb.MatterLive.FormComponent do
+  @moduledoc "Matter open/edit form, rendered inside a modal on the matter list and matter pages."
+  use SlaWeb, :live_component
   alias Sla.{Accounts, Clients, Matters}
   alias Sla.Matters.Matter
 
-  def mount(params, _session, socket) do
-    matter =
-      if params["id"],
-        do: Matters.get_matter_for_user!(params["id"], socket.assigns.current_scope.user),
-        else: %Matter{client_id: parse_id(params["client_id"]), opened_on: Date.utc_today()}
-
+  @impl true
+  def update(%{matter: matter} = assigns, socket) do
     {:ok,
-     assign(socket,
-       matter: matter,
-       form: to_form(Matters.change_matter(matter)),
-       clients: Clients.list_clients(),
-       users: Accounts.list_users(),
-       page_title: if(matter.id, do: "Edit matter", else: "Open a matter")
-     )}
+     socket
+     |> assign(assigns)
+     |> assign_new(:clients, fn -> Clients.list_clients() end)
+     |> assign_new(:users, fn -> Accounts.list_users() end)
+     |> assign_new(:form, fn -> to_form(Matters.change_matter(matter)) end)}
   end
 
-  def handle_event("validate", %{"matter" => attrs}, socket),
-    do:
-      {:noreply,
-       assign(
-         socket,
-         :form,
-         to_form(Matters.change_matter(socket.assigns.matter, attrs), action: :validate)
-       )}
+  @impl true
+  def handle_event("validate", %{"matter" => attrs}, socket) do
+    changeset = Matters.change_matter(socket.assigns.matter, attrs)
+    {:noreply, assign(socket, :form, to_form(changeset, action: :validate))}
+  end
 
   def handle_event("save", %{"matter" => attrs}, socket) do
     result =
@@ -46,11 +38,18 @@ defmodule SlaWeb.MatterLive.Form do
     end
   end
 
+  @impl true
   def render(assigns) do
     ~H"""
-    <Layouts.app flash={@flash} current_scope={@current_scope}>
-      <.page_header title={@page_title} eyebrow="Matter file" />
-      <.form for={@form} id="matter-form" phx-change="validate" phx-submit="save" class="form-card">
+    <div>
+      <.form
+        for={@form}
+        id="matter-form"
+        phx-target={@myself}
+        phx-change="validate"
+        phx-submit="save"
+        class="modal-form"
+      >
         <div class="form-grid">
           <.input
             field={@form[:client_id]}
@@ -91,18 +90,13 @@ defmodule SlaWeb.MatterLive.Form do
         </div>
         <.input :if={@matter.id} field={@form[:closed_on]} type="date" label="Closed on" />
         <div class="form-actions">
-          <.link
-            navigate={if(@matter.id, do: ~p"/matters/#{@matter}", else: ~p"/matters")}
-            class="btn-secondary"
-          >Cancel</.link><.button id="save-matter" class="btn-primary" phx-disable-with="Saving…">Save matter</.button>
+          <.link patch={@return_to} class="btn-secondary">Cancel</.link>
+          <.button id="save-matter" class="btn-primary" phx-disable-with="Saving…">Save matter</.button>
         </div>
       </.form>
-    </Layouts.app>
+    </div>
     """
   end
-
-  defp parse_id(nil), do: nil
-  defp parse_id(id), do: String.to_integer(id)
 
   defp humanize(value),
     do:

@@ -1,8 +1,6 @@
 defmodule SlaWeb.UserLive.Settings do
   use SlaWeb, :live_view
 
-  on_mount {SlaWeb.UserAuth, :require_sudo_mode}
-
   alias Sla.{Accounts, Tracker}
 
   @impl true

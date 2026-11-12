@@ -9,6 +9,8 @@ defmodule SlaWeb.ClientLive.Index do
      |> stream(:clients, Clients.list_clients())}
   end
 
+  def handle_params(_params, _url, socket), do: {:noreply, socket}
+
   def handle_event("filter", params, socket) do
     filters = Map.take(params, ["search", "type"])
 
@@ -23,7 +25,7 @@ defmodule SlaWeb.ClientLive.Index do
     <Layouts.app flash={@flash} current_scope={@current_scope}>
       <.page_header title="Clients" eyebrow="Relationship management">
         <:actions>
-          <.link id="new-client" navigate={~p"/clients/new"} class="btn-primary"><.icon
+          <.link id="new-client" patch={~p"/clients/new"} class="btn-primary"><.icon
             name="hero-plus"
             class="size-4"
           /> New client</.link>
@@ -43,7 +45,7 @@ defmodule SlaWeb.ClientLive.Index do
         />
       </.form>
       <div id="clients" phx-update="stream" class="data-list">
-        <div class="empty-state hidden only:block">
+        <div id="clients-empty" class="empty-state hidden only:block">
           <.icon name="hero-user-group" class="size-10" /><p>No clients match this view.</p>
         </div>
         <.link
@@ -64,6 +66,22 @@ defmodule SlaWeb.ClientLive.Index do
           />
         </.link>
       </div>
+      <.modal
+        :if={@live_action == :new}
+        id="client-modal"
+        title="New client"
+        subtitle="Create the client record before opening matters"
+        size="lg"
+        show
+        on_cancel={JS.patch(~p"/clients")}
+      >
+        <.live_component
+          module={SlaWeb.ClientLive.FormComponent}
+          id="new-client-form"
+          client={%Sla.Clients.Client{}}
+          return_to={~p"/clients"}
+        />
+      </.modal>
     </Layouts.app>
     """
   end

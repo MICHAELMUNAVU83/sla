@@ -468,6 +468,101 @@ defmodule SlaWeb.CoreComponents do
     """
   end
 
+  @doc """
+  Renders a modal dialog used for every create/edit flow.
+
+  Open it client-side with `phx-click={show_modal("my-modal")}`, or render it with
+  `show` (e.g. for a `live_action` route) and an `on_cancel` patch. Close it from the
+  server after a successful save with `close_modal(socket, "my-modal")`.
+  """
+  attr :id, :string, required: true
+  attr :title, :string, required: true
+  attr :subtitle, :string, default: nil
+  attr :show, :boolean, default: false
+  attr :on_cancel, JS, default: %JS{}
+  attr :size, :string, default: "md", values: ~w(md lg)
+  slot :inner_block, required: true
+
+  def modal(assigns) do
+    ~H"""
+    <div
+      id={@id}
+      phx-mounted={@show && show_modal(@id)}
+      phx-remove={hide_modal(@id)}
+      data-cancel={JS.exec(@on_cancel, "phx-remove")}
+      class="relative z-50 hidden"
+    >
+      <div id={"#{@id}-bg"} class="modal-backdrop hidden" aria-hidden="true" />
+      <div
+        class="fixed inset-0 overflow-y-auto"
+        aria-labelledby={"#{@id}-title"}
+        role="dialog"
+        aria-modal="true"
+        tabindex="0"
+      >
+        <div class="flex min-h-full items-center justify-center p-4 sm:p-8">
+          <.focus_wrap
+            id={"#{@id}-container"}
+            phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}
+            phx-key="escape"
+            phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
+            class={["modal-panel hidden", @size == "lg" && "modal-panel-lg"]}
+          >
+            <header class="modal-header">
+              <div>
+                <h2 id={"#{@id}-title"}>{@title}</h2>
+                <p :if={@subtitle}>{@subtitle}</p>
+              </div>
+              <button
+                type="button"
+                id={"#{@id}-close"}
+                phx-click={JS.exec("data-cancel", to: "##{@id}")}
+                class="modal-close"
+                aria-label={gettext("close")}
+              >
+                <.icon name="hero-x-mark" class="size-5" />
+              </button>
+            </header>
+            <div id={"#{@id}-content"} class="modal-body">
+              {render_slot(@inner_block)}
+            </div>
+          </.focus_wrap>
+        </div>
+      </div>
+    </div>
+    """
+  end
+
+  def show_modal(js \\ %JS{}, id) when is_binary(id) do
+    js
+    |> JS.show(to: "##{id}")
+    |> JS.show(
+      to: "##{id}-bg",
+      time: 200,
+      transition: {"transition-opacity ease-out duration-200", "opacity-0", "opacity-100"}
+    )
+    |> show("##{id}-container")
+    |> JS.add_class("overflow-hidden", to: "body")
+    |> JS.focus_first(to: "##{id}-content")
+  end
+
+  def hide_modal(js \\ %JS{}, id) do
+    js
+    |> JS.hide(
+      to: "##{id}-bg",
+      time: 200,
+      transition: {"transition-opacity ease-in duration-200", "opacity-100", "opacity-0"}
+    )
+    |> hide("##{id}-container")
+    |> JS.hide(to: "##{id}", transition: {"block", "block", "block"}, time: 200)
+    |> JS.remove_class("overflow-hidden", to: "body")
+    |> JS.pop_focus()
+  end
+
+  @doc "Closes a client-opened modal from the server (e.g. after a successful save)."
+  def close_modal(socket, id),
+    do: Phoenix.LiveView.push_event(socket, "js-exec", %{to: "##{id}", attr: "data-cancel"})
+
   ## JS Commands
 
   def show(js \\ %JS{}, selector) do

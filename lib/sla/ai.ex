@@ -183,7 +183,9 @@ defmodule Sla.AI do
     if setting.enabled do
       started = System.monotonic_time(:millisecond)
 
-      provider = Application.get_env(:sla, __MODULE__, []) |> Keyword.get(:provider, Sla.AI.Claude)
+      provider =
+        Application.get_env(:sla, __MODULE__, []) |> Keyword.get(:provider, Sla.AI.Claude)
+
       result = provider.generate(prompt, model: setting.model)
       duration = System.monotonic_time(:millisecond) - started
       log_usage(result, kind, setting.model, duration, user, matter)

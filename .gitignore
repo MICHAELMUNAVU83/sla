@@ -35,3 +35,4 @@ sla-*.tar
 npm-debug.log
 /assets/node_modules/
 
+/scripts/manual/node_modules/

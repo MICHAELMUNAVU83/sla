@@ -3,6 +3,16 @@ defmodule SlaWeb.PageControllerTest do
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")
-    assert html_response(conn, 200) =~ "Peace of mind from prototype to production"
+    document = conn |> html_response(200) |> LazyHTML.from_document()
+
+    assert document |> LazyHTML.query("#Main") |> LazyHTML.to_html() != ""
+
+    assert document
+           |> LazyHTML.query("#staff-login-button[href='/users/log-in']")
+           |> LazyHTML.to_html() != ""
+
+    assert document
+           |> LazyHTML.query("#services")
+           |> LazyHTML.to_html() != ""
   end
 end

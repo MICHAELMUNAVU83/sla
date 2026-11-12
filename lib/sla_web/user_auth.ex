@@ -231,34 +231,6 @@ defmodule SlaWeb.UserAuth do
     end
   end
 
-  def on_mount(:require_two_factor, _params, session, socket) do
-    socket = mount_current_scope(socket, session)
-    user = socket.assigns.current_scope && socket.assigns.current_scope.user
-
-    cond do
-      is_nil(user) ->
-        {:halt,
-         socket
-         |> Phoenix.LiveView.put_flash(:error, "You must log in to access this page.")
-         |> Phoenix.LiveView.redirect(to: ~p"/users/log-in")}
-
-      !user.active ->
-        {:halt,
-         socket
-         |> Phoenix.LiveView.put_flash(:error, "Your account has been deactivated.")
-         |> Phoenix.LiveView.redirect(to: ~p"/users/log-in")}
-
-      !Accounts.totp_enabled?(user) ->
-        {:halt,
-         socket
-         |> Phoenix.LiveView.put_flash(:error, "Set up two-factor authentication to continue.")
-         |> Phoenix.LiveView.redirect(to: ~p"/users/two-factor/setup")}
-
-      true ->
-        {:cont, socket}
-    end
-  end
-
   def on_mount(:require_sudo_mode, _params, session, socket) do
     socket = mount_current_scope(socket, session)
 

@@ -8,14 +8,7 @@ defmodule SlaWeb.DocumentFileController do
   defp serve(conn, id, disposition) do
     user = conn.assigns.current_scope.user
 
-    if !Sla.Accounts.totp_enabled?(user) do
-      conn
-      |> put_flash(:error, "Set up two-factor authentication to continue.")
-      |> redirect(to: ~p"/users/two-factor/setup")
-      |> halt()
-    else
-      serve_document(conn, user, id, disposition)
-    end
+    serve_document(conn, user, id, disposition)
   end
 
   defp serve_document(conn, user, id, disposition) do

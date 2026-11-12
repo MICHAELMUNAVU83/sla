@@ -1,27 +1,22 @@
-defmodule SlaWeb.ClientLive.Form do
-  use SlaWeb, :live_view
+defmodule SlaWeb.ClientLive.FormComponent do
+  @moduledoc "Client create/edit form, rendered inside a modal on the client list and client pages."
+  use SlaWeb, :live_component
   alias Sla.Clients
   alias Sla.Clients.Client
 
-  def mount(params, _session, socket) do
-    client = if params["id"], do: Clients.get_client!(params["id"]), else: %Client{}
-
+  @impl true
+  def update(%{client: client} = assigns, socket) do
     {:ok,
-     assign(socket,
-       client: client,
-       form: to_form(Clients.change_client(client)),
-       page_title: if(client.id, do: "Edit client", else: "New client")
-     )}
+     socket
+     |> assign(assigns)
+     |> assign_new(:form, fn -> to_form(Clients.change_client(client)) end)}
   end
 
-  def handle_event("validate", %{"client" => attrs}, socket),
-    do:
-      {:noreply,
-       assign(
-         socket,
-         :form,
-         to_form(Clients.change_client(socket.assigns.client, attrs), action: :validate)
-       )}
+  @impl true
+  def handle_event("validate", %{"client" => attrs}, socket) do
+    changeset = Clients.change_client(socket.assigns.client, attrs)
+    {:noreply, assign(socket, :form, to_form(changeset, action: :validate))}
+  end
 
   def handle_event("save", %{"client" => attrs}, socket) do
     result =
@@ -39,11 +34,18 @@ defmodule SlaWeb.ClientLive.Form do
     end
   end
 
+  @impl true
   def render(assigns) do
     ~H"""
-    <Layouts.app flash={@flash} current_scope={@current_scope}>
-      <.page_header title={@page_title} eyebrow="Client record" />
-      <.form for={@form} id="client-form" phx-change="validate" phx-submit="save" class="form-card">
+    <div>
+      <.form
+        for={@form}
+        id="client-form"
+        phx-target={@myself}
+        phx-change="validate"
+        phx-submit="save"
+        class="modal-form"
+      >
         <div class="form-grid">
           <.input
             field={@form[:type]}
@@ -79,13 +81,11 @@ defmodule SlaWeb.ClientLive.Form do
           }
         />
         <div class="form-actions">
-          <.link
-            navigate={if(@client.id, do: ~p"/clients/#{@client}", else: ~p"/clients")}
-            class="btn-secondary"
-          >Cancel</.link><.button id="save-client" class="btn-primary" phx-disable-with="Saving…">Save client</.button>
+          <.link patch={@return_to} class="btn-secondary">Cancel</.link>
+          <.button id="save-client" class="btn-primary" phx-disable-with="Saving…">Save client</.button>
         </div>
       </.form>
-    </Layouts.app>
+    </div>
     """
   end
 end

@@ -37,28 +37,35 @@ defmodule SlaWeb.Layouts do
     ~H"""
     <div class="app-frame">
       <aside :if={@current_scope && @current_scope.user} class="sidebar">
-        <.link navigate={~p"/matters"} class="brand-lockup"><span class="brand-monogram">SLA</span><span><strong>Sichangi Law</strong><small>Alliance LLP</small></span></.link>
+        <.link navigate={~p"/matters"} class="brand-lockup"><img
+          src={~p"/images/logo-sla-wordmark.png"}
+          alt="Sichangi Law Alliance"
+        /><span class="sr-only">Sichangi Law Alliance</span></.link>
         <nav class="side-nav" aria-label="Primary navigation">
-          <.link id="nav-matters" navigate={~p"/matters"}><.icon name="hero-scale" class="size-5" /><span>Matters</span></.link>
           <.link id="nav-clients" navigate={~p"/clients"}><.icon
             name="hero-user-group"
             class="size-5"
-          /><span>Clients</span></.link>
-          <span class="nav-label">Workspaces</span>
-          <.link id="nav-diary" navigate={~p"/diary"}><.icon name="hero-calendar-days" class="size-5" /><span>My diary</span></.link>
+          /><span>Client management</span></.link>
+          <.link id="nav-matters" navigate={~p"/matters"}><.icon name="hero-scale" class="size-5" /><span>Case management</span></.link>
+          <.link id="nav-diary" navigate={~p"/diary"}><.icon name="hero-bell-alert" class="size-5" /><span>Bring-up system</span></.link>
           <.link id="nav-calendar" navigate={~p"/calendar"}><.icon
             name="hero-calendar"
             class="size-5"
-          /><span>Court calendar</span></.link>
+          /><span>Calendar & deadlines</span></.link>
+          <.link id="nav-documents" navigate={~p"/documents"}><.icon
+            name="hero-document-text"
+            class="size-5"
+          /><span>Document management</span></.link>
+          <.link id="nav-billing" navigate={~p"/billing"}><.icon name="hero-banknotes" class="size-5" /><span>Legal fees</span></.link>
+          <.link id="nav-allocation" navigate={~p"/allocation"}><.icon
+            name="hero-user-circle"
+            class="size-5"
+          /><span>Work allocation</span></.link>
+          <span class="nav-label">More</span>
           <.link id="nav-intake" navigate={~p"/intake"}><.icon
             name="hero-clipboard-document-check"
             class="size-5"
           /><span>Intake & compliance</span></.link>
-          <.link id="nav-documents" navigate={~p"/documents"}><.icon
-            name="hero-document-text"
-            class="size-5"
-          /><span>Documents</span></.link>
-          <.link id="nav-billing" navigate={~p"/billing"}><.icon name="hero-banknotes" class="size-5" /><span>Billing</span></.link>
           <.link id="nav-reports" navigate={~p"/reports"}><.icon name="hero-chart-bar" class="size-5" /><span>Accounts & reports</span></.link>
           <.link id="nav-intelligence" navigate={~p"/intelligence"}><.icon
             name="hero-sparkles"
@@ -68,6 +75,7 @@ defmodule SlaWeb.Layouts do
             name="hero-puzzle-piece"
             class="size-5"
           /><span>Integrations</span></.link>
+          <.link id="nav-manual" navigate={~p"/manual"}><.icon name="hero-book-open" class="size-5" /><span>User manual</span></.link>
           <.link
             :if={Sla.Policy.admin?(@current_scope)}
             id="nav-admin-users"
@@ -85,7 +93,9 @@ defmodule SlaWeb.Layouts do
           /></.link>
         </div>
       </aside>
-      <div class="main-column">
+      <div class={
+        if(@current_scope && @current_scope.user, do: "main-column", else: "public-main-column")
+      }>
         <header :if={@current_scope && @current_scope.user} class="topbar">
           <div><span class="pulse-dot"></span> Practice operations</div><div class="topbar-tools">
             <.link id="notification-bell" navigate={~p"/notifications"} class="notification-bell"><.icon
@@ -98,8 +108,17 @@ defmodule SlaWeb.Layouts do
               class="size-5"
             /><span class="sr-only">Account settings</span></.link>
           </div>
-        </header><main class="app-content">
-          <div class="content-width">{render_slot(@inner_block)}</div>
+        </header><main class={
+          if(@current_scope && @current_scope.user, do: "app-content", else: "public-content")
+        }>
+          <div class={
+            if(@current_scope && @current_scope.user,
+              do: "w-[96%] mx-auto",
+              else: "public-content-inner"
+            )
+          }>
+            {render_slot(@inner_block)}
+          </div>
         </main>
       </div>
     </div>

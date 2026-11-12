@@ -44,7 +44,19 @@ defmodule SlaWeb.MatterLive.Show do
      )}
   end
 
-  def handle_event("tab", %{"tab" => tab}, socket), do: {:noreply, assign(socket, :tab, tab)}
+  def handle_params(_params, _url, socket), do: {:noreply, socket}
+
+  # Streamed lists only render while their tab is visible, so re-send them on every tab switch.
+  def handle_event("tab", %{"tab" => tab}, socket) do
+    matter = socket.assigns.matter
+    user = socket.assigns.current_scope.user
+
+    {:noreply,
+     socket
+     |> assign(:tab, tab)
+     |> stream(:activities, Tracker.list_activities(matter.id), reset: true)
+     |> stream(:documents, Documents.list_documents(user, %{matter_id: matter.id}), reset: true)}
+  end
 
   def handle_event("save-task", %{"task" => attrs}, socket) do
     case Practice.create_task(socket.assigns.matter, socket.assigns.current_scope.user, attrs) do
@@ -54,6 +66,7 @@ defmodule SlaWeb.MatterLive.Show do
            tasks: Practice.list_tasks(socket.assigns.matter.id),
            task_form: to_form(Practice.change_task(), as: :task)
          )
+         |> close_modal("task-modal")
          |> put_flash(:info, "Task added.")}
 
       {:error, changeset} ->
@@ -72,6 +85,7 @@ defmodule SlaWeb.MatterLive.Show do
 
     {:noreply,
      assign(socket, tasks: Practice.list_tasks(socket.assigns.matter.id))
+     |> close_modal("workflow-modal")
      |> put_flash(:info, "Workflow checklist created.")}
   end
 
@@ -91,6 +105,7 @@ defmodule SlaWeb.MatterLive.Show do
                as: :event
              )
          )
+         |> close_modal("event-modal")
          |> put_flash(:info, "Diary event added.")}
 
       {:error, changeset} ->
@@ -104,6 +119,7 @@ defmodule SlaWeb.MatterLive.Show do
         {:noreply,
          socket
          |> assign(fee_form: to_form(Billing.change_fee_agreement(fee), as: :fee))
+         |> close_modal("fee-modal")
          |> put_flash(:info, "Fee agreement saved.")}
 
       {:error, changeset} ->
@@ -118,7 +134,10 @@ defmodule SlaWeb.MatterLive.Show do
            attrs
          ) do
       {:ok, _} ->
-        {:noreply, refresh_billing(socket) |> put_flash(:info, "Time entry added.")}
+        {:noreply,
+         refresh_billing(socket)
+         |> close_modal("time-modal")
+         |> put_flash(:info, "Time entry added.")}
 
       {:error, changeset} ->
         {:noreply, assign(socket, time_form: to_form(changeset, as: :time_entry))}
@@ -128,7 +147,10 @@ defmodule SlaWeb.MatterLive.Show do
   def handle_event("save-disbursement", %{"disbursement" => attrs}, socket) do
     case Billing.create_disbursement(socket.assigns.matter, attrs) do
       {:ok, _} ->
-        {:noreply, refresh_billing(socket) |> put_flash(:info, "Disbursement added.")}
+        {:noreply,
+         refresh_billing(socket)
+         |> close_modal("disbursement-modal")
+         |> put_flash(:info, "Disbursement added.")}
 
       {:error, changeset} ->
         {:noreply, assign(socket, disbursement_form: to_form(changeset, as: :disbursement))}
@@ -173,6 +195,7 @@ defmodule SlaWeb.MatterLive.Show do
            tab: "activity"
          )
          |> stream_insert(:activities, activity, at: 0)
+         |> close_modal("activity-modal")
          |> put_flash(:info, "Activity logged.")}
 
       {:error, changeset} ->
@@ -198,7 +221,7 @@ defmodule SlaWeb.MatterLive.Show do
     <Layouts.app flash={@flash} current_scope={@current_scope}>
       <.page_header title={@matter.title} eyebrow={@matter.file_number}>
         <:actions>
-          <.link id="edit-matter" navigate={~p"/matters/#{@matter}/edit"} class="btn-secondary"><.icon
+          <.link id="edit-matter" patch={~p"/matters/#{@matter}/edit"} class="btn-secondary"><.icon
             name="hero-pencil-square"
             class="size-4"
           /> Edit file</.link>
@@ -247,52 +270,17 @@ defmodule SlaWeb.MatterLive.Show do
               </div>
             </dl>
           <% @tab == "activity" -> %>
-            <div class="activity-workspace">
-              <.form
-                for={@activity_form}
-                id="activity-form"
-                phx-submit="log-activity"
-                class="activity-form"
-              >
-                <div class="form-grid">
-                  <.input
-                    field={@activity_form[:action_type]}
-                    type="select"
-                    label="Action"
-                    options={Enum.map(FileActivity.action_types(), &{humanize(&1), &1})}
-                  /><.input field={@activity_form[:occurred_at]} type="datetime-local" label="When" />
-                </div><.input
-                  field={@activity_form[:note]}
-                  type="textarea"
-                  label="What happened?"
-                  required
-                /><div class="form-grid">
-                  <.input
-                    field={@activity_form[:bring_up_in]}
-                    type="select"
-                    label="Bring up"
-                    options={[
-                      {"No reminder", ""},
-                      {"Tomorrow", "1"},
-                      {"In 3 days", "3"},
-                      {"In 7 days", "7"},
-                      {"In 14 days", "14"},
-                      {"In 30 days", "30"},
-                      {"Custom date", "custom"}
-                    ]}
-                  /><.input field={@activity_form[:custom_due_on]} type="date" label="Custom date" />
-                </div><div class="form-grid">
-                  <.input
-                    field={@activity_form[:assignee_id]}
-                    type="select"
-                    label="Assign reminder to"
-                    options={Enum.map(@users, &{&1.name || &1.email, &1.id})}
-                    prompt="Myself"
-                  /><.input field={@activity_form[:bring_up_note]} label="Reminder note (optional)" />
-                </div><div class="form-actions">
-                  <.button id="log-activity" class="btn-primary">Log activity</.button>
-                </div>
-              </.form><div id="activity-timeline" phx-update="stream" class="timeline">
+            <div class="tab-toolbar mb-5">
+              <p>Every action on the file, newest first.</p>
+              <button
+                id="open-activity-modal"
+                type="button"
+                phx-click={show_modal("activity-modal")}
+                class="btn-primary"
+              ><.icon name="hero-plus" class="size-4" /> Log activity</button>
+            </div>
+            <div>
+              <div id="activity-timeline" phx-update="stream" class="timeline">
                 <div id="activity-timeline-empty" class="empty-state hidden only:block">
                   No activity has been logged.
                 </div><article
@@ -341,57 +329,28 @@ defmodule SlaWeb.MatterLive.Show do
                 <span>Outstanding</span><strong>KES {Decimal.round(@financials.outstanding, 2)}</strong>
               </div>
             </div>
-            <div class="grid gap-6 xl:grid-cols-3">
-              <.form
-                for={@fee_form}
-                id="fee-agreement-form"
-                phx-submit="save-fee"
-                class="activity-form"
-              >
-                <h3 class="font-bold">Fee agreement</h3>
-                <.input
-                  field={@fee_form[:type]}
-                  type="select"
-                  label="Structure"
-                  options={Enum.map(Sla.Billing.FeeAgreement.types(), &{humanize(&1), &1})}
-                />
-                <.input field={@fee_form[:amount]} type="number" step="0.01" label="Agreed amount" />
-                <.input field={@fee_form[:currency]} label="Currency" />
-                <.input field={@fee_form[:terms]} type="textarea" label="Terms" />
-                <.button id="save-fee-agreement" class="btn-primary">Save agreement</.button>
-              </.form>
-              <.form
-                for={@time_form}
-                id="time-entry-form"
-                phx-submit="save-time"
-                class="activity-form"
-              >
-                <h3 class="font-bold">Time entry</h3>
-                <.input field={@time_form[:date]} type="date" label="Date" />
-                <.input field={@time_form[:minutes]} type="number" label="Minutes" />
-                <.input field={@time_form[:rate]} type="number" step="0.01" label="Hourly rate" />
-                <.input field={@time_form[:description]} label="Description" />
-                <.input field={@time_form[:billable]} type="checkbox" label="Billable" />
-                <.button id="save-time-entry" class="btn-primary">Add time</.button>
-              </.form>
-              <.form
-                for={@disbursement_form}
-                id="disbursement-form"
-                phx-submit="save-disbursement"
-                class="activity-form"
-              >
-                <h3 class="font-bold">Disbursement</h3>
-                <.input field={@disbursement_form[:date]} type="date" label="Date" />
-                <.input field={@disbursement_form[:type]} label="Type" />
-                <.input field={@disbursement_form[:description]} label="Description" />
-                <.input field={@disbursement_form[:amount]} type="number" step="0.01" label="Amount" />
-                <.input
-                  field={@disbursement_form[:vat_applicable]}
-                  type="checkbox"
-                  label="VAT applicable"
-                />
-                <.button id="save-disbursement" class="btn-primary">Add expense</.button>
-              </.form>
+            <div class="tab-toolbar my-5">
+              <p>Fee agreement: <strong>{fee_summary(@fee_form)}</strong></p>
+              <div class="page-actions">
+                <button
+                  id="open-fee-modal"
+                  type="button"
+                  phx-click={show_modal("fee-modal")}
+                  class="btn-secondary"
+                ><.icon name="hero-pencil-square" class="size-4" /> Fee agreement</button>
+                <button
+                  id="open-time-modal"
+                  type="button"
+                  phx-click={show_modal("time-modal")}
+                  class="btn-primary"
+                ><.icon name="hero-clock" class="size-4" /> Add time</button>
+                <button
+                  id="open-disbursement-modal"
+                  type="button"
+                  phx-click={show_modal("disbursement-modal")}
+                  class="btn-primary"
+                ><.icon name="hero-plus" class="size-4" /> Add disbursement</button>
+              </div>
             </div>
             <div id="unbilled-wip" class="mt-6 tab-toolbar">
               <p>
@@ -400,7 +359,25 @@ defmodule SlaWeb.MatterLive.Show do
               <.button id="create-wip-invoice" phx-click="create-invoice" class="btn-primary">Create draft invoice</.button>
             </div>
           <% @tab == "tasks" -> %>
-            <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
+            <div class="tab-toolbar mb-5">
+              <p>Open and completed tasks on this file.</p>
+              <div class="page-actions">
+                <button
+                  :if={@workflows != []}
+                  id="open-workflow-modal"
+                  type="button"
+                  phx-click={show_modal("workflow-modal")}
+                  class="btn-secondary"
+                ><.icon name="hero-queue-list" class="size-4" /> Apply workflow</button>
+                <button
+                  id="open-task-modal"
+                  type="button"
+                  phx-click={show_modal("task-modal")}
+                  class="btn-primary"
+                ><.icon name="hero-plus" class="size-4" /> Add task</button>
+              </div>
+            </div>
+            <div>
               <div id="matter-task-list" class="space-y-3">
                 <p :if={@tasks == []} id="matter-tasks-empty" class="empty-copy">No tasks yet.</p>
                 <article
@@ -422,45 +399,18 @@ defmodule SlaWeb.MatterLive.Show do
                   >Complete</button>
                 </article>
               </div>
-              <div class="space-y-5">
-                <.form
-                  for={@task_form}
-                  id="matter-task-form"
-                  phx-submit="save-task"
-                  class="activity-form"
-                >
-                  <h3 class="font-bold">Add task</h3>
-                  <.input field={@task_form[:title]} label="Task" />
-                  <.input field={@task_form[:description]} type="textarea" label="Notes" />
-                  <.input
-                    field={@task_form[:assignee_id]}
-                    type="select"
-                    label="Assignee"
-                    options={Enum.map(@users, &{&1.name || &1.email, &1.id})}
-                    prompt="Unassigned"
-                  />
-                  <.input field={@task_form[:due_on]} type="date" label="Due date" />
-                  <.button id="save-matter-task" class="btn-primary">Add task</.button>
-                </.form>
-                <.form
-                  :if={@workflows != []}
-                  for={@workflow_form}
-                  id="apply-workflow-form"
-                  phx-submit="apply-workflow"
-                  class="activity-form"
-                >
-                  <.input
-                    field={@workflow_form[:id]}
-                    type="select"
-                    label="Workflow template"
-                    options={Enum.map(@workflows, &{&1.name, &1.id})}
-                  />
-                  <.button id="apply-workflow" class="btn-secondary">Create checklist</.button>
-                </.form>
-              </div>
             </div>
           <% @tab == "calendar" -> %>
-            <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
+            <div class="tab-toolbar mb-5">
+              <p>Hearings, meetings and deadlines on this file.</p>
+              <button
+                id="open-event-modal"
+                type="button"
+                phx-click={show_modal("event-modal")}
+                class="btn-primary"
+              ><.icon name="hero-plus" class="size-4" /> Add event</button>
+            </div>
+            <div>
               <div id="matter-event-list" class="space-y-3">
                 <p :if={@events == []} id="matter-events-empty" class="empty-copy">
                   No diary events yet.
@@ -472,36 +422,214 @@ defmodule SlaWeb.MatterLive.Show do
                   )}</span><strong>{event.title}</strong>
                 </article>
               </div>
-              <.form
-                for={@event_form}
-                id="matter-event-form"
-                phx-submit="save-event"
-                class="activity-form"
-              >
-                <h3 class="font-bold">Add diary event</h3>
-                <.input field={@event_form[:title]} label="Title" />
-                <.input
-                  field={@event_form[:event_type]}
-                  type="select"
-                  label="Type"
-                  options={Enum.map(Sla.Practice.CalendarEvent.types(), &{humanize(&1), &1})}
-                />
-                <.input field={@event_form[:starts_at]} type="datetime-local" label="Starts" />
-                <.input
-                  field={@event_form[:assigned_to_id]}
-                  type="select"
-                  label="Assigned to"
-                  options={Enum.map(@users, &{&1.name || &1.email, &1.id})}
-                  prompt="Unassigned"
-                />
-                <.input field={@event_form[:court]} label="Court" />
-                <.button id="save-matter-event" class="btn-primary">Add event</.button>
-              </.form>
             </div>
           <% true -> %>
             <p class="empty-copy">The {@tab} workspace is ready for its delivery milestone.</p>
         <% end %>
       </section>
+      <.modal id="activity-modal" title="Log activity" subtitle={@matter.file_number} size="lg">
+        <.form
+          for={@activity_form}
+          id="activity-form"
+          phx-submit="log-activity"
+          class="modal-form"
+        >
+          <div class="form-grid">
+            <.input
+              field={@activity_form[:action_type]}
+              type="select"
+              label="Action"
+              options={Enum.map(FileActivity.action_types(), &{humanize(&1), &1})}
+            /><.input field={@activity_form[:occurred_at]} type="datetime-local" label="When" />
+          </div><.input
+            field={@activity_form[:note]}
+            type="textarea"
+            label="What happened?"
+            required
+          /><div class="form-grid">
+            <.input
+              field={@activity_form[:bring_up_in]}
+              type="select"
+              label="Bring up"
+              options={[
+                {"No reminder", ""},
+                {"Tomorrow", "1"},
+                {"In 3 days", "3"},
+                {"In 7 days", "7"},
+                {"In 14 days", "14"},
+                {"In 30 days", "30"},
+                {"Custom date", "custom"}
+              ]}
+            /><.input field={@activity_form[:custom_due_on]} type="date" label="Custom date" />
+          </div><div class="form-grid">
+            <.input
+              field={@activity_form[:assignee_id]}
+              type="select"
+              label="Assign reminder to"
+              options={Enum.map(@users, &{&1.name || &1.email, &1.id})}
+              prompt="Myself"
+            /><.input field={@activity_form[:bring_up_note]} label="Reminder note (optional)" />
+          </div><div class="form-actions">
+            <button type="button" class="btn-secondary" phx-click={hide_modal("activity-modal")}>Cancel</button>
+            <.button id="log-activity" class="btn-primary" phx-disable-with="Saving…">Log activity</.button>
+          </div>
+        </.form>
+      </.modal>
+      <.modal id="fee-modal" title="Fee agreement" subtitle={@matter.file_number}>
+        <.form
+          for={@fee_form}
+          id="fee-agreement-form"
+          phx-submit="save-fee"
+          class="modal-form"
+        >
+          <.input
+            field={@fee_form[:type]}
+            type="select"
+            label="Structure"
+            options={Enum.map(Sla.Billing.FeeAgreement.types(), &{humanize(&1), &1})}
+          />
+          <.input field={@fee_form[:amount]} type="number" step="0.01" label="Agreed amount" />
+          <.input field={@fee_form[:currency]} label="Currency" />
+          <.input field={@fee_form[:terms]} type="textarea" label="Terms" />
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" phx-click={hide_modal("fee-modal")}>Cancel</button>
+            <.button id="save-fee-agreement" class="btn-primary" phx-disable-with="Saving…">Save agreement</.button>
+          </div>
+        </.form>
+      </.modal>
+      <.modal id="time-modal" title="Add time entry" subtitle={@matter.file_number}>
+        <.form
+          for={@time_form}
+          id="time-entry-form"
+          phx-submit="save-time"
+          class="modal-form"
+        >
+          <.input field={@time_form[:date]} type="date" label="Date" />
+          <.input field={@time_form[:minutes]} type="number" label="Minutes" />
+          <.input field={@time_form[:rate]} type="number" step="0.01" label="Hourly rate" />
+          <.input field={@time_form[:description]} label="Description" />
+          <.input field={@time_form[:billable]} type="checkbox" label="Billable" />
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" phx-click={hide_modal("time-modal")}>Cancel</button>
+            <.button id="save-time-entry" class="btn-primary" phx-disable-with="Saving…">Add time</.button>
+          </div>
+        </.form>
+      </.modal>
+      <.modal id="disbursement-modal" title="Add disbursement" subtitle={@matter.file_number}>
+        <.form
+          for={@disbursement_form}
+          id="disbursement-form"
+          phx-submit="save-disbursement"
+          class="modal-form"
+        >
+          <.input field={@disbursement_form[:date]} type="date" label="Date" />
+          <.input field={@disbursement_form[:type]} label="Type" />
+          <.input field={@disbursement_form[:description]} label="Description" />
+          <.input field={@disbursement_form[:amount]} type="number" step="0.01" label="Amount" />
+          <.input
+            field={@disbursement_form[:vat_applicable]}
+            type="checkbox"
+            label="VAT applicable"
+          />
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" phx-click={hide_modal("disbursement-modal")}>Cancel</button>
+            <.button id="save-disbursement" class="btn-primary" phx-disable-with="Saving…">Add expense</.button>
+          </div>
+        </.form>
+      </.modal>
+      <.modal id="task-modal" title="Add task" subtitle={@matter.file_number}>
+        <.form
+          for={@task_form}
+          id="matter-task-form"
+          phx-submit="save-task"
+          class="modal-form"
+        >
+          <.input field={@task_form[:title]} label="Task" />
+          <.input field={@task_form[:description]} type="textarea" label="Notes" />
+          <.input
+            field={@task_form[:assignee_id]}
+            type="select"
+            label="Assignee"
+            options={Enum.map(@users, &{&1.name || &1.email, &1.id})}
+            prompt="Unassigned"
+          />
+          <.input field={@task_form[:due_on]} type="date" label="Due date" />
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" phx-click={hide_modal("task-modal")}>Cancel</button>
+            <.button id="save-matter-task" class="btn-primary" phx-disable-with="Saving…">Add task</.button>
+          </div>
+        </.form>
+      </.modal>
+      <.modal
+        :if={@workflows != []}
+        id="workflow-modal"
+        title="Apply workflow template"
+        subtitle="Creates a task checklist on this file"
+      >
+        <.form
+          for={@workflow_form}
+          id="apply-workflow-form"
+          phx-submit="apply-workflow"
+          class="modal-form"
+        >
+          <.input
+            field={@workflow_form[:id]}
+            type="select"
+            label="Workflow template"
+            options={Enum.map(@workflows, &{&1.name, &1.id})}
+          />
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" phx-click={hide_modal("workflow-modal")}>Cancel</button>
+            <.button id="apply-workflow" class="btn-primary" phx-disable-with="Saving…">Create checklist</.button>
+          </div>
+        </.form>
+      </.modal>
+      <.modal id="event-modal" title="Add diary event" subtitle={@matter.file_number}>
+        <.form
+          for={@event_form}
+          id="matter-event-form"
+          phx-submit="save-event"
+          class="modal-form"
+        >
+          <.input field={@event_form[:title]} label="Title" />
+          <.input
+            field={@event_form[:event_type]}
+            type="select"
+            label="Type"
+            options={Enum.map(Sla.Practice.CalendarEvent.types(), &{humanize(&1), &1})}
+          />
+          <.input field={@event_form[:starts_at]} type="datetime-local" label="Starts" />
+          <.input
+            field={@event_form[:assigned_to_id]}
+            type="select"
+            label="Assigned to"
+            options={Enum.map(@users, &{&1.name || &1.email, &1.id})}
+            prompt="Unassigned"
+          />
+          <.input field={@event_form[:court]} label="Court" />
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" phx-click={hide_modal("event-modal")}>Cancel</button>
+            <.button id="save-matter-event" class="btn-primary" phx-disable-with="Saving…">Add event</.button>
+          </div>
+        </.form>
+      </.modal>
+      <.modal
+        :if={@live_action == :edit}
+        id="matter-modal"
+        title="Edit matter"
+        subtitle={@matter.file_number}
+        size="lg"
+        show
+        on_cancel={JS.patch(~p"/matters/#{@matter}")}
+      >
+        <.live_component
+          module={SlaWeb.MatterLive.FormComponent}
+          id={"edit-matter-form-#{@matter.id}"}
+          matter={@matter}
+          current_scope={@current_scope}
+          return_to={~p"/matters/#{@matter}"}
+        />
+      </.modal>
     </Layouts.app>
     """
   end
@@ -512,6 +640,17 @@ defmodule SlaWeb.MatterLive.Show do
       |> String.replace("_", " ")
       |> String.split()
       |> Enum.map_join(" ", &String.capitalize/1)
+
+  defp fee_summary(form) do
+    case Phoenix.HTML.Form.input_value(form, :amount) do
+      amount when amount in [nil, ""] ->
+        "not set"
+
+      amount ->
+        type = form |> Phoenix.HTML.Form.input_value(:type) |> to_string() |> humanize()
+        "#{type} · #{Phoenix.HTML.Form.input_value(form, :currency) || "KES"} #{amount}"
+    end
+  end
 
   defp refresh_billing(socket) do
     assign(socket,

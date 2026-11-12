@@ -52,10 +52,35 @@ const liveSocket = new LiveSocket("/live", Socket, {
   uploaders,
 })
 
+// Lets the server run a JS command stored on an element (used to close modals after save)
+window.addEventListener("phx:js-exec", ({detail}) => {
+  document.querySelectorAll(detail.to).forEach(el => liveSocket.execJS(el, el.getAttribute(detail.attr)))
+})
+
 // Show progress bar on live navigation and form submits
 topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
 window.addEventListener("phx:page-loading-start", _info => topbar.show(300))
-window.addEventListener("phx:page-loading-stop", _info => topbar.hide())
+function updateActiveSidebarLink() {
+  const currentPath = window.location.pathname.replace(/\/$/, "") || "/"
+
+  document.querySelectorAll(".side-nav a[href]").forEach(link => {
+    const linkPath = new URL(link.href, window.location.origin).pathname.replace(/\/$/, "") || "/"
+    const active = currentPath === linkPath || (linkPath !== "/" && currentPath.startsWith(`${linkPath}/`))
+
+    link.classList.toggle("nav-active", active)
+    if (active) {
+      link.setAttribute("aria-current", "page")
+    } else {
+      link.removeAttribute("aria-current")
+    }
+  })
+}
+
+window.addEventListener("DOMContentLoaded", updateActiveSidebarLink)
+window.addEventListener("phx:page-loading-stop", _info => {
+  topbar.hide()
+  window.requestAnimationFrame(updateActiveSidebarLink)
+})
 
 // connect if there are any LiveViews on the page
 liveSocket.connect()

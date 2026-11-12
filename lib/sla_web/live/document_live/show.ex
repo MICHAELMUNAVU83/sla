@@ -37,6 +37,7 @@ defmodule SlaWeb.DocumentLive.Show do
        :document,
        Documents.get_document!(socket.assigns.current_scope.user, socket.assigns.document.id)
      )
+     |> close_modal("version-modal")
      |> put_flash(:info, "New version uploaded.")}
   end
 
@@ -53,6 +54,7 @@ defmodule SlaWeb.DocumentLive.Show do
            document: Documents.get_document!(socket.assigns.current_scope.user, document.id),
            edit_form: edit_form(document)
          )
+         |> close_modal("document-details-modal")
          |> put_flash(:info, "Document filed successfully.")}
 
       {:error, changeset} ->
@@ -85,6 +87,18 @@ defmodule SlaWeb.DocumentLive.Show do
         eyebrow={(@document.matter && @document.matter.file_number) || "General / Client-level"}
       >
         <:actions>
+          <button
+            id="edit-document-details"
+            type="button"
+            phx-click={show_modal("document-details-modal")}
+            class="btn-secondary"
+          ><.icon name="hero-pencil-square" class="size-4" /> Edit details</button>
+          <button
+            id="open-version-upload"
+            type="button"
+            phx-click={show_modal("version-modal")}
+            class="btn-secondary"
+          ><.icon name="hero-arrow-up-tray" class="size-4" /> Upload version</button>
           <.link
             id="download-document"
             href={~p"/documents/#{@document}/download"}
@@ -112,44 +126,28 @@ defmodule SlaWeb.DocumentLive.Show do
             </div>
           <% end %>
         </section><aside class="document-inspector">
-          <.form
-            for={@edit_form}
-            id="document-metadata-form"
-            phx-submit="update-document"
-            class="form-card"
-          >
-            <.input field={@edit_form[:title]} label="Title" /><.input
-              field={@edit_form[:client_id]}
-              type="hidden"
-            /><.input
-              field={@edit_form[:matter_id]}
-              type="select"
-              label="Folder / matter"
-              options={Enum.map(@matters, &{"#{&1.file_number} — #{&1.title}", &1.id})}
-              prompt="General / Client-level"
-            /><.input
-              field={@edit_form[:category_id]}
-              type="select"
-              label="Category"
-              options={Enum.map(@categories, &{&1.name, &1.id})}
-            /><.input field={@edit_form[:tags]} label="Tags" /><.button class="btn-secondary">Save filing details</.button>
-          </.form><.form
-            for={to_form(%{}, as: :version)}
-            id="version-upload-form"
-            phx-change="validate-version"
-            phx-submit="save-version"
-            class="form-card"
-          >
-            <h2 class="section-title">Upload new version</h2><.live_file_input upload={
-              @uploads.version
-            } /><div :for={entry <- @uploads.version.entries} class="upload-entry">
-              <span>{entry.client_name}</span><progress value={entry.progress} max="100">{entry.progress}%</progress><button
-                type="button"
-                phx-click="cancel-version"
-                phx-value-ref={entry.ref}
-              >×</button>
-            </div><.button id="save-version" class="btn-primary">Add version</.button>
-          </.form><div id="version-history" class="version-list">
+          <section id="document-details" class="content-card">
+            <h2 class="section-title">Filing details</h2>
+            <dl class="summary-list mt-3">
+              <div>
+                <dt>Client</dt><dd>{@document.client && @document.client.name}</dd>
+              </div>
+              <div>
+                <dt>Folder</dt><dd>
+                  {(@document.matter && @document.matter.file_number) || "General"}
+                </dd>
+              </div>
+              <div>
+                <dt>Category</dt><dd>{@document.category.name}</dd>
+              </div>
+              <div>
+                <dt>Tags</dt><dd>
+                  {if @document.tags == [], do: "—", else: Enum.join(@document.tags, ", ")}
+                </dd>
+              </div>
+            </dl>
+          </section>
+          <div id="version-history" class="version-list">
             <h2>Version history</h2><article
               :for={version <- @document.versions}
               id={"version-#{version.id}"}
@@ -168,6 +166,61 @@ defmodule SlaWeb.DocumentLive.Show do
           </div>
         </aside>
       </div>
+      <.modal id="document-details-modal" title="Edit filing details" subtitle={@document.title}>
+        <.form
+          for={@edit_form}
+          id="document-metadata-form"
+          phx-submit="update-document"
+          class="modal-form"
+        >
+          <.input field={@edit_form[:title]} label="Title" /><.input
+            field={@edit_form[:client_id]}
+            type="hidden"
+          /><.input
+            field={@edit_form[:matter_id]}
+            type="select"
+            label="Folder / matter"
+            options={Enum.map(@matters, &{"#{&1.file_number} — #{&1.title}", &1.id})}
+            prompt="General / Client-level"
+          /><.input
+            field={@edit_form[:category_id]}
+            type="select"
+            label="Category"
+            options={Enum.map(@categories, &{&1.name, &1.id})}
+          /><.input field={@edit_form[:tags]} label="Tags" /><div class="form-actions">
+            <button
+              type="button"
+              class="btn-secondary"
+              phx-click={hide_modal("document-details-modal")}
+            >Cancel</button>
+            <.button id="save-document-details" class="btn-primary" phx-disable-with="Saving…">Save filing details</.button>
+          </div>
+        </.form>
+      </.modal>
+      <.modal id="version-modal" title="Upload new version" subtitle={@document.title}>
+        <.form
+          for={to_form(%{}, as: :version)}
+          id="version-upload-form"
+          phx-change="validate-version"
+          phx-submit="save-version"
+          class="modal-form"
+        >
+          <label class="drop-zone" phx-drop-target={@uploads.version.ref}>
+            <.icon name="hero-cloud-arrow-up" class="size-8" /><strong>Drop the new version here or choose a file</strong><span>The current file stays in version history</span><.live_file_input upload={
+              @uploads.version
+            } />
+          </label><div :for={entry <- @uploads.version.entries} class="upload-entry">
+            <span>{entry.client_name}</span><progress value={entry.progress} max="100">{entry.progress}%</progress><button
+              type="button"
+              phx-click="cancel-version"
+              phx-value-ref={entry.ref}
+            >×</button>
+          </div><div class="form-actions">
+            <button type="button" class="btn-secondary" phx-click={hide_modal("version-modal")}>Cancel</button>
+            <.button id="save-version" class="btn-primary" phx-disable-with="Uploading…">Add version</.button>
+          </div>
+        </.form>
+      </.modal>
     </Layouts.app>
     """
   end

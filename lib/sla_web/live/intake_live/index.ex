@@ -20,6 +20,7 @@ defmodule SlaWeb.IntakeLive.Index do
            intakes: Practice.list_intakes(),
            form: to_form(Practice.change_intake(), as: :intake)
          )
+         |> close_modal("intake-modal")
          |> put_flash(:info, "Intake submitted for conflict and KYC review.")}
 
       {:error, changeset} ->
@@ -35,10 +36,60 @@ defmodule SlaWeb.IntakeLive.Index do
   def render(assigns) do
     ~H"""
     <Layouts.app flash={@flash} current_scope={@current_scope}>
-      <.page_header title="Client intake & compliance" eyebrow="Practice management" />
+      <.page_header title="Client intake & compliance" eyebrow="Practice management">
+        <:actions>
+          <button
+            id="new-intake"
+            type="button"
+            phx-click={show_modal("intake-modal")}
+            class="btn-primary"
+          ><.icon name="hero-plus" class="size-4" /> New client intake</button>
+        </:actions>
+      </.page_header>
       <div class="grid gap-6 xl:grid-cols-2">
-        <.form for={@form} id="client-intake-form" phx-submit="save" class="form-card">
-          <h2 class="text-lg font-bold">New client intake</h2>
+        <.form
+          for={@conflict_form}
+          id="conflict-check-form"
+          phx-submit="conflict-check"
+          class="form-card"
+        >
+          <h2 class="text-lg font-bold">Conflict search</h2><p class="text-sm text-slate-500">
+            Searches clients, opposing parties, and opposing counsel.
+          </p>
+          <.input field={@conflict_form[:search_terms]} label="Names (comma-separated)" />
+          <.input field={@conflict_form[:notes]} type="textarea" label="Review notes" />
+          <.button id="run-conflict-check" class="btn-secondary">Run and store check</.button>
+          <div
+            :if={@conflict_result}
+            id="conflict-check-result"
+            class={[
+              "mt-4 rounded-xl p-4 text-sm font-semibold",
+              @conflict_result.result == "clear" && "bg-emerald-50 text-emerald-800",
+              @conflict_result.result != "clear" && "bg-amber-50 text-amber-800"
+            ]}
+          >
+            Result: {String.replace(@conflict_result.result, "_", " ")}
+          </div>
+        </.form>
+        <section id="intake-queue" class="content-card">
+          <h2 class="text-lg font-bold">Intake queue</h2><div class="mt-4 space-y-3">
+            <p :if={@intakes == []} class="empty-copy">No submitted intakes.</p><article
+              :for={intake <- @intakes}
+              id={"intake-#{intake.id}"}
+              class="detail-card"
+            >
+              <span>{intake.client_type} · {intake.status}</span><strong>{intake.name}</strong>
+            </article>
+          </div>
+        </section>
+      </div>
+      <.modal
+        id="intake-modal"
+        title="New client intake"
+        subtitle="Submitted for conflict and KYC review"
+        size="lg"
+      >
+        <.form for={@form} id="client-intake-form" phx-submit="save" class="modal-form">
           <div class="form-grid">
             <.input
               field={@form[:client_type]}
@@ -70,46 +121,12 @@ defmodule SlaWeb.IntakeLive.Index do
             type="checkbox"
             label="Client consent to collect and process this information has been recorded"
           />
-          <.button id="submit-client-intake" class="btn-primary">Submit intake</.button>
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" phx-click={hide_modal("intake-modal")}>Cancel</button>
+            <.button id="submit-client-intake" class="btn-primary" phx-disable-with="Submitting…">Submit intake</.button>
+          </div>
         </.form>
-        <div class="space-y-6">
-          <.form
-            for={@conflict_form}
-            id="conflict-check-form"
-            phx-submit="conflict-check"
-            class="form-card"
-          >
-            <h2 class="text-lg font-bold">Conflict search</h2><p class="text-sm text-slate-500">
-              Searches clients, opposing parties, and opposing counsel.
-            </p>
-            <.input field={@conflict_form[:search_terms]} label="Names (comma-separated)" />
-            <.input field={@conflict_form[:notes]} type="textarea" label="Review notes" />
-            <.button id="run-conflict-check" class="btn-secondary">Run and store check</.button>
-            <div
-              :if={@conflict_result}
-              id="conflict-check-result"
-              class={[
-                "mt-4 rounded-xl p-4 text-sm font-semibold",
-                @conflict_result.result == "clear" && "bg-emerald-50 text-emerald-800",
-                @conflict_result.result != "clear" && "bg-amber-50 text-amber-800"
-              ]}
-            >
-              Result: {String.replace(@conflict_result.result, "_", " ")}
-            </div>
-          </.form>
-          <section id="intake-queue" class="content-card">
-            <h2 class="text-lg font-bold">Intake queue</h2><div class="mt-4 space-y-3">
-              <p :if={@intakes == []} class="empty-copy">No submitted intakes.</p><article
-                :for={intake <- @intakes}
-                id={"intake-#{intake.id}"}
-                class="detail-card"
-              >
-                <span>{intake.client_type} · {intake.status}</span><strong>{intake.name}</strong>
-              </article>
-            </div>
-          </section>
-        </div>
-      </div>
+      </.modal>
     </Layouts.app>
     """
   end

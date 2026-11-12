@@ -3,6 +3,20 @@ This is a web application written using the Phoenix web framework.
 ## Project guidelines
 
 - Use `mix precommit` alias when you are done with all changes and fix any pending issues
+
+### User manual (required for every feature)
+
+The app has an in-app user manual at `/manual` ([lib/sla_web/live/manual_live/index.ex](lib/sla_web/live/manual_live/index.ex)), written for non-technical law-firm staff. **Whenever you add or change a user-facing feature, update the manual in the same change:**
+
+1. Add or edit the matching section in the `@sections` list: a one-line intro and numbered steps in plain language. Use the button and menu labels exactly as they appear on screen, and avoid technical terms.
+2. Add capture steps for any new screens or popups to `scripts/manual/capture.js`, then regenerate the screenshots with the app running on demo data (`mix ecto.reset && mix phx.server`) and `cd scripts/manual && npm install && npm run screenshots`. The script copies images into `priv/static/images/manual`. Don't write captures straight into `priv/static`, because the dev live-reloader refreshes the page mid-capture.
+3. Retake existing screenshots whenever a change alters how those screens look (for example, menu names or layout).
+4. Reference each new image in its section's `shots` list. `test/sla_web/live/manual_live_test.exs` fails if a referenced screenshot is missing.
+5. If you add a sidebar item, add a manual section for it.
+
+### Add and edit flows use popups
+
+All create/edit forms open in the shared `<.modal>` component from `core_components.ex`; never place them inline beside lists or on separate pages. Open a modal with `phx-click={show_modal("x-modal")}` and close it after a successful save with `close_modal(socket, "x-modal")`. Routed forms (e.g. `/clients/new`) render the modal with `show` and `on_cancel={JS.patch(...)}`. Quick inline actions and search/filter forms may stay inline.
 - Use the already included and available `:req` (`Req`) library for HTTP requests, **avoid** `:httpoison`, `:tesla`, and `:httpc`. Req is included by default and is the preferred HTTP client for Phoenix apps
 
 ### Phoenix v1.8 guidelines

@@ -37,7 +37,18 @@
       content="Sichangi Law Alliance logo on an orange background"
     />
 
-    <link rel="icon" href="assets/logo-sla-icon.png" type="image/png" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link
+      rel="icon"
+      href="/images/logo-sla-icon.png"
+      type="image/png"
+      sizes="256x256"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="/images/logo-sla-icon.png"
+      sizes="256x256"
+    />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -608,6 +619,26 @@
           </nav>
 
           <div class="flex shrink-0 items-center gap-3">
+            <a
+              id="staff-login-button"
+              href="/users/log-in"
+              class="hidden items-center gap-2 rounded-full border border-white/30 px-5 py-3 font-heading text-sm font-semibold text-white transition duration-300 hover:-translate-y-0.5 hover:border-accent hover:bg-white/10 hover:text-accent md:inline-flex"
+            >
+              Staff login
+              <svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <line x1="7" y1="17" x2="17" y2="7" />
+                <polyline points="7 7 17 7 17 17" />
+              </svg>
+            </a>
             <a
               href="#contact"
               class="hidden items-center gap-3 sheen rounded-full bg-accent py-2.5 pl-2.5 pr-6 font-heading text-base font-medium text-dark transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30 group/btn hover:bg-white sm:flex"

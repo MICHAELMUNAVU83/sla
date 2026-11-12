@@ -1,0 +1,6 @@
+{
+  "name": "sla-manual-screenshots",
+  "private": true,
+  "scripts": { "screenshots": "node capture.js" },
+  "dependencies": { "puppeteer-core": "23.11.1" }
+}

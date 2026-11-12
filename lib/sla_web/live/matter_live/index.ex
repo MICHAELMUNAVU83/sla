@@ -18,6 +18,9 @@ defmodule SlaWeb.MatterLive.Index do
      |> stream(:matters, Matters.list_matters_for_user(socket.assigns.current_scope.user))}
   end
 
+  def handle_params(params, _url, socket),
+    do: {:noreply, assign(socket, :new_client_id, parse_id(params["client_id"]))}
+
   def handle_event("filter", params, socket) do
     filters = Map.take(params, ~w(search status practice_area advocate client))
 
@@ -36,7 +39,7 @@ defmodule SlaWeb.MatterLive.Index do
     <Layouts.app flash={@flash} current_scope={@current_scope}>
       <.page_header title="Matters" eyebrow="File register">
         <:actions>
-          <.link id="new-matter" navigate={~p"/matters/new"} class="btn-primary"><.icon
+          <.link id="new-matter" patch={~p"/matters/new"} class="btn-primary"><.icon
             name="hero-folder-plus"
             class="size-4"
           /> New matter</.link>
@@ -78,7 +81,7 @@ defmodule SlaWeb.MatterLive.Index do
         />
       </.form>
       <div id="matters" phx-update="stream" class="data-list">
-        <div class="empty-state hidden only:block">
+        <div id="matters-empty" class="empty-state hidden only:block">
           <.icon name="hero-folder-open" class="size-10" /><p>No matters match these filters.</p>
         </div>
         <.link
@@ -99,8 +102,34 @@ defmodule SlaWeb.MatterLive.Index do
           <p class="latest-list-action">{matter.last_activity_summary || "No activity yet"}</p>
         </.link>
       </div>
+      <.modal
+        :if={@live_action == :new}
+        id="matter-modal"
+        title="Open a matter"
+        subtitle="A file number is assigned automatically on save"
+        size="lg"
+        show
+        on_cancel={JS.patch(~p"/matters")}
+      >
+        <.live_component
+          module={SlaWeb.MatterLive.FormComponent}
+          id="new-matter-form"
+          matter={%Matter{client_id: @new_client_id, opened_on: Date.utc_today()}}
+          current_scope={@current_scope}
+          return_to={~p"/matters"}
+        />
+      </.modal>
     </Layouts.app>
     """
+  end
+
+  defp parse_id(nil), do: nil
+
+  defp parse_id(id) do
+    case Integer.parse(id) do
+      {int, ""} -> int
+      _ -> nil
+    end
   end
 
   defp humanize(value),

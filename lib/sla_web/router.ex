@@ -26,21 +26,16 @@ defmodule SlaWeb.Router do
   scope "/", SlaWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    live_session :two_factor_setup,
-      on_mount: [{SlaWeb.UserAuth, :require_authenticated}] do
-      live "/users/two-factor/setup", UserLive.TwoFactor, :new
-    end
-
     live_session :app,
-      on_mount: [{SlaWeb.UserAuth, :require_two_factor}] do
+      on_mount: [{SlaWeb.UserAuth, :require_authenticated}] do
       live "/clients", ClientLive.Index, :index
-      live "/clients/new", ClientLive.Form, :new
+      live "/clients/new", ClientLive.Index, :new
       live "/clients/:id", ClientLive.Show, :show
-      live "/clients/:id/edit", ClientLive.Form, :edit
+      live "/clients/:id/edit", ClientLive.Show, :edit
       live "/matters", MatterLive.Index, :index
-      live "/matters/new", MatterLive.Form, :new
+      live "/matters/new", MatterLive.Index, :new
       live "/matters/:id", MatterLive.Show, :show
-      live "/matters/:id/edit", MatterLive.Form, :edit
+      live "/matters/:id/edit", MatterLive.Show, :edit
       live "/diary", DiaryLive.Index, :index
       live "/calendar", CalendarLive.Index, :index
       live "/intake", IntakeLive.Index, :index
@@ -51,6 +46,8 @@ defmodule SlaWeb.Router do
       live "/reports", ReportsLive.Index, :index
       live "/intelligence", IntelligenceLive.Index, :index
       live "/integrations", IntegrationLive.Index, :index
+      live "/allocation", AllocationLive.Index, :index
+      live "/manual", ManualLive.Index, :index
       live "/admin/users", AdminUserLive.Index, :index
     end
 

@@ -7,100 +7,116 @@ defmodule SlaWeb.UserLive.Login do
   def render(assigns) do
     ~H"""
     <Layouts.app flash={@flash} current_scope={@current_scope}>
-      <div class="mx-auto max-w-sm space-y-4">
-        <div class="text-center">
-          <.header>
-            <p>Log in</p>
-            <:subtitle>
+      <main id="staff-login" class="auth-shell">
+        <section class="auth-story" aria-label="Sichangi Law Alliance">
+          <.link navigate={~p"/"} class="auth-brand"><img
+            src={~p"/images/logo-sla-wordmark.png"}
+            alt="Sichangi Law Alliance"
+          /></.link>
+          <div class="auth-story-copy">
+            <p class="auth-kicker">Private practice workspace</p><h1>
+              Clarity for every matter.<br />Context for every decision.
+            </h1><p>
+              Secure access to the people, documents, deadlines, and financial insight that move the practice forward.
+            </p>
+          </div>
+          <p class="auth-story-foot">African legal excellence · Since 1998</p>
+        </section>
+        <section class="auth-panel">
+          <div class="auth-card">
+            <.link navigate={~p"/"} class="auth-back"><.icon name="hero-arrow-left" class="size-4" />
+            Back to the SLA website</.link>
+            <p class="auth-kicker">Staff access</p><h2>Log in</h2>
+            <p class="auth-intro">
               <%= if @current_scope do %>
                 You need to reauthenticate to perform sensitive actions on your account.
               <% else %>
-                Don't have an account?
-                <.link navigate={~p"/users/register"} class="font-semibold text-brand hover:underline">Sign up</.link>
-                for an account now.
+                Sign in to continue to the SLA practice workspace. New team member?
+                <.link navigate={~p"/users/register"} class="auth-inline-link">Sign up</.link>
+                for an account.
               <% end %>
-            </:subtitle>
-          </.header>
-        </div>
-
-        <div :if={local_mail_adapter?()} class="alert alert-info">
-          <.icon name="hero-information-circle" class="size-6 shrink-0" />
-          <div>
-            <p>You are running the local mail adapter.</p>
-            <p>
-              To see sent emails, visit <.link href="/dev/mailbox" class="underline">the mailbox page</.link>.
             </p>
+
+            <div :if={local_mail_adapter?()} class="alert alert-info auth-alert">
+              <.icon name="hero-information-circle" class="size-6 shrink-0" />
+              <div>
+                <p>You are running the local mail adapter.</p>
+                <p>
+                  To see sent emails, visit <.link href="/dev/mailbox" class="underline">the mailbox page</.link>.
+                </p>
+              </div>
+            </div>
+
+            <.form
+              for={@form}
+              id="login_form_magic"
+              action={~p"/users/log-in"}
+              phx-submit="submit_magic"
+              class="auth-form"
+            >
+              <.input
+                id="login_form_magic_email"
+                readonly={!!@current_scope}
+                field={@form[:email]}
+                type="email"
+                label="Email"
+                autocomplete="username"
+                spellcheck="false"
+                required
+                phx-mounted={JS.focus()}
+              />
+              <.button class="auth-primary-button w-full">
+                Log in with email link <.icon name="hero-arrow-right" class="size-4" />
+              </.button>
+            </.form>
+
+            <div class="auth-divider"><span>or use your password</span></div>
+
+            <.form
+              for={@form}
+              id="login_form_password"
+              action={~p"/users/log-in"}
+              phx-submit="submit_password"
+              phx-trigger-action={@trigger_submit}
+              class="auth-form"
+            >
+              <.input
+                id="login_form_password_email"
+                readonly={!!@current_scope}
+                field={@form[:email]}
+                type="email"
+                label="Email"
+                autocomplete="username"
+                spellcheck="false"
+                required
+              />
+              <.input
+                field={@form[:password]}
+                type="password"
+                label="Password"
+                autocomplete="current-password"
+                spellcheck="false"
+              />
+              <.button class="auth-primary-button w-full" name={@form[:remember_me].name} value="true">
+                Sign in and stay signed in <.icon name="hero-arrow-right" class="size-4" />
+              </.button>
+              <.button class="auth-secondary-button w-full">
+                Sign in for this session only
+              </.button>
+            </.form>
           </div>
-        </div>
-
-        <.form
-          for={@form}
-          id="login_form_magic"
-          action={~p"/users/log-in"}
-          phx-submit="submit_magic"
-        >
-          <.input
-            id="login_form_magic_email"
-            readonly={!!@current_scope}
-            field={@form[:email]}
-            type="email"
-            label="Email"
-            autocomplete="username"
-            spellcheck="false"
-            required
-            phx-mounted={JS.focus()}
-          />
-          <.button class="btn btn-primary w-full">
-            Log in with email <span aria-hidden="true">→</span>
-          </.button>
-        </.form>
-
-        <div class="divider">or</div>
-
-        <.form
-          for={@form}
-          id="login_form_password"
-          action={~p"/users/log-in"}
-          phx-submit="submit_password"
-          phx-trigger-action={@trigger_submit}
-        >
-          <.input
-            id="login_form_password_email"
-            readonly={!!@current_scope}
-            field={@form[:email]}
-            type="email"
-            label="Email"
-            autocomplete="username"
-            spellcheck="false"
-            required
-          />
-          <.input
-            field={@form[:password]}
-            type="password"
-            label="Password"
-            autocomplete="current-password"
-            spellcheck="false"
-          />
-          <.input
-            field={@form[:totp_code]}
-            type="text"
-            inputmode="numeric"
-            label="Authenticator code (if enabled)"
-            autocomplete="one-time-code"
-          />
-          <.button class="btn btn-primary w-full" name={@form[:remember_me].name} value="true">
-            Log in and stay logged in <span aria-hidden="true">→</span>
-          </.button>
-          <.button class="btn btn-primary btn-soft w-full mt-2">
-            Log in only this time
-          </.button>
-        </.form>
-      </div>
+        </section>
+      </main>
     </Layouts.app>
     """
   end
 
   @impl true
+  def mount(_params, _session, %{assigns: %{current_scope: %{user: user}}} = socket)
+      when not is_nil(user) do
+    {:ok, push_navigate(socket, to: ~p"/matters")}
+  end
+
   def mount(_params, _session, socket) do
     email =
       Phoenix.Flash.get(socket.assigns.flash, :email) ||

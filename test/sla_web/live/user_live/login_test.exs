@@ -89,21 +89,14 @@ defmodule SlaWeb.UserLive.LoginTest do
     end
   end
 
-  describe "re-authentication (sudo mode)" do
+  describe "authenticated user" do
     setup %{conn: conn} do
       user = user_fixture()
       %{user: user, conn: log_in_user(conn, user)}
     end
 
-    test "shows login page with email filled in", %{conn: conn, user: user} do
-      {:ok, _lv, html} = live(conn, ~p"/users/log-in")
-
-      assert html =~ "You need to reauthenticate"
-      refute html =~ "Register"
-      assert html =~ "Log in with email"
-
-      assert html =~
-               ~s(<input type="email" name="user[email]" id="login_form_magic_email" value="#{user.email}")
+    test "redirects away from the login page", %{conn: conn} do
+      assert {:error, {:live_redirect, %{to: "/matters"}}} = live(conn, ~p"/users/log-in")
     end
   end
 end

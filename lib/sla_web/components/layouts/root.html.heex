@@ -4,7 +4,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
-    <.live_title default="SLA Practice ERP" suffix=" · Sichangi Law Alliance" phx-no-format>{assigns[:page_title]}</.live_title>
+    <.live_title
+      default="Sichangi Law Alliance"
+      suffix=" · African Legal Excellence"
+      phx-no-format
+    >{assigns[:page_title]}</.live_title>
+    <meta
+      name="description"
+      content="Sichangi Law Alliance LLP — strategic, trusted legal counsel across Africa since 1998."
+    />
+    <link rel="icon" href={~p"/favicon.ico"} sizes="any" />
+    <link rel="icon" href={~p"/images/logo-sla-icon.png"} type="image/png" sizes="256x256" />
+    <link rel="apple-touch-icon" href={~p"/images/logo-sla-icon.png"} sizes="256x256" />
     <link phx-track-static rel="stylesheet" href={~p"/assets/css/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/js/app.js"}>
     </script>

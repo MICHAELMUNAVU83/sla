@@ -64,6 +64,12 @@ defmodule SlaWeb.DocumentLive.Index do
         {:noreply,
          socket
          |> assign(:categories, Documents.list_all_categories())
+         |> assign(
+           :category_form,
+           to_form(%{"name" => "", "slug" => "", "practice_area" => "", "position" => "100"},
+             as: :category
+           )
+         )
          |> put_flash(:info, "Document category created.")}
 
       {:error, changeset} ->
@@ -107,6 +113,7 @@ defmodule SlaWeb.DocumentLive.Index do
            Documents.list_documents(socket.assigns.current_scope.user, socket.assigns.filters),
            reset: true
          )
+         |> close_modal("upload-modal")
          |> put_flash(:info, "#{length(results)} document(s) uploaded.")}
 
       {:error, changeset} ->
@@ -118,53 +125,51 @@ defmodule SlaWeb.DocumentLive.Index do
   def render(assigns) do
     ~H"""
     <Layouts.app flash={@flash} current_scope={@current_scope}>
-      <.page_header title="Documents" eyebrow="Client → matter → category" />
-      <details :if={@admin?} id="category-settings" class="category-settings">
-        <summary>Configure document categories</summary><.form
-          for={@category_form}
-          id="category-form"
-          phx-submit="create-category"
-        >
-          <.input field={@category_form[:name]} label="Name" /><.input
-            field={@category_form[:slug]}
-            label="Slug"
-          /><.input
-            field={@category_form[:practice_area]}
-            type="select"
-            label="Practice area"
-            options={[
-              {"All practice areas", ""}
-              | Enum.map(Sla.Matters.Matter.practice_areas(), &{humanize(&1), &1})
-            ]}
-          /><.input field={@category_form[:position]} type="number" label="Position" /><.button class="btn-secondary">Add category</.button>
-        </.form><div class="category-pills">
-          <span :for={category <- @categories}>{category.name}<button
-            phx-click="toggle-category"
-            phx-value-id={category.id}
-            aria-label={"Deactivate #{category.name}"}
-          >×</button></span>
-        </div>
-      </details>
+      <.page_header title="Documents" eyebrow="Client → matter → category">
+        <:actions>
+          <button
+            :if={@admin?}
+            id="open-category-settings"
+            type="button"
+            phx-click={show_modal("category-modal")}
+            class="btn-secondary"
+          ><.icon name="hero-tag" class="size-4" /> Categories</button>
+          <button
+            id="open-upload"
+            type="button"
+            phx-click={show_modal("upload-modal")}
+            class="btn-primary"
+          ><.icon name="hero-arrow-up-tray" class="size-4" /> Upload documents</button>
+        </:actions>
+      </.page_header>
       <div class="document-layout">
         <aside class="folder-tree">
-          <h2>Folders</h2><button phx-click={JS.dispatch("change", to: "#document-filters")}>All documents</button><div
+          <h2>Folders</h2>
+          <.link
+            id="folder-all"
+            navigate={~p"/documents"}
+            class={[no_folder?(@filters) && "folder-active"]}
+          ><.icon name="hero-squares-2x2" class="size-4" /> All documents</.link>
+          <details
             :for={client <- @clients}
+            id={"folder-client-#{client.id}"}
             class="folder-client"
+            open={client_open?(@filters, client)}
           >
-            <span><.icon name="hero-user" class="size-4" /> {client.name}</span><div class="folder-branch">
-              <.link navigate={~p"/documents?client_id=#{client.id}"}>General / Client-level</.link><.link
-                :for={category <- @categories}
-                navigate={~p"/documents?client_id=#{client.id}&category_id=#{category.id}"}
-                class="category-link"
-              >{category.name}</.link>
-            </div><div :for={matter <- client.matters} class="folder-branch">
-              <.link navigate={~p"/documents?matter_id=#{matter.id}"}>{matter.file_number}</.link><.link
-                :for={category <- @categories}
-                navigate={~p"/documents?matter_id=#{matter.id}&category_id=#{category.id}"}
-                class="category-link"
-              >{category.name}</.link>
-            </div>
-          </div>
+            <summary><.icon name="hero-user" class="size-4" /> {client.name}</summary>
+            <.link
+              navigate={~p"/documents?client_id=#{client.id}"}
+              class={[
+                @filters["client"] == to_string(client.id) && @filters["matter"] == "" &&
+                  "folder-active"
+              ]}
+            >General / Client-level</.link>
+            <.link
+              :for={matter <- client.matters}
+              navigate={~p"/documents?matter_id=#{matter.id}"}
+              class={[@filters["matter"] == to_string(matter.id) && "folder-active"]}
+            >{matter.file_number}</.link>
+          </details>
         </aside><div class="document-main">
           <.form
             for={to_form(@filters)}
@@ -201,61 +206,7 @@ defmodule SlaWeb.DocumentLive.Index do
               type="date"
             />
           </.form>
-          <.form
-            for={@upload_form}
-            id="document-upload-form"
-            phx-change="validate-upload"
-            phx-submit="save-documents"
-            class="upload-card"
-          >
-            <div class="form-grid">
-              <.input
-                field={@upload_form[:client_id]}
-                type="select"
-                label="Client"
-                options={Enum.map(@clients, &{&1.name, &1.id})}
-                prompt="Select client"
-              /><.input
-                field={@upload_form[:matter_id]}
-                type="select"
-                label="Matter (optional)"
-                options={Enum.map(@matters, &{"#{&1.file_number} — #{&1.title}", &1.id})}
-                prompt="General / Client-level"
-              />
-            </div><div class="form-grid">
-              <.input
-                field={@upload_form[:category_id]}
-                type="select"
-                label="Category"
-                options={Enum.map(@categories, &{&1.name, &1.id})}
-                prompt="Select category"
-              /><.input field={@upload_form[:title]} label="Title (single file only)" />
-            </div><.input
-              field={@upload_form[:tags]}
-              label="Tags"
-              placeholder="contract, signed, urgent"
-            /><label
-              id="document-drop-zone"
-              class="drop-zone"
-              phx-drop-target={@uploads.documents.ref}
-            ><.icon name="hero-cloud-arrow-up" class="size-8" /><strong>Drop files here or choose files</strong><span>PDF, images and Office files · up to 50 MB each</span><.live_file_input upload={
-              @uploads.documents
-            } /></label><div
-              :for={entry <- @uploads.documents.entries}
-              id={"upload-#{entry.ref}"}
-              class="upload-entry"
-            >
-              <span>{entry.client_name}</span><progress value={entry.progress} max="100">{entry.progress}%</progress><button
-                type="button"
-                phx-click="cancel-upload"
-                phx-value-ref={entry.ref}
-              >×</button>
-            </div><p :for={err <- upload_errors(@uploads.documents)} class="upload-error">
-              {error_to_string(err)}
-            </p><div class="form-actions">
-              <.button id="save-documents" class="btn-primary" phx-disable-with="Filing…">File documents</.button>
-            </div>
-          </.form>
+
           <div id="documents" phx-update="stream" class="document-grid">
             <div id="documents-empty" class="empty-state hidden only:block">
               No documents match this folder.
@@ -272,6 +223,106 @@ defmodule SlaWeb.DocumentLive.Index do
           </div>
         </div>
       </div>
+      <.modal
+        id="upload-modal"
+        title="Upload documents"
+        subtitle="File one or more documents to a client or matter"
+        size="lg"
+      >
+        <.form
+          for={@upload_form}
+          id="document-upload-form"
+          phx-change="validate-upload"
+          phx-submit="save-documents"
+          class="modal-form"
+        >
+          <div class="form-grid">
+            <.input
+              field={@upload_form[:client_id]}
+              type="select"
+              label="Client"
+              options={Enum.map(@clients, &{&1.name, &1.id})}
+              prompt="Select client"
+            /><.input
+              field={@upload_form[:matter_id]}
+              type="select"
+              label="Matter (optional)"
+              options={Enum.map(@matters, &{"#{&1.file_number} — #{&1.title}", &1.id})}
+              prompt="General / Client-level"
+            />
+          </div><div class="form-grid">
+            <.input
+              field={@upload_form[:category_id]}
+              type="select"
+              label="Category"
+              options={Enum.map(@categories, &{&1.name, &1.id})}
+              prompt="Select category"
+            /><.input field={@upload_form[:title]} label="Title (single file only)" />
+          </div><.input
+            field={@upload_form[:tags]}
+            label="Tags"
+            placeholder="contract, signed, urgent"
+          /><label
+            id="document-drop-zone"
+            class="drop-zone"
+            phx-drop-target={@uploads.documents.ref}
+          ><.icon name="hero-cloud-arrow-up" class="size-8" /><strong>Drop files here or choose files</strong><span>PDF, images and Office files · up to 50 MB each</span><.live_file_input upload={
+            @uploads.documents
+          } /></label><div
+            :for={entry <- @uploads.documents.entries}
+            id={"upload-#{entry.ref}"}
+            class="upload-entry"
+          >
+            <span>{entry.client_name}</span><progress value={entry.progress} max="100">{entry.progress}%</progress><button
+              type="button"
+              phx-click="cancel-upload"
+              phx-value-ref={entry.ref}
+            >×</button>
+          </div><p :for={err <- upload_errors(@uploads.documents)} class="upload-error">
+            {error_to_string(err)}
+          </p><div class="form-actions">
+            <button type="button" class="btn-secondary" phx-click={hide_modal("upload-modal")}>Cancel</button>
+            <.button id="save-documents" class="btn-primary" phx-disable-with="Filing…">File documents</.button>
+          </div>
+        </.form>
+      </.modal>
+      <.modal
+        :if={@admin?}
+        id="category-modal"
+        title="Document categories"
+        subtitle="Click × on a category to deactivate it"
+      >
+        <div class="category-pills">
+          <span :for={category <- @categories}>{category.name}<button
+            phx-click="toggle-category"
+            phx-value-id={category.id}
+            aria-label={"Deactivate #{category.name}"}
+          >×</button></span>
+        </div>
+        <div class="mt-5">
+          <.form
+            for={@category_form}
+            id="category-form"
+            phx-submit="create-category"
+            class="modal-form"
+          >
+            <.input field={@category_form[:name]} label="Name" /><.input
+              field={@category_form[:slug]}
+              label="Slug"
+            /><.input
+              field={@category_form[:practice_area]}
+              type="select"
+              label="Practice area"
+              options={[
+                {"All practice areas", ""}
+                | Enum.map(Sla.Matters.Matter.practice_areas(), &{humanize(&1), &1})
+              ]}
+            /><.input field={@category_form[:position]} type="number" label="Sort position" /><div class="form-actions">
+              <.button id="save-category" class="btn-primary" phx-disable-with="Adding…">Add category</.button>
+            </div>
+          </.form>
+        </div>
+      </.modal>
     </Layouts.app>
     """
   end
@@ -304,6 +355,13 @@ defmodule SlaWeb.DocumentLive.Index do
         },
         as: :document
       )
+
+  defp no_folder?(filters), do: filters["client"] in [nil, ""] and filters["matter"] in [nil, ""]
+
+  defp client_open?(filters, client) do
+    filters["client"] == to_string(client.id) or
+      Enum.any?(client.matters, &(filters["matter"] == to_string(&1.id)))
+  end
 
   defp file_icon(type) when type in ["application/pdf"], do: "hero-document-text"
   defp file_icon("image/" <> _), do: "hero-photo"
